@@ -32,7 +32,6 @@ app.use(expressWinston.logger({
 }));
 app.use(compression());
 app.use(express.static('public'));
-app.use(express.static('.'));
 
 if (backend) {
   console.log(`Backend for api calls: ${backend}`);
