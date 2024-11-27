@@ -66636,7 +66636,7 @@
     "mapping": null
   },
   "25104": {
-    "name": "Crystal of memories",
+    "name": "Crystal of echoes",
     "highalch": 6,
     "mapping": null
   },
@@ -66651,17 +66651,17 @@
     "mapping": null
   },
   "25110": {
-    "name": "Trailblazer axe",
+    "name": "Echo axe",
     "highalch": 6,
     "mapping": null
   },
   "25112": {
-    "name": "Trailblazer pickaxe",
+    "name": "Echo pickaxe",
     "highalch": 6,
     "mapping": null
   },
   "25114": {
-    "name": "Trailblazer harpoon",
+    "name": "Echo harpoon",
     "highalch": 0,
     "mapping": null
   },
@@ -83116,6 +83116,416 @@
   "30328": {
     "name": "Dust",
     "highalch": 1,
+    "mapping": null
+  },
+  "30331": {
+    "name": "Raging echoes relic hunter (t1) armour set",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30334": {
+    "name": "Raging echoes relic hunter (t2) armour set",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30337": {
+    "name": "Raging echoes relic hunter (t3) armour set",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30340": {
+    "name": "Crystal dagger (perfected)",
+    "highalch": 18000,
+    "mapping": null
+  },
+  "30342": {
+    "name": "Infernal harpoon (or)",
+    "highalch": 33000,
+    "mapping": null
+  },
+  "30343": {
+    "name": "Infernal harpoon (uncharged)",
+    "highalch": 33000,
+    "mapping": null
+  },
+  "30345": {
+    "name": "Infernal pickaxe (or)",
+    "highalch": 58770,
+    "mapping": null
+  },
+  "30346": {
+    "name": "Infernal pickaxe (uncharged)",
+    "highalch": 58770,
+    "mapping": null
+  },
+  "30347": {
+    "name": "Infernal axe (or)",
+    "highalch": 33000,
+    "mapping": null
+  },
+  "30348": {
+    "name": "Infernal axe (uncharged)",
+    "highalch": 33000,
+    "mapping": null
+  },
+  "30349": {
+    "name": "Dragon harpoon (or)",
+    "highalch": 33000,
+    "mapping": null
+  },
+  "30351": {
+    "name": "Dragon pickaxe (or)",
+    "highalch": 58770,
+    "mapping": null
+  },
+  "30352": {
+    "name": "Dragon axe (or)",
+    "highalch": 33000,
+    "mapping": null
+  },
+  "30353": {
+    "name": "Cabbage",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30355": {
+    "name": "Cabbage",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30357": {
+    "name": "Forager's pouch",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30359": {
+    "name": "Leprechaun's vault",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30361": {
+    "name": "Banker's briefcase",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30363": {
+    "name": "Clue compass",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30365": {
+    "name": "Pocket kingdom",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30367": {
+    "name": "The dogsword",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30369": {
+    "name": "Sunlight spear",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30371": {
+    "name": "Devil's element",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30373": {
+    "name": "Drygore blowpipe (empty)",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30374": {
+    "name": "Drygore blowpipe",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30376": {
+    "name": "Amulet of the monarchs",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30378": {
+    "name": "Emperor ring",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30380": {
+    "name": "Gloves of the damned",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30382": {
+    "name": "Thousand-dragon ward",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30384": {
+    "name": "Crystal blessing",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30386": {
+    "name": "Sunlit bracers",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30388": {
+    "name": "Thunder khopesh",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30390": {
+    "name": "Nature's reprisal",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30392": {
+    "name": "Nature's reprisal (uncharged)",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30393": {
+    "name": "Asgarnia echo orb",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30394": {
+    "name": "Desert echo orb",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30395": {
+    "name": "Fremennik echo orb",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30396": {
+    "name": "Kandarin echo orb",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30397": {
+    "name": "Morytania echo orb",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30398": {
+    "name": "Tirannwn echo orb",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30399": {
+    "name": "Wilderness echo orb",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30400": {
+    "name": "Kourend echo orb",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30401": {
+    "name": "Varlamore echo orb",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30402": {
+    "name": "Raids megarare voucher",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30404": {
+    "name": "Raging echoes hat (t1)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30406": {
+    "name": "Raging echoes top (t1)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30408": {
+    "name": "Raging echoes robeskirt (t1)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30410": {
+    "name": "Raging echoes boots (t1)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30412": {
+    "name": "Raging echoes hat (t2)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30414": {
+    "name": "Raging echoes top (t2)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30416": {
+    "name": "Raging echoes robeskirt (t2)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30418": {
+    "name": "Raging echoes boots (t2)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30420": {
+    "name": "Raging echoes hat (t3)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30422": {
+    "name": "Raging echoes top (t3)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30424": {
+    "name": "Raging echoes robeskirt (t3)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30426": {
+    "name": "Raging echoes boots (t3)",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "30428": {
+    "name": "Raging echoes cane",
+    "highalch": 600,
+    "mapping": null
+  },
+  "30430": {
+    "name": "Raging echoes banner",
+    "highalch": 600,
+    "mapping": null
+  },
+  "30432": {
+    "name": "Echo venator bow ornament kit",
+    "highalch": 3000,
+    "mapping": null
+  },
+  "30434": {
+    "name": "Echo venator bow",
+    "highalch": 450000,
+    "mapping": null
+  },
+  "30436": {
+    "name": "Echo venator bow (uncharged)",
+    "highalch": 450000,
+    "mapping": null
+  },
+  "30437": {
+    "name": "Echo virtus mask",
+    "highalch": 120000,
+    "mapping": null
+  },
+  "30439": {
+    "name": "Echo virtus robe top",
+    "highalch": 360000,
+    "mapping": null
+  },
+  "30441": {
+    "name": "Echo virtus robe bottom",
+    "highalch": 240000,
+    "mapping": null
+  },
+  "30443": {
+    "name": "Echo virtus ornament kit",
+    "highalch": 3000,
+    "mapping": null
+  },
+  "30445": {
+    "name": "Echo ahrim's hood",
+    "highalch": 7800,
+    "mapping": null
+  },
+  "30447": {
+    "name": "Echo ahrim's robetop",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30449": {
+    "name": "Echo ahrim's robeskirt",
+    "highalch": 28200,
+    "mapping": null
+  },
+  "30451": {
+    "name": "Echo ahrim's ornament kit",
+    "highalch": 3000,
+    "mapping": null
+  },
+  "30453": {
+    "name": "Echo home teleport scroll",
+    "highalch": 15000,
+    "mapping": null
+  },
+  "30455": {
+    "name": "Raging echoes death scroll",
+    "highalch": 15000,
+    "mapping": null
+  },
+  "30457": {
+    "name": "Raging echoes npc contact scroll",
+    "highalch": 15000,
+    "mapping": null
+  },
+  "30459": {
+    "name": "Raging echoes nexus scroll",
+    "highalch": 15000,
+    "mapping": null
+  },
+  "30461": {
+    "name": "Raging echoes portal scroll",
+    "highalch": 15000,
+    "mapping": null
+  },
+  "30463": {
+    "name": "Raging echoes nexus rug",
+    "highalch": 15000,
+    "mapping": null
+  },
+  "30465": {
+    "name": "Raging echoes dragon trophy",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30467": {
+    "name": "Raging echoes rune trophy",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30469": {
+    "name": "Raging echoes adamant trophy",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30471": {
+    "name": "Raging echoes mithril trophy",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30473": {
+    "name": "Raging echoes steel trophy",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30475": {
+    "name": "Raging echoes iron trophy",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30477": {
+    "name": "Raging echoes bronze trophy",
+    "highalch": 0,
     "mapping": null
   }
 }
