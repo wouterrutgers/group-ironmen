@@ -67926,22 +67926,22 @@
   },
   "25489": {
     "name": "Blood ancient sceptre",
-    "highalch": 126600,
+    "highalch": 0,
     "mapping": null
   },
   "25490": {
     "name": "Ice ancient sceptre",
-    "highalch": 126600,
+    "highalch": 0,
     "mapping": null
   },
   "25491": {
     "name": "Smoke ancient sceptre",
-    "highalch": 126600,
+    "highalch": 0,
     "mapping": null
   },
   "25492": {
     "name": "Shadow ancient sceptre",
-    "highalch": 126600,
+    "highalch": 0,
     "mapping": null
   },
   "25493": {
@@ -77081,22 +77081,22 @@
   },
   "28260": {
     "name": "Blood ancient sceptre",
-    "highalch": 120000,
+    "highalch": 0,
     "mapping": null
   },
   "28262": {
     "name": "Ice ancient sceptre",
-    "highalch": 120000,
+    "highalch": 0,
     "mapping": null
   },
   "28264": {
     "name": "Smoke ancient sceptre",
-    "highalch": 120000,
+    "highalch": 0,
     "mapping": null
   },
   "28266": {
     "name": "Shadow ancient sceptre",
-    "highalch": 120000,
+    "highalch": 0,
     "mapping": null
   },
   "28268": {
@@ -77906,22 +77906,22 @@
   },
   "28473": {
     "name": "Blood ancient sceptre (l)",
-    "highalch": 120000,
+    "highalch": 0,
     "mapping": null
   },
   "28474": {
     "name": "Ice ancient sceptre (l)",
-    "highalch": 120000,
+    "highalch": 0,
     "mapping": null
   },
   "28475": {
     "name": "Smoke ancient sceptre (l)",
-    "highalch": 120000,
+    "highalch": 0,
     "mapping": null
   },
   "28476": {
     "name": "Shadow ancient sceptre (l)",
-    "highalch": 120000,
+    "highalch": 0,
     "mapping": null
   },
   "28477": {
@@ -83525,6 +83525,46 @@
   },
   "30477": {
     "name": "Raging echoes bronze trophy",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30479": {
+    "name": "Present box hat",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30481": {
+    "name": "Present box hat",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30483": {
+    "name": "Present box hat",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30485": {
+    "name": "Present box hat",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30487": {
+    "name": "Dog disguise",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30489": {
+    "name": "Festive scarf",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30491": {
+    "name": "Dog boots",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30493": {
+    "name": "Invitations",
     "highalch": 0,
     "mapping": null
   }
