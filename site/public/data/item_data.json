@@ -80038,7 +80038,7 @@
   },
   "29280": {
     "name": "Mixed hide top",
-    "highalch": 2400,
+    "highalch": 0,
     "mapping": null
   },
   "29283": {
@@ -80048,12 +80048,12 @@
   },
   "29286": {
     "name": "Mixed hide boots",
-    "highalch": 2400,
+    "highalch": 0,
     "mapping": null
   },
   "29289": {
     "name": "Mixed hide cape",
-    "highalch": 2400,
+    "highalch": 0,
     "mapping": null
   },
   "29292": {
