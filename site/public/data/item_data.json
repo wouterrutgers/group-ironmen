@@ -83488,11 +83488,6 @@
     "highalch": 15000,
     "mapping": null
   },
-  "30463": {
-    "name": "Raging echoes nexus rug",
-    "highalch": 15000,
-    "mapping": null
-  },
   "30465": {
     "name": "Raging echoes dragon trophy",
     "highalch": 0,
@@ -83560,6 +83555,206 @@
   },
   "30491": {
     "name": "Dog boots",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30495": {
+    "name": "Spirit tree",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30496": {
+    "name": "Spirit tree",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30497": {
+    "name": "Raging echoes portal nexus",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30498": {
+    "name": "Raging echoes portal",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30499": {
+    "name": "Scrying pool",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30500": {
+    "name": "Raging echoes spirit tree & fairy ring",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30501": {
+    "name": "Raging echoes rug",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30502": {
+    "name": "Raging echoes curtains",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30519": {
+    "name": "Echo ahrim's hood 100",
+    "highalch": 7800,
+    "mapping": [
+      {
+        "id": 30445,
+        "quantity": 1
+      }
+    ]
+  },
+  "30521": {
+    "name": "Echo ahrim's robetop 100",
+    "highalch": 30000,
+    "mapping": [
+      {
+        "id": 30447,
+        "quantity": 1
+      }
+    ]
+  },
+  "30523": {
+    "name": "Echo ahrim's robeskirt 100",
+    "highalch": 28200,
+    "mapping": [
+      {
+        "id": 30449,
+        "quantity": 1
+      }
+    ]
+  },
+  "30525": {
+    "name": "Echo ahrim's hood 75",
+    "highalch": 7800,
+    "mapping": [
+      {
+        "id": 30445,
+        "quantity": 1
+      }
+    ]
+  },
+  "30527": {
+    "name": "Echo ahrim's robetop 75",
+    "highalch": 30000,
+    "mapping": [
+      {
+        "id": 30447,
+        "quantity": 1
+      }
+    ]
+  },
+  "30529": {
+    "name": "Echo ahrim's robeskirt 75",
+    "highalch": 28200,
+    "mapping": [
+      {
+        "id": 30449,
+        "quantity": 1
+      }
+    ]
+  },
+  "30531": {
+    "name": "Echo ahrim's hood 50",
+    "highalch": 7800,
+    "mapping": [
+      {
+        "id": 30445,
+        "quantity": 1
+      }
+    ]
+  },
+  "30533": {
+    "name": "Echo ahrim's robetop 50",
+    "highalch": 30000,
+    "mapping": [
+      {
+        "id": 30447,
+        "quantity": 1
+      }
+    ]
+  },
+  "30535": {
+    "name": "Echo ahrim's robeskirt 50",
+    "highalch": 28200,
+    "mapping": [
+      {
+        "id": 30449,
+        "quantity": 1
+      }
+    ]
+  },
+  "30537": {
+    "name": "Echo ahrim's hood 25",
+    "highalch": 7800,
+    "mapping": [
+      {
+        "id": 30445,
+        "quantity": 1
+      }
+    ]
+  },
+  "30539": {
+    "name": "Echo ahrim's robetop 25",
+    "highalch": 30000,
+    "mapping": [
+      {
+        "id": 30447,
+        "quantity": 1
+      }
+    ]
+  },
+  "30541": {
+    "name": "Echo ahrim's robeskirt 25",
+    "highalch": 28200,
+    "mapping": [
+      {
+        "id": 30449,
+        "quantity": 1
+      }
+    ]
+  },
+  "30543": {
+    "name": "Echo ahrim's hood 0",
+    "highalch": 7800,
+    "mapping": null
+  },
+  "30545": {
+    "name": "Echo ahrim's robetop 0",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30547": {
+    "name": "Echo ahrim's robeskirt 0",
+    "highalch": 28200,
+    "mapping": null
+  },
+  "30554": {
+    "name": "Raging echoes rug",
+    "highalch": 300,
+    "mapping": null
+  },
+  "30557": {
+    "name": "Raging echoes curtains",
+    "highalch": 300,
+    "mapping": null
+  },
+  "30560": {
+    "name": "Raging echoes scrying pool scroll",
+    "highalch": 15000,
+    "mapping": null
+  },
+  "30563": {
+    "name": "Raging echoes spirit tree scroll",
+    "highalch": 15000,
+    "mapping": null
+  },
+  "30567": {
+    "name": "Raging echoes spirit tree",
     "highalch": 0,
     "mapping": null
   }
