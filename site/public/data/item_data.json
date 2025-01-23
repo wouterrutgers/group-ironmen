@@ -83757,5 +83757,55 @@
     "name": "Raging echoes spirit tree",
     "highalch": 0,
     "mapping": null
+  },
+  "30568": {
+    "name": "Echo ahrim's staff",
+    "highalch": 51000,
+    "mapping": null
+  },
+  "30570": {
+    "name": "Echo ahrim's staff 100",
+    "highalch": 51000,
+    "mapping": [
+      {
+        "id": 30568,
+        "quantity": 1
+      }
+    ]
+  },
+  "30571": {
+    "name": "Echo ahrim's staff 75",
+    "highalch": 51000,
+    "mapping": [
+      {
+        "id": 30568,
+        "quantity": 1
+      }
+    ]
+  },
+  "30572": {
+    "name": "Echo ahrim's staff 50",
+    "highalch": 51000,
+    "mapping": [
+      {
+        "id": 30568,
+        "quantity": 1
+      }
+    ]
+  },
+  "30573": {
+    "name": "Echo ahrim's staff 25",
+    "highalch": 51000,
+    "mapping": [
+      {
+        "id": 30568,
+        "quantity": 1
+      }
+    ]
+  },
+  "30574": {
+    "name": "Echo ahrim's staff 0",
+    "highalch": 51000,
+    "mapping": null
   }
 }
