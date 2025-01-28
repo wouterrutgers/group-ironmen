@@ -82458,7 +82458,12 @@
   "30064": {
     "name": "Tome of earth",
     "highalch": 12000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 30066,
+        "quantity": 1
+      }
+    ]
   },
   "30066": {
     "name": "Tome of earth (empty)",
@@ -83416,27 +83421,72 @@
   "30434": {
     "name": "Echo venator bow",
     "highalch": 450000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 27612,
+        "quantity": 1
+      },
+      {
+        "id": 30432,
+        "quantity": 1
+      }
+    ]
   },
   "30436": {
     "name": "Echo venator bow (uncharged)",
     "highalch": 450000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 27612,
+        "quantity": 1
+      },
+      {
+        "id": 30432,
+        "quantity": 1
+      }
+    ]
   },
   "30437": {
     "name": "Echo virtus mask",
     "highalch": 120000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 26241,
+        "quantity": 1
+      },
+      {
+        "id": 30443,
+        "quantity": 1
+      }
+    ]
   },
   "30439": {
     "name": "Echo virtus robe top",
     "highalch": 360000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 26243,
+        "quantity": 1
+      },
+      {
+        "id": 30443,
+        "quantity": 1
+      }
+    ]
   },
   "30441": {
     "name": "Echo virtus robe bottom",
     "highalch": 240000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 26245,
+        "quantity": 1
+      },
+      {
+        "id": 30443,
+        "quantity": 1
+      }
+    ]
   },
   "30443": {
     "name": "Echo virtus ornament kit",
@@ -83446,17 +83496,44 @@
   "30445": {
     "name": "Echo ahrim's hood",
     "highalch": 7800,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 4708,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      }
+    ]
   },
   "30447": {
     "name": "Echo ahrim's robetop",
     "highalch": 30000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 4712,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      }
+    ]
   },
   "30449": {
     "name": "Echo ahrim's robeskirt",
     "highalch": 28200,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 4714,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      }
+    ]
   },
   "30451": {
     "name": "Echo ahrim's ornament kit",
@@ -83603,7 +83680,19 @@
     "highalch": 7800,
     "mapping": [
       {
-        "id": 30445,
+        "id": 4708,
+        "quantity": 1
+      },
+      {
+        "id": 4708,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83613,7 +83702,19 @@
     "highalch": 30000,
     "mapping": [
       {
-        "id": 30447,
+        "id": 4712,
+        "quantity": 1
+      },
+      {
+        "id": 4712,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83623,7 +83724,19 @@
     "highalch": 28200,
     "mapping": [
       {
-        "id": 30449,
+        "id": 4714,
+        "quantity": 1
+      },
+      {
+        "id": 4714,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83633,7 +83746,19 @@
     "highalch": 7800,
     "mapping": [
       {
-        "id": 30445,
+        "id": 4708,
+        "quantity": 1
+      },
+      {
+        "id": 4708,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83643,7 +83768,19 @@
     "highalch": 30000,
     "mapping": [
       {
-        "id": 30447,
+        "id": 4712,
+        "quantity": 1
+      },
+      {
+        "id": 4712,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83653,7 +83790,19 @@
     "highalch": 28200,
     "mapping": [
       {
-        "id": 30449,
+        "id": 4714,
+        "quantity": 1
+      },
+      {
+        "id": 4714,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83663,7 +83812,19 @@
     "highalch": 7800,
     "mapping": [
       {
-        "id": 30445,
+        "id": 4708,
+        "quantity": 1
+      },
+      {
+        "id": 4708,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83673,7 +83834,19 @@
     "highalch": 30000,
     "mapping": [
       {
-        "id": 30447,
+        "id": 4712,
+        "quantity": 1
+      },
+      {
+        "id": 4712,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83683,7 +83856,19 @@
     "highalch": 28200,
     "mapping": [
       {
-        "id": 30449,
+        "id": 4714,
+        "quantity": 1
+      },
+      {
+        "id": 4714,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83693,7 +83878,19 @@
     "highalch": 7800,
     "mapping": [
       {
-        "id": 30445,
+        "id": 4708,
+        "quantity": 1
+      },
+      {
+        "id": 4708,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83703,7 +83900,19 @@
     "highalch": 30000,
     "mapping": [
       {
-        "id": 30447,
+        "id": 4712,
+        "quantity": 1
+      },
+      {
+        "id": 4712,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83713,7 +83922,19 @@
     "highalch": 28200,
     "mapping": [
       {
-        "id": 30449,
+        "id": 4714,
+        "quantity": 1
+      },
+      {
+        "id": 4714,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83721,17 +83942,44 @@
   "30543": {
     "name": "Echo ahrim's hood 0",
     "highalch": 7800,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 4860,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      }
+    ]
   },
   "30545": {
     "name": "Echo ahrim's robetop 0",
     "highalch": 30000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 4872,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      }
+    ]
   },
   "30547": {
     "name": "Echo ahrim's robeskirt 0",
     "highalch": 28200,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 4878,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      }
+    ]
   },
   "30554": {
     "name": "Raging echoes rug",
@@ -83761,14 +84009,35 @@
   "30568": {
     "name": "Echo ahrim's staff",
     "highalch": 51000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 4710,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      }
+    ]
   },
   "30570": {
     "name": "Echo ahrim's staff 100",
     "highalch": 51000,
     "mapping": [
       {
-        "id": 30568,
+        "id": 4710,
+        "quantity": 1
+      },
+      {
+        "id": 4710,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83778,7 +84047,19 @@
     "highalch": 51000,
     "mapping": [
       {
-        "id": 30568,
+        "id": 4710,
+        "quantity": 1
+      },
+      {
+        "id": 4710,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83788,7 +84069,19 @@
     "highalch": 51000,
     "mapping": [
       {
-        "id": 30568,
+        "id": 4710,
+        "quantity": 1
+      },
+      {
+        "id": 4710,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83798,7 +84091,19 @@
     "highalch": 51000,
     "mapping": [
       {
-        "id": 30568,
+        "id": 4710,
+        "quantity": 1
+      },
+      {
+        "id": 4710,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
         "quantity": 1
       }
     ]
@@ -83806,6 +84111,15 @@
   "30574": {
     "name": "Echo ahrim's staff 0",
     "highalch": 51000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 4866,
+        "quantity": 1
+      },
+      {
+        "id": 30451,
+        "quantity": 1
+      }
+    ]
   }
 }
