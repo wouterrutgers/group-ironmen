@@ -84121,5 +84121,110 @@
         "quantity": 1
       }
     ]
+  },
+  "30576": {
+    "name": "Bounty supply crate",
+    "highalch": 6000,
+    "mapping": null
+  },
+  "30579": {
+    "name": "Collection log",
+    "highalch": 3,
+    "mapping": null
+  },
+  "30581": {
+    "name": "Collection log",
+    "highalch": 3,
+    "mapping": null
+  },
+  "30583": {
+    "name": "Collection log",
+    "highalch": 3,
+    "mapping": null
+  },
+  "30585": {
+    "name": "Collection log",
+    "highalch": 3,
+    "mapping": null
+  },
+  "30587": {
+    "name": "Collection log",
+    "highalch": 3,
+    "mapping": null
+  },
+  "30589": {
+    "name": "Collection log",
+    "highalch": 3,
+    "mapping": null
+  },
+  "30591": {
+    "name": "Collection log",
+    "highalch": 3,
+    "mapping": null
+  },
+  "30593": {
+    "name": "Collection log",
+    "highalch": 3,
+    "mapping": null
+  },
+  "30595": {
+    "name": "Collection log",
+    "highalch": 3,
+    "mapping": null
+  },
+  "30597": {
+    "name": "Bronze staff of collection",
+    "highalch": 9,
+    "mapping": null
+  },
+  "30599": {
+    "name": "Iron staff of collection",
+    "highalch": 9,
+    "mapping": null
+  },
+  "30601": {
+    "name": "Steel staff of collection",
+    "highalch": 9,
+    "mapping": null
+  },
+  "30603": {
+    "name": "Black staff of collection",
+    "highalch": 9,
+    "mapping": null
+  },
+  "30605": {
+    "name": "Mithril staff of collection",
+    "highalch": 9,
+    "mapping": null
+  },
+  "30607": {
+    "name": "Adamant staff of collection",
+    "highalch": 9,
+    "mapping": null
+  },
+  "30609": {
+    "name": "Rune staff of collection",
+    "highalch": 9,
+    "mapping": null
+  },
+  "30611": {
+    "name": "Dragon staff of collection",
+    "highalch": 9,
+    "mapping": null
+  },
+  "30613": {
+    "name": "Gilded staff of collection",
+    "highalch": 9,
+    "mapping": null
+  },
+  "30616": {
+    "name": "Bounty supply crate (manta ray)",
+    "highalch": 6000,
+    "mapping": null
+  },
+  "30619": {
+    "name": "Bounty supply crate (anglerfish)",
+    "highalch": 6000,
+    "mapping": null
   }
 }

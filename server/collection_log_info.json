@@ -6317,24 +6317,6 @@
         ]
       },
       {
-        "name": "Chaos Druids",
-        "completion_labels": [],
-        "items": [
-          {
-            "id": 20517,
-            "name": "Elder chaos top"
-          },
-          {
-            "id": 20520,
-            "name": "Elder chaos robe"
-          },
-          {
-            "id": 20595,
-            "name": "Elder chaos hood"
-          }
-        ]
-      },
-      {
         "name": "Chompy Bird Hunting",
         "completion_labels": [],
         "items": [
@@ -6523,6 +6505,24 @@
           {
             "id": 12954,
             "name": "Dragon defender"
+          }
+        ]
+      },
+      {
+        "name": "Elder Chaos Druids",
+        "completion_labels": [],
+        "items": [
+          {
+            "id": 20517,
+            "name": "Elder chaos top"
+          },
+          {
+            "id": 20520,
+            "name": "Elder chaos robe"
+          },
+          {
+            "id": 20595,
+            "name": "Elder chaos hood"
           }
         ]
       },
