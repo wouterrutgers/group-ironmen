@@ -84226,5 +84226,55 @@
     "name": "Bounty supply crate (anglerfish)",
     "highalch": 6000,
     "mapping": null
+  },
+  "30622": {
+    "name": "Bran",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30624": {
+    "name": "Ric",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30626": {
+    "name": "Deadeye prayer scroll",
+    "highalch": 3000,
+    "mapping": null
+  },
+  "30627": {
+    "name": "Mystic vigour prayer scroll",
+    "highalch": 3000,
+    "mapping": null
+  },
+  "30628": {
+    "name": "Ice element staff crown",
+    "highalch": 6000,
+    "mapping": null
+  },
+  "30631": {
+    "name": "Fire element staff crown",
+    "highalch": 6000,
+    "mapping": null
+  },
+  "30634": {
+    "name": "Twinflame staff",
+    "highalch": 30000,
+    "mapping": null
+  },
+  "30637": {
+    "name": "Giantsoul amulet (uncharged)",
+    "highalch": 3000,
+    "mapping": null
+  },
+  "30638": {
+    "name": "Giantsoul amulet",
+    "highalch": 3000,
+    "mapping": null
+  },
+  "30640": {
+    "name": "Desiccated page",
+    "highalch": 300,
+    "mapping": null
   }
 }
