@@ -76952,12 +76952,30 @@
   "28220": {
     "name": "Crystal felling axe",
     "highalch": 312000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 23953,
+        "quantity": 1
+      },
+      {
+        "id": 28217,
+        "quantity": 1
+      }
+    ]
   },
   "28223": {
     "name": "Crystal felling axe (inactive)",
     "highalch": 312000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 23953,
+        "quantity": 1
+      },
+      {
+        "id": 28217,
+        "quantity": 1
+      }
+    ]
   },
   "28226": {
     "name": "3rd age felling axe",
