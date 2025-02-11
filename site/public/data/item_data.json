@@ -79579,22 +79579,22 @@
   },
   "29080": {
     "name": "Moonlight potion(4)",
-    "highalch": 600,
+    "highalch": 0,
     "mapping": null
   },
   "29081": {
     "name": "Moonlight potion(3)",
-    "highalch": 450,
+    "highalch": 0,
     "mapping": null
   },
   "29082": {
     "name": "Moonlight potion(2)",
-    "highalch": 300,
+    "highalch": 0,
     "mapping": null
   },
   "29083": {
     "name": "Moonlight potion(1)",
-    "highalch": 150,
+    "highalch": 0,
     "mapping": null
   },
   "29084": {
