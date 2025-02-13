@@ -84294,5 +84294,10 @@
     "name": "Desiccated page",
     "highalch": 300,
     "mapping": null
+  },
+  "30644": {
+    "name": "Hunters' loot sack (supplies)",
+    "highalch": 0,
+    "mapping": null
   }
 }
