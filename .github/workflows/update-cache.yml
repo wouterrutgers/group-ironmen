@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 20
 
-      - uses: s4u/setup-maven-action@v1.15.0
+      - uses: s4u/setup-maven-action@v1.18.0
         with:
           java-version: 11
 
