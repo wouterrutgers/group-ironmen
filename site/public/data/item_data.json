@@ -84299,5 +84299,15 @@
     "name": "Hunters' loot sack (supplies)",
     "highalch": 0,
     "mapping": null
+  },
+  "30646": {
+    "name": "Classic imp tail",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30648": {
+    "name": "Classic imp hood",
+    "highalch": 0,
+    "mapping": null
   }
 }
