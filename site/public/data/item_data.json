@@ -81004,17 +81004,32 @@
   "29589": {
     "name": "Emberlight",
     "highalch": 480000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 29580,
+        "quantity": 1
+      }
+    ]
   },
   "29591": {
     "name": "Scorching bow",
     "highalch": 480000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 29580,
+        "quantity": 1
+      }
+    ]
   },
   "29594": {
     "name": "Purging staff",
     "highalch": 480000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 29580,
+        "quantity": 1
+      }
+    ]
   },
   "29596": {
     "name": "Duradel's notes",
