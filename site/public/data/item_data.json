@@ -28167,17 +28167,17 @@
     "mapping": null
   },
   "8087": {
-    "name": "Minor head",
+    "name": "Teak mounted head display",
     "highalch": 0,
     "mapping": null
   },
   "8088": {
-    "name": "Medium head",
+    "name": "Mahogany mounted head display",
     "highalch": 0,
     "mapping": null
   },
   "8089": {
-    "name": "Major head",
+    "name": "Gilded mounted head display",
     "highalch": 0,
     "mapping": null
   },
@@ -40017,6 +40017,26 @@
   },
   "11525": {
     "name": "Feather",
+    "highalch": 0,
+    "mapping": null
+  },
+  "11578": {
+    "name": "Mounted harpoonfish",
+    "highalch": 0,
+    "mapping": null
+  },
+  "11599": {
+    "name": "Oak mounted fish display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "11601": {
+    "name": "Mahogany mounted fish display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "11603": {
+    "name": "Teak mounted fish display",
     "highalch": 0,
     "mapping": null
   },
@@ -84322,6 +84342,116 @@
   },
   "30648": {
     "name": "Classic imp hood",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30650": {
+    "name": "Teak display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30651": {
+    "name": "Mahogany display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30652": {
+    "name": "Mahogany display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30653": {
+    "name": "Gilded display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30654": {
+    "name": "Gilded display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30655": {
+    "name": "Crawling hand",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30656": {
+    "name": "Crawling hand",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30657": {
+    "name": "Cockatrice head",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30658": {
+    "name": "Cockatrice head",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30659": {
+    "name": "Basilisk head",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30660": {
+    "name": "Basilisk head",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30661": {
+    "name": "Kurask head",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30662": {
+    "name": "Abyssal head",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30663": {
+    "name": "Oak display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30664": {
+    "name": "Teak display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30665": {
+    "name": "Teak display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30666": {
+    "name": "Mahogany display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30667": {
+    "name": "Mahogany display",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30668": {
+    "name": "Mounted bass",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30669": {
+    "name": "Mounted bass",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30670": {
+    "name": "Mounted swordfish",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30671": {
+    "name": "Mounted harpoonfish",
     "highalch": 0,
     "mapping": null
   }
