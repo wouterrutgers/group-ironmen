@@ -84454,5 +84454,30 @@
     "name": "Mounted harpoonfish",
     "highalch": 0,
     "mapping": null
+  },
+  "30676": {
+    "name": "Nimbleness charm",
+    "highalch": 6000,
+    "mapping": null
+  },
+  "30679": {
+    "name": "Stockpiling charm",
+    "highalch": 6000,
+    "mapping": null
+  },
+  "30682": {
+    "name": "Accumulation charm",
+    "highalch": 6000,
+    "mapping": null
+  },
+  "30685": {
+    "name": "Vulnerability charm",
+    "highalch": 6000,
+    "mapping": null
+  },
+  "30688": {
+    "name": "Broken charm",
+    "highalch": 0,
+    "mapping": null
   }
 }
