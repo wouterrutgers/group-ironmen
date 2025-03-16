@@ -24295,7 +24295,7 @@
   },
   "7108": {
     "name": "Gunpowder",
-    "highalch": 0,
+    "highalch": 31,
     "mapping": null
   },
   "7109": {
@@ -77794,7 +77794,7 @@
   },
   "28442": {
     "name": "Gunpowder",
-    "highalch": 0,
+    "highalch": 18,
     "mapping": null
   },
   "28443": {
