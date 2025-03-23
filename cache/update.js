@@ -270,7 +270,7 @@ async function dumpCollectionLog() {
   console.log('\nStep: Dumping collection log');
   const collectionLogDumper = fs.readFileSync('./CollectionLogDumper.java', 'utf8');
   fs.writeFileSync(`${cacheProjectPath}/src/main/java/net/runelite/cache/CollectionLogDumper.java`, collectionLogDumper);
-  execRuneliteCache('net.runelite.cache.CollectionLogDumper', `--cachedir ${osrsCacheDirectory} --outputdir ${path.resolve('../server')}`);
+  execRuneliteCache('net.runelite.cache.CollectionLogDumper', `--cachedir ${osrsCacheDirectory} --outputdir ${path.resolve('../storage/cache')}`);
 }
 
 async function tilePlane(plane) {

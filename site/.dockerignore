@@ -1,6 +1,0 @@
-**/node_modules
-**/.husky
-**/.eslint*
-**/prettier*
-README.md
-.gitignore
