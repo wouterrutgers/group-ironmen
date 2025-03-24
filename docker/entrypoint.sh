@@ -46,10 +46,7 @@ php-fpm -D
 
 # Start Laravel scheduler in background
 echo "Starting Laravel scheduler (cron)..."
-(while true; do
-    php /var/www/artisan schedule:run
-    sleep 60
-done) &
+php /var/www/artisan schedule:work &
 
 echo "Starting Caddy..."
 exec caddy run --config /etc/caddy/Caddyfile
