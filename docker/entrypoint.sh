@@ -1,32 +1,44 @@
 #!/bin/bash
 set -e
 
-if [ ! -s /var/www/.env ]; then
-    echo "Initializing .env file..."
-    cp /var/www/.env.example /var/www/.env
+# Handle graceful shutdown
+function shutdown {
+    echo "Shutting down services..."
+    kill -TERM $(jobs -p) 2>/dev/null || true
+    kill -QUIT $(cat /var/run/php-fpm.pid) 2>/dev/null || true
+}
+trap shutdown SIGTERM SIGINT
+
+# Install dependencies
+echo "Installing dependencies..."
+composer install --no-interaction --optimize-autoloader --no-dev
+
+# Setup environment if needed
+if [ ! -s ".env" ]; then
+    echo "Creating .env file..."
+    cp .env.example .env
     php artisan key:generate --force
 fi
 
-echo "Setting permissions..."
-chmod -R 775 /var/www/storage /var/www/bootstrap/cache
-chown -R www-data:www-data /var/www
+# Create storage link
+if [ ! -L /var/www/public/storage ]; then
+    php artisan storage:link
+fi
 
-echo "Clearing and caching..."
+# Optimize application
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-echo "Running migrations..."
+# Run migrations if requested
 php artisan migrate --force
 
-echo "Optimizing Laravel..."
-php artisan optimize
-
-echo "Starting PHP-FPM in background..."
+# Start PHP-FPM
 php-fpm -D
 
-echo "Starting Laravel scheduler..."
-php /var/www/artisan schedule:work &
+# Start scheduler if enabled
+php artisan schedule:work &
 
-echo "Starting Caddy..."
+# Start Caddy
+echo "Starting Caddy server..."
 exec caddy run --config /etc/caddy/Caddyfile

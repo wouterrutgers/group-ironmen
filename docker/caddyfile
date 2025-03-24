@@ -6,19 +6,16 @@
 :80 {
     root * /var/www/public
 
-    # PHP handling
+    # PHP handler
     php_fastcgi 127.0.0.1:9000 {
         root /var/www/public
     }
 
-    # Handle dot files
-    @notHidden {
-        not path */.*
+    # Hide dot files
+    @dotfiles {
+        path */.*
     }
-    handle @notHidden {
-        # Laravel routing
-        try_files {path} {path}/ /index.php?{query}
-    }
+    respond @dotfiles 404
 
     # Security headers
     header {
@@ -26,19 +23,22 @@
         X-Content-Type-Options "nosniff"
         X-Frame-Options "SAMEORIGIN"
         Referrer-Policy "strict-origin-when-cross-origin"
-        # Additional security header
         Permissions-Policy "geolocation=(), microphone=(), camera=()"
+        -Server
     }
 
     # Cache static assets
     @static {
-        path *.css *.js *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2
+        path *.ico *.css *.js *.gif *.webp *.avif *.jpg *.jpeg *.png *.svg *.woff *.woff2
     }
     header @static Cache-Control "public, max-age=31536000, immutable"
+
+    # Laravel routing
+    try_files {path} {path}/ /index.php?{query}
 
     # Serve static files
     file_server
 
-    # Compression - added zstd for better compression
+    # Compression
     encode gzip zstd
 }
