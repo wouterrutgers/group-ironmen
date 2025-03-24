@@ -52,18 +52,8 @@ class Member extends Model
         return $this->hasMany(NewCollectionLog::class);
     }
 
-    public function skillStatsDay(): HasMany
+    public function skillStats(): HasMany
     {
-        return $this->hasMany(SkillStat::class)->where('type', '=', 'day');
-    }
-
-    public function skillStatsMonth(): HasMany
-    {
-        return $this->hasMany(SkillStat::class)->where('type', '=', 'month');
-    }
-
-    public function skillStatsYear(): HasMany
-    {
-        return $this->hasMany(SkillStat::class)->where('type', '=', 'year');
+        return $this->hasMany(SkillStat::class);
     }
 }
