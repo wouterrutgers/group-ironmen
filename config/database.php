@@ -51,21 +51,6 @@ return [
             ]) : [],
         ],
 
-        'old' => [
-            'driver' => 'pgsql',
-            'url' => null,
-            'host' => '192.168.0.10',
-            'port' => '5102',
-            'database' => 'groupironman_db',
-            'username' => 'postgres',
-            'password' => 'postgres',
-            'charset' => env('DB_CHARSET', 'utf8'),
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'search_path' => 'groupironman',
-            'sslmode' => 'prefer',
-        ],
-
     ],
 
     /*

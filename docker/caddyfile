@@ -5,22 +5,22 @@
 
 :80 {
     root * /var/www/public
-    
+
     # PHP handling
     php_fastcgi 127.0.0.1:9000 {
         root /var/www/public
     }
-    
+
     # Handle dot files
     @notHidden {
         not path */.*
     }
-    
+
     # Laravel routing
     route {
         try_files {path} {path}/ /index.php?{query}
     }
-    
+
     # Security headers
     header {
         X-XSS-Protection "1; mode=block"
@@ -28,16 +28,10 @@
         X-Frame-Options "SAMEORIGIN"
         Referrer-Policy "strict-origin-when-cross-origin"
     }
-    
+
     # Serve static files
     file_server
-    
+
     # Compression
     encode gzip
-    
-    # Log requests
-    log {
-        output stdout
-        format console
-    }
 }

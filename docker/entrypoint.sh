@@ -44,8 +44,12 @@ php artisan optimize
 echo "Starting PHP-FPM in background..."
 php-fpm -D
 
-echo "Testing Caddy configuration..."
-caddy validate --config /etc/caddy/Caddyfile
+# Start Laravel scheduler in background
+echo "Starting Laravel scheduler (cron)..."
+(while true; do
+    php /var/www/artisan schedule:run
+    sleep 60
+done) &
 
 echo "Starting Caddy..."
 exec caddy run --config /etc/caddy/Caddyfile
