@@ -193,7 +193,7 @@ class GroupMemberController extends Controller
                     // Check if page exists
                     $pageId = $collectionLogInfo->page_name_to_id($log['page_name'] ?? '');
                     if ($pageId === null) {
-                        throw new Exception("Invalid collection log page: ".($log['page_name'] ?? 'unknown'));
+                        throw new Exception('Invalid collection log page: '.($log['page_name'] ?? 'unknown'));
                     }
 
                     // Check number of items (assuming pairs of item_id, quantity)

@@ -9,8 +9,11 @@ class CollectionLogInfo
     protected static ?self $instance = null;
 
     private array $page_name_to_id_lookup = [];
+
     private array $page_id_item_set_lookup = [];
+
     private array $item_name_to_id_lookup = [];
+
     private array $item_id_to_page_id_lookup = [];
 
     // Static equivalent of lazy_static in Rust
@@ -131,6 +134,7 @@ class CollectionLogInfo
 
         if (isset(self::$collection_page_remap[$page_name])) {
             $remapped_name = self::$collection_page_remap[$page_name];
+
             return $this->page_name_to_id_lookup[$remapped_name] ?? null;
         }
 
@@ -168,6 +172,7 @@ class CollectionLogInfo
 
         if (isset(self::$collection_item_remap[$item_name])) {
             $remapped_name = self::$collection_item_remap[$item_name];
+
             return $this->item_name_to_id_lookup[$remapped_name] ?? null;
         }
 

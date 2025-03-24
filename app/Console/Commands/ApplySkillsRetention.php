@@ -40,12 +40,14 @@ class ApplySkillsRetention extends Command
             });
 
             $this->info('Skills retention applied successfully.');
+
             return Command::SUCCESS;
         } catch (\Exception $e) {
-            $this->error('Failed to apply skills retention: ' . $e->getMessage());
+            $this->error('Failed to apply skills retention: '.$e->getMessage());
             Log::error('Skills retention failed', [
-                'exception' => $e
+                'exception' => $e,
             ]);
+
             return Command::FAILURE;
         }
     }
@@ -56,7 +58,7 @@ class ApplySkillsRetention extends Command
     private function getLastSkillsAggregation(): \Carbon\Carbon
     {
         $lastAggregation = AggregationInfo::where('type', 'skills')
-            ->value('last_aggregation');
+            ->value('updated_at');
 
         return $lastAggregation ?? \Carbon\Carbon::createFromTimestamp(0);
     }
@@ -66,17 +68,36 @@ class ApplySkillsRetention extends Command
      */
     private function applySkillsRetentionForPeriod(AggregatePeriod $period, \Carbon\Carbon $lastAggregation): void
     {
-        $retentionInterval = $period->getRetentionInterval();
+        $retentionPeriod = $this->getRetentionInterval($period);
+        $periodValue = $period->value;
 
-        $query = "
-            DELETE FROM skill_stats
-            WHERE created_at < (? - interval '{$retentionInterval}') AND (member_id, created_at) NOT IN (
-              SELECT member_id, max(created_at) FROM skill_stats
-              WHERE created_at < (? - interval '{$retentionInterval}') AND type = ?
-              GROUP BY member_id
-            ) and type = ?
-        ";
+        // MySQL-compatible approach: Create a temp table of records to keep
+        DB::statement("
+            DELETE ss FROM skill_stats ss
+            WHERE ss.type = ?
+            AND ss.created_at < DATE_SUB(?, INTERVAL {$retentionPeriod})
+            AND (ss.member_id, ss.created_at) NOT IN (
+                SELECT member_id, MAX(created_at)
+                FROM (
+                    SELECT member_id, created_at
+                    FROM skill_stats
+                    WHERE type = ?
+                    AND created_at < DATE_SUB(?, INTERVAL {$retentionPeriod})
+                ) AS temp
+                GROUP BY member_id
+            )
+        ", [$periodValue, $lastAggregation, $periodValue, $lastAggregation]);
+    }
 
-        DB::statement($query, [$lastAggregation, $lastAggregation, $period->value, $period->value]);
+    /**
+     * Get the retention interval for a period
+     */
+    private function getRetentionInterval(AggregatePeriod $period): string
+    {
+        return match ($period) {
+            AggregatePeriod::Day => '1 DAY',
+            AggregatePeriod::Month => '1 MONTH',
+            AggregatePeriod::Year => '1 YEAR',
+        };
     }
 }

@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Enums\AggregatePeriod;
 use App\Models\AggregationInfo;
+use App\Models\Member;
+use App\Models\SkillStat;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,7 +38,7 @@ class AggregateSkills extends Command
                 // Update the last aggregation time
                 AggregationInfo::updateOrCreate(
                     ['type' => 'skills'],
-                    ['last_aggregation' => now()]
+                    ['updated_at' => now()]
                 );
 
                 // Aggregate skills for each period
@@ -46,12 +48,14 @@ class AggregateSkills extends Command
             });
 
             $this->info('Skills data aggregated successfully.');
+
             return Command::SUCCESS;
         } catch (\Exception $e) {
-            $this->error('Failed to aggregate skills data: ' . $e->getMessage());
+            $this->error('Failed to aggregate skills data: '.$e->getMessage());
             Log::error('Skills aggregation failed', [
-                'exception' => $e
+                'exception' => $e,
             ]);
+
             return Command::FAILURE;
         }
     }
@@ -62,7 +66,7 @@ class AggregateSkills extends Command
     private function getLastSkillsAggregation(): \Carbon\Carbon
     {
         $lastAggregation = AggregationInfo::where('type', 'skills')
-            ->value('last_aggregation');
+            ->value('updated_at');
 
         return $lastAggregation ?? \Carbon\Carbon::createFromTimestamp(0);
     }
@@ -72,19 +76,47 @@ class AggregateSkills extends Command
      */
     private function aggregateSkillsForPeriod(AggregatePeriod $period, \Carbon\Carbon $lastAggregation): void
     {
-        $truncateFormat = $period->getTruncateFormat();
+        $truncateFormat = match ($period) {
+            AggregatePeriod::Day => 'hour',
+            AggregatePeriod::Month => 'day',
+            AggregatePeriod::Year => 'month',
+        };
 
-        $query = "
-            INSERT INTO skill_stats (member_id, type, skills, created_at, updated_at)
-            SELECT member_id, ".$period->value.", date_trunc('{$truncateFormat}', skills_last_update), skills, now(), now()
-            FROM members
-            WHERE skills_last_update IS NOT NULL
-            AND skills IS NOT NULL
-            AND skills_last_update >= ?
-            ON CONFLICT (member_id, time)
-            DO UPDATE SET skills=EXCLUDED.skills;
-        ";
+        // Using query builder with upsert
+        $members = Member::whereNotNull('skills_last_update')
+            ->whereNotNull('skills')
+            ->where('skills_last_update', '>=', $lastAggregation)
+            ->get();
 
-        DB::statement($query, [$lastAggregation]);
+        $skillStats = [];
+        $now = now();
+
+        foreach ($members as $member) {
+            $time = DB::raw("date_trunc('$truncateFormat', skills_last_update)");
+
+            // Extract the truncated time value for the unique key
+            $timeValue = DB::selectOne(
+                "SELECT date_trunc('$truncateFormat', ?) as time",
+                [$member->skills_last_update]
+            )->time;
+
+            $skillStats[] = [
+                'member_id' => $member->id,
+                'type' => $period->value,
+                'time' => $timeValue,
+                'skills' => $member->skills,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        // Using upsert to handle conflicts
+        if (! empty($skillStats)) {
+            SkillStat::upsert(
+                $skillStats,
+                ['member_id', 'type', 'time'], // Unique key constraints
+                ['skills', 'updated_at']       // Fields to update on conflict
+            );
+        }
     }
 }
