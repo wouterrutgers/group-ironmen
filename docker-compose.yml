@@ -1,25 +1,10 @@
-version: '3'
 services:
   app:
     image: wouterrutgers/group-ironmen
-    volumes:
-      - ./.env:/var/www/.env
-
-  webserver:
-    image: caddy:2-alpine
     ports:
       - "80:80"
-    environment:
-      - XCADDY_CONFIG=|
-        {
-          auto_https off
-        }
-        :80 {
-          root * /var/www/public
-          php_fastcgi app:9000
-          file_server
-          encode gzip
-        }
+    volumes:
+      - /path/to/gim/data/.env:/var/www/.env
 
   db:
     image: mysql:8.0
@@ -31,4 +16,4 @@ services:
       MYSQL_PASSWORD: secret
       MYSQL_RANDOM_ROOT_PASSWORD: true
     volumes:
-      - ./dbdata:/var/lib/mysql/
+      - /path/to/gim/data/database:/var/lib/mysql/
