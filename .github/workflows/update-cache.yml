@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - uses: s4u/setup-maven-action@v1.18.0
         with:
@@ -58,7 +58,7 @@ jobs:
         working-directory: ./cache
 
       - run: npm install
-        working-directory: ./site
+        working-directory: ./
 
       - uses: actions/cache@v4
         id: cache
@@ -78,11 +78,9 @@ jobs:
       - run: npm run update
         working-directory: ./cache
 
-      - run: node scripts/quest-scraper.js
-        working-directory: ./site
+      - run: node resources/js/quests/scraper.js
 
       - run: npm run bundle
-        working-directory: ./site
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         if: ${{ ! env.ACT }}

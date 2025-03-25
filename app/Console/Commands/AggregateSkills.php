@@ -77,9 +77,9 @@ class AggregateSkills extends Command
     private function aggregateSkillsForPeriod(AggregatePeriod $period, \Carbon\Carbon $lastAggregation): void
     {
         $truncateFormat = match ($period) {
-            AggregatePeriod::Day => 'hour',
-            AggregatePeriod::Month => 'day',
-            AggregatePeriod::Year => 'month',
+            AggregatePeriod::Day => 'DATE_FORMAT(skills_last_update, "%Y-%m-%d %H:00:00")',
+            AggregatePeriod::Month => 'DATE(skills_last_update)',
+            AggregatePeriod::Year => 'DATE_FORMAT(skills_last_update, "%Y-%m-01")',
         };
 
         // Using query builder with upsert
@@ -88,34 +88,32 @@ class AggregateSkills extends Command
             ->where('skills_last_update', '>=', $lastAggregation)
             ->get();
 
-        $skillStats = [];
-        $now = now();
-
         foreach ($members as $member) {
-            $time = DB::raw("date_trunc('$truncateFormat', skills_last_update)");
+            $timeValue = match ($period) {
+                AggregatePeriod::Day => DB::selectOne(
+                    "SELECT DATE_FORMAT(?, '%Y-%m-%d %H:00:00') as time",
+                    [$member->skills_last_update]
+                )->time,
+                AggregatePeriod::Month => DB::selectOne(
+                    "SELECT DATE(?) as time",
+                    [$member->skills_last_update]
+                )->time,
+                AggregatePeriod::Year => DB::selectOne(
+                    "SELECT DATE_FORMAT(?, '%Y-%m-01') as time",
+                    [$member->skills_last_update]
+                )->time,
+            };
 
-            // Extract the truncated time value for the unique key
-            $timeValue = DB::selectOne(
-                "SELECT date_trunc('$truncateFormat', ?) as time",
-                [$member->skills_last_update]
-            )->time;
-
-            $skillStats[] = [
-                'member_id' => $member->id,
-                'type' => $period->value,
-                'time' => $timeValue,
-                'skills' => $member->skills,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ];
-        }
-
-        // Using upsert to handle conflicts
-        if (! empty($skillStats)) {
-            SkillStat::upsert(
-                $skillStats,
-                ['member_id', 'type', 'time'], // Unique key constraints
-                ['skills', 'updated_at']       // Fields to update on conflict
+            SkillStat::updateOrCreate(
+                [
+                    'member_id' => $member->id,
+                    'type' => $period->value,
+                    'created_at' => $timeValue,
+                ],
+                [
+                    'skills' => $member->skills,
+                    'updated_at' => now(),
+                ]
             );
         }
     }

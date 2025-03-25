@@ -18,14 +18,14 @@ const apiProjectPath = `${runelitePath}/runelite-api`;
 const clientProjectPath = `${runelitePath}/runelite-client`;
 const apiPomPath = `${apiProjectPath}/pom.xml`;
 const osrsCacheDirectory = path.resolve('./cache/cache');
-const siteItemDataPath = '../site/public/data/item_data.json';
-const siteMapIconMetaPath = '../site/public/data/map_icons.json';
-const siteMapLabelMetaPath = '../site/public/data/map_labels.json';
-const siteItemImagesPath = '../site/public/icons/items';
-const siteMapImagesPath = '../site/public/map';
-const siteMapLabelsPath = '../site/public/map/labels';
-const siteMapIconPath = '../site/public/map/icons/map_icons.webp';
-const siteQuestMapping = path.resolve('../site/scripts/quest-mapping.json');
+const siteItemDataPath = '../public/data/item_data.json';
+const siteMapIconMetaPath = '../public/data/map_icons.json';
+const siteMapLabelMetaPath = '../public/data/map_labels.json';
+const siteItemImagesPath = '../public/icons/items';
+const siteMapImagesPath = '../public/map';
+const siteMapLabelsPath = '../public/map/labels';
+const siteMapIconPath = '../public/map/icons/map_icons.webp';
+const siteQuestMapping = path.resolve('../resources/js/quests/mapping.json');
 const tileSize = 256;
 
 function exec(command, options) {
