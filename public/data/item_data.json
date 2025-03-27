@@ -4829,6 +4829,11 @@
     "highalch": 2,
     "mapping": null
   },
+  "1459": {
+    "name": "Auto-weed",
+    "highalch": 0,
+    "mapping": null
+  },
   "1462": {
     "name": "Nature talisman",
     "highalch": 2,
@@ -19036,6 +19041,11 @@
     "highalch": 60,
     "mapping": null
   },
+  "5546": {
+    "name": "Auto-weed (deactivated)",
+    "highalch": 0,
+    "mapping": null
+  },
   "5547": {
     "name": "Death tiara",
     "highalch": 60,
@@ -19044,6 +19054,16 @@
   "5549": {
     "name": "Blood tiara",
     "highalch": 300,
+    "mapping": null
+  },
+  "5551": {
+    "name": "Gricoller's can (refill)",
+    "highalch": 0,
+    "mapping": null
+  },
+  "5552": {
+    "name": "Auto-weed (activated)",
+    "highalch": 0,
     "mapping": null
   },
   "5553": {
@@ -84478,6 +84498,11 @@
   "30688": {
     "name": "Broken charm",
     "highalch": 0,
+    "mapping": null
+  },
+  "30689": {
+    "name": "Trinket dust",
+    "highalch": 7,
     "mapping": null
   }
 }
