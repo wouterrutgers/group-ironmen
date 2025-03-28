@@ -500,7 +500,7 @@ class GroupMemberController extends Controller
             ->selectRaw('CASE WHEN equipment_last_update >= ? THEN equipment ELSE NULL END as equipment', [$fromTime])
             ->selectRaw('CASE WHEN bank_last_update >= ? THEN bank ELSE NULL END as bank', [$fromTime])
             ->selectRaw('CASE WHEN rune_pouch_last_update >= ? THEN rune_pouch ELSE NULL END as rune_pouch', [$fromTime])
-            ->selectRaw('CASE WHEN interacting_last_update >= ? THEN interacting ELSE NULL END as interacting', [$fromTime])
+            ->selectRaw('CASE WHEN interacting_last_update >= ? THEN json_set(interacting, "$.last_updated", date_format(interacting_last_update, "%Y-%m-%dT%H:%i:%s.000Z")) ELSE NULL END as interacting', [$fromTime])
             ->selectRaw('CASE WHEN seed_vault_last_update >= ? THEN seed_vault ELSE NULL END as seed_vault', [$fromTime])
             ->selectRaw('CASE WHEN diary_vars_last_update >= ? THEN diary_vars ELSE NULL END as diary_vars', [$fromTime]);
 

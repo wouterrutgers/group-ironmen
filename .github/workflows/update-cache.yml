@@ -87,5 +87,5 @@ jobs:
         with:
           commit_message: dump latest game data
 
-      - run: rsync -avh --delete --exclude='.git' --exclude='node_modules' . $GROUP_IRONMEN_PATH
+      - run: rsync -avh --delete --exclude='.git' --filter='dir-merge,- .gitignore' . $GROUP_IRONMEN_PATH
         if: ${{ env.ACT }}
