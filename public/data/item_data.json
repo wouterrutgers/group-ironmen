@@ -12892,12 +12892,12 @@
     "mapping": null
   },
   "4041": {
-    "name": "Hooded cloak",
+    "name": "Saradomin cloak",
     "highalch": 0,
     "mapping": null
   },
   "4042": {
-    "name": "Hooded cloak",
+    "name": "Zamorak cloak",
     "highalch": 0,
     "mapping": null
   },
@@ -84503,6 +84503,16 @@
   "30689": {
     "name": "Trinket dust",
     "highalch": 7,
+    "mapping": null
+  },
+  "30690": {
+    "name": "Castle wars supply crate",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30692": {
+    "name": "Rune pouch",
+    "highalch": 0,
     "mapping": null
   }
 }
