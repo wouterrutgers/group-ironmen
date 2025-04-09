@@ -84514,51 +84514,5 @@
     "name": "Rune pouch",
     "highalch": 0,
     "mapping": null
-  },
-  "30694": {
-    "name": "Castle wars arrow",
-    "highalch": 6,
-    "mapping": null,
-    "stacks": [
-      [
-        2,
-        30698
-      ],
-      [
-        3,
-        30699
-      ],
-      [
-        4,
-        30700
-      ],
-      [
-        5,
-        30701
-      ]
-    ]
-  },
-  "30696": {
-    "name": "Castle wars bolts",
-    "highalch": 6,
-    "mapping": null,
-    "stacks": [
-      [
-        2,
-        30702
-      ],
-      [
-        3,
-        30703
-      ],
-      [
-        4,
-        30704
-      ],
-      [
-        5,
-        30705
-      ]
-    ]
   }
 }
