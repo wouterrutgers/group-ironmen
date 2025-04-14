@@ -83219,47 +83219,112 @@
   "30342": {
     "name": "Infernal harpoon (or)",
     "highalch": 33000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 21031,
+        "quantity": 1
+      },
+      {
+        "id": 25090,
+        "quantity": 1
+      }
+    ]
   },
   "30343": {
     "name": "Infernal harpoon (uncharged)",
     "highalch": 33000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 21033,
+        "quantity": 1
+      },
+      {
+        "id": 25090,
+        "quantity": 1
+      }
+    ]
   },
   "30345": {
     "name": "Infernal pickaxe (or)",
     "highalch": 58770,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13243,
+        "quantity": 1
+      }
+    ]
   },
   "30346": {
     "name": "Infernal pickaxe (uncharged)",
     "highalch": 58770,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13244,
+        "quantity": 1
+      },
+      {
+        "id": 25090,
+        "quantity": 1
+      }
+    ]
   },
   "30347": {
     "name": "Infernal axe (or)",
     "highalch": 33000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13241,
+        "quantity": 1
+      }
+    ]
   },
   "30348": {
     "name": "Infernal axe (uncharged)",
     "highalch": 33000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13242,
+        "quantity": 1
+      },
+      {
+        "id": 25090,
+        "quantity": 1
+      }
+    ]
   },
   "30349": {
     "name": "Dragon harpoon (or)",
     "highalch": 33000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 21028,
+        "quantity": 1
+      }
+    ]
   },
   "30351": {
     "name": "Dragon pickaxe (or)",
     "highalch": 58770,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 11920,
+        "quantity": 1
+      },
+      {
+        "id": 25090,
+        "quantity": 1
+      }
+    ]
   },
   "30352": {
     "name": "Dragon axe (or)",
     "highalch": 33000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 6739,
+        "quantity": 1
+      }
+    ]
   },
   "30353": {
     "name": "Cabbage",
