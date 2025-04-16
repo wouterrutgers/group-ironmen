@@ -84625,5 +84625,95 @@
         30705
       ]
     ]
+  },
+  "30706": {
+    "name": "Fancy carrot",
+    "highalch": 6,
+    "mapping": null
+  },
+  "30707": {
+    "name": "Fancy carrot juice",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30708": {
+    "name": "Carrot juice glass",
+    "highalch": 1,
+    "mapping": null
+  },
+  "30709": {
+    "name": "Recipe for easter buns",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30710": {
+    "name": "Easter spices",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30711": {
+    "name": "Raisins",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30712": {
+    "name": "Yeastier dough",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30713": {
+    "name": "Special egg",
+    "highalch": 2,
+    "mapping": null
+  },
+  "30714": {
+    "name": "Uncooked easter bun",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30715": {
+    "name": "Easter bun",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30716": {
+    "name": "Grapes",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30717": {
+    "name": "Raisins",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30718": {
+    "name": "Jumbled script",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30719": {
+    "name": "Jumbled script",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30720": {
+    "name": "Carrot costume hat",
+    "highalch": 120,
+    "mapping": null
+  },
+  "30722": {
+    "name": "Carrot costume body",
+    "highalch": 24,
+    "mapping": null
+  },
+  "30724": {
+    "name": "Carrot costume tights",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30726": {
+    "name": "Carrot costume gloves",
+    "highalch": 0,
+    "mapping": null
   }
 }
