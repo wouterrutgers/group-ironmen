@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict();
 
         RateLimiter::for('global', function (Request $request) {
-            return Limit::perMinute(180)->by($request->user()?->id ?: $request->ip());
+            return Limit::perMinute(300)->by($request->user()?->id ?: $request->ip());
         });
     }
 }
