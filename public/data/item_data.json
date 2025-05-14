@@ -4834,6 +4834,11 @@
     "highalch": 0,
     "mapping": null
   },
+  "1460": {
+    "name": "Soul talisman",
+    "highalch": 2,
+    "mapping": null
+  },
   "1462": {
     "name": "Nature talisman",
     "highalch": 2,
@@ -84643,6 +84648,348 @@
   },
   "30726": {
     "name": "Carrot costume gloves",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30744": {
+    "name": "Oathplate armour set",
+    "highalch": 87000,
+    "mapping": null
+  },
+  "30747": {
+    "name": "Demon dung",
+    "highalch": 6,
+    "mapping": null
+  },
+  "30750": {
+    "name": "Oathplate helm",
+    "highalch": 120000,
+    "mapping": null
+  },
+  "30753": {
+    "name": "Oathplate chest",
+    "highalch": 360000,
+    "mapping": null
+  },
+  "30756": {
+    "name": "Oathplate legs",
+    "highalch": 240000,
+    "mapping": null
+  },
+  "30759": {
+    "name": "Soulflame horn",
+    "highalch": 132000,
+    "mapping": null
+  },
+  "30763": {
+    "name": "Forgotten lockbox",
+    "highalch": 60,
+    "mapping": null
+  },
+  "30765": {
+    "name": "Oathplate shards",
+    "highalch": 600,
+    "mapping": null,
+    "stacks": [
+      [
+        3,
+        30767
+      ],
+      [
+        5,
+        30768
+      ],
+      [
+        10,
+        30769
+      ],
+      [
+        20,
+        30770
+      ]
+    ]
+  },
+  "30771": {
+    "name": "Aether catalyst",
+    "highalch": 120,
+    "mapping": null
+  },
+  "30773": {
+    "name": "Diabolic worms",
+    "highalch": 54,
+    "mapping": null
+  },
+  "30775": {
+    "name": "Chasm teleport scroll",
+    "highalch": 6,
+    "mapping": null
+  },
+  "30777": {
+    "name": "Radiant oathplate helm",
+    "highalch": 120000,
+    "mapping": [
+      {
+        "id": 30750,
+        "quantity": 1
+      }
+    ]
+  },
+  "30779": {
+    "name": "Radiant oathplate chest",
+    "highalch": 360000,
+    "mapping": [
+      {
+        "id": 30753,
+        "quantity": 1
+      }
+    ]
+  },
+  "30781": {
+    "name": "Radiant oathplate legs",
+    "highalch": 240000,
+    "mapping": [
+      {
+        "id": 30756,
+        "quantity": 1
+      }
+    ]
+  },
+  "30783": {
+    "name": "Purifying sigil (left)",
+    "highalch": 5700,
+    "mapping": null
+  },
+  "30785": {
+    "name": "Purifying sigil (right)",
+    "highalch": 5700,
+    "mapping": null
+  },
+  "30787": {
+    "name": "Purifying sigil (middle)",
+    "highalch": 5700,
+    "mapping": null
+  },
+  "30789": {
+    "name": "Purifying sigil (top)",
+    "highalch": 5700,
+    "mapping": null
+  },
+  "30791": {
+    "name": "Purifying sigil (bottom)",
+    "highalch": 5700,
+    "mapping": null
+  },
+  "30793": {
+    "name": "Purifying sigil",
+    "highalch": 5700,
+    "mapping": null
+  },
+  "30795": {
+    "name": "Barrel of demonic tallow (full)",
+    "highalch": 300,
+    "mapping": null
+  },
+  "30798": {
+    "name": "Barrel of demonic tallow",
+    "highalch": 300,
+    "mapping": null
+  },
+  "30800": {
+    "name": "Demonic tallow",
+    "highalch": 300,
+    "mapping": null
+  },
+  "30803": {
+    "name": "Dossier",
+    "highalch": 6,
+    "mapping": null
+  },
+  "30805": {
+    "name": "Dossier",
+    "highalch": 6,
+    "mapping": null
+  },
+  "30806": {
+    "name": "Rite of vile transference",
+    "highalch": 24000,
+    "mapping": null
+  },
+  "30808": {
+    "name": "Jim's wet cloth",
+    "highalch": 6,
+    "mapping": null
+  },
+  "30810": {
+    "name": "Contract of glyphic attenuation",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30813": {
+    "name": "Contract of sensory clouding",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30816": {
+    "name": "Contract of bloodied blows",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30819": {
+    "name": "Contract of divine severance",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30822": {
+    "name": "Contract of forfeit breath",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30825": {
+    "name": "Contract of oathplate acquisition",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30828": {
+    "name": "Contract of shard acquisition",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30831": {
+    "name": "Contract of catalyst acquisition",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30834": {
+    "name": "Contract of worm acquisition",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30837": {
+    "name": "Contract of harmony acquisition",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30840": {
+    "name": "Contract of familiar acquisition",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30843": {
+    "name": "Aether rune",
+    "highalch": 180,
+    "mapping": null
+  },
+  "30846": {
+    "name": "Infernal shale",
+    "highalch": 48,
+    "mapping": null
+  },
+  "30848": {
+    "name": "Crushed infernal shale",
+    "highalch": 48,
+    "mapping": null,
+    "stacks": [
+      [
+        5,
+        30850
+      ],
+      [
+        15,
+        30851
+      ],
+      [
+        50,
+        30852
+      ],
+      [
+        100,
+        30853
+      ]
+    ]
+  },
+  "30854": {
+    "name": "Infernal blend",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30856": {
+    "name": "Malformed infernal blend",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30858": {
+    "name": "Infernal nugget",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30860": {
+    "name": "Cooled infernal chunk",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30862": {
+    "name": "Infernal chunk",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30864": {
+    "name": "Infernal plate",
+    "highalch": 12,
+    "mapping": null,
+    "stacks": [
+      [
+        1,
+        30866
+      ],
+      [
+        2,
+        30867
+      ],
+      [
+        3,
+        30868
+      ],
+      [
+        4,
+        30869
+      ],
+      [
+        5,
+        30870
+      ],
+      [
+        6,
+        30871
+      ]
+    ]
+  },
+  "30875": {
+    "name": "Surge potion(4)",
+    "highalch": 150,
+    "mapping": null
+  },
+  "30878": {
+    "name": "Surge potion(3)",
+    "highalch": 102,
+    "mapping": null
+  },
+  "30881": {
+    "name": "Surge potion(2)",
+    "highalch": 54,
+    "mapping": null
+  },
+  "30884": {
+    "name": "Surge potion(1)",
+    "highalch": 24,
+    "mapping": null
+  },
+  "30887": {
+    "name": "Polycatalytic guardian stone",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30888": {
+    "name": "Yami",
     "highalch": 0,
     "mapping": null
   }
