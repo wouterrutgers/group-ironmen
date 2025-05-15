@@ -26,22 +26,19 @@ class GroupMemberController extends Controller
         $name = $validated['name'];
         $groupId = app('group')->id;
 
-        // Check if name is not the reserved SHARED_MEMBER
         if ($name === Member::SHARED_MEMBER) {
             return response()->json([
-                'error' => 'Member name '.Member::SHARED_MEMBER.' not allowed',
+                'error' => "Member name {$name} not allowed",
             ], 400);
         }
 
-        // Validate name
         if (! Validators::validName($name)) {
             return response()->json([
                 'error' => "Member name {$name} is not valid",
             ], 400);
         }
 
-        // Check member count
-        $memberCount = Member::where('group_id', $groupId)
+        $memberCount = Member::where('group_id', '=', $groupId)
             ->where('name', '!=', Member::SHARED_MEMBER)
             ->count();
 
@@ -51,7 +48,6 @@ class GroupMemberController extends Controller
             ], 400);
         }
 
-        // Add member to database
         Member::create([
             'group_id' => $groupId,
             'name' => $name,
@@ -71,26 +67,21 @@ class GroupMemberController extends Controller
 
         if ($name === Member::SHARED_MEMBER) {
             return response()->json([
-                'error' => 'Member name '.Member::SHARED_MEMBER.' not allowed',
+                'error' => "Member name {$name} not allowed",
             ], 400);
         }
 
-        DB::transaction(function () use ($groupId, $name) {
-            // Get member ID
-            $member = Member::where('group_id', $groupId)
-                ->where('name', $name)
+        DB::transaction(function () use ($groupId, $name): void {
+            $member = Member::where('group_id', '=', $groupId)
+                ->where('name', '=', $name)
                 ->firstOrFail();
 
             $memberId = $member->id;
 
-            // Delete skills data for all periods
-            SkillStat::where('member_id', $memberId)->delete();
+            SkillStat::where('member_id', '=', $memberId)->delete();
+            CollectionLog::where('member_id', '=', $memberId)->delete();
+            NewCollectionLog::where('member_id', '=', $memberId)->delete();
 
-            // Delete collection log data
-            CollectionLog::where('member_id', $memberId)->delete();
-            NewCollectionLog::where('member_id', $memberId)->delete();
-
-            // Delete the member
             $member->delete();
         });
 
@@ -120,11 +111,11 @@ class GroupMemberController extends Controller
             ], 400);
         }
 
-        $updated = Member::where('group_id', $groupId)
-            ->where('name', $originalName)
+        $updated = Member::where('group_id', '=', $groupId)
+            ->where('name', '=', $originalName)
             ->update(['name' => $newName]);
 
-        if (! $updated) {
+        if ($updated === 0) {
             return response()->json(['error' => 'Member not found'], 404);
         }
 
@@ -155,18 +146,16 @@ class GroupMemberController extends Controller
         $name = $validated['name'];
         $groupId = app('group')->id;
 
-        // Check if member is in group
-        $member = Member::where('group_id', $groupId)
-            ->where('name', $name)
+        $member = Member::where('group_id', '=', $groupId)
+            ->where('name', '=', $name)
             ->first();
 
-        if (! $member) {
+        if (is_null($member)) {
             return response()->json([
                 'error' => 'Player is not a member of this group',
             ], 401);
         }
 
-        // Validate all member properties
         Validators::validateMemberPropLength('stats', $validated['stats'] ?? null, 7, 7);
         Validators::validateMemberPropLength('coordinates', $validated['coordinates'] ?? null, 3, 3);
         Validators::validateMemberPropLength('skills', $validated['skills'] ?? null, 23, 24);
@@ -180,37 +169,30 @@ class GroupMemberController extends Controller
         Validators::validateMemberPropLength('deposited', $validated['deposited'] ?? null, 0, 200);
         Validators::validateMemberPropLength('diary_vars', $validated['diary_vars'] ?? null, 0, 62);
 
-        // Get collection log info
         $collectionLogInfo = CollectionLogInfo::make();
-
-        // Clone the collection log data for validation
         $collectionLogData = $validated['collection_log'] ?? null;
 
-        // Validate collection log data using direct validation to match Rust implementation
         try {
-            if ($collectionLogData !== null) {
+            if (! is_null($collectionLogData)) {
                 foreach ($collectionLogData as $key => $log) {
-                    // Check if page exists
                     $pageId = $collectionLogInfo->page_name_to_id($log['page_name'] ?? '');
-                    if ($pageId === null) {
-                        throw new Exception('Invalid collection log page: '.($log['page_name'] ?? 'unknown'));
+                    if (is_null($pageId)) {
+                        throw new Exception("Invalid collection log page: {$log['page_name']}");
                     }
 
-                    // Check number of items (assuming pairs of item_id, quantity)
                     if (isset($log['items'])) {
                         $numberOfItems = count($log['items']) / 2;
                         $maxItems = $collectionLogInfo->number_of_items_in_page($pageId);
                         if ($numberOfItems > $maxItems) {
-                            throw new Exception("$numberOfItems is too many items for collection log {$log['page_name']}");
+                            throw new Exception("{$numberOfItems} is too many items for collection log {$log['page_name']}");
                         }
 
-                        // Remap and validate each item ID (only checking even indices)
                         for ($i = 0; $i < count($log['items']); $i += 2) {
                             $itemId = $collectionLogInfo->remap_item_id($log['items'][$i]);
-                            $collectionLogData[$key]['items'][$i] = $itemId; // Update with remapped ID
+                            $collectionLogData[$key]['items'][$i] = $itemId;
 
                             if (! $collectionLogInfo->has_item($pageId, $itemId)) {
-                                throw new Exception("Collection log {$log['page_name']} does not have item id $itemId");
+                                throw new Exception("Collection log {$log['page_name']} does not have item id {$itemId}");
                             }
                         }
                     }
@@ -222,60 +204,49 @@ class GroupMemberController extends Controller
             ], 400);
         }
 
-        DB::transaction(function () use ($member, $groupId, $validated, $collectionLogInfo, $collectionLogData) {
+        DB::transaction(function () use ($member, $groupId, $validated, $collectionLogInfo, $collectionLogData): void {
             $now = now();
 
-            // Update member data
-            if (isset($validated['stats'])) {
+            if (! is_null($validated['stats'] ?? null)) {
                 $member->stats = $validated['stats'];
                 $member->stats_last_update = $now;
             }
-
-            if (isset($validated['coordinates'])) {
+            if (! is_null($validated['coordinates'] ?? null)) {
                 $member->coordinates = $validated['coordinates'];
                 $member->coordinates_last_update = $now;
             }
-
-            if (isset($validated['skills'])) {
+            if (! is_null($validated['skills'] ?? null)) {
                 $member->skills = $validated['skills'];
                 $member->skills_last_update = $now;
             }
-
-            if (isset($validated['quests'])) {
+            if (! is_null($validated['quests'] ?? null)) {
                 $member->quests = $validated['quests'];
                 $member->quests_last_update = $now;
             }
-
-            if (isset($validated['inventory'])) {
+            if (! is_null($validated['inventory'] ?? null)) {
                 $member->inventory = $validated['inventory'];
                 $member->inventory_last_update = $now;
             }
-
-            if (isset($validated['equipment'])) {
+            if (! is_null($validated['equipment'] ?? null)) {
                 $member->equipment = $validated['equipment'];
                 $member->equipment_last_update = $now;
             }
-
-            if (isset($validated['bank'])) {
+            if (! is_null($validated['bank'] ?? null)) {
                 $member->bank = $validated['bank'];
                 $member->bank_last_update = $now;
             }
-
-            if (isset($validated['rune_pouch'])) {
+            if (! is_null($validated['rune_pouch'] ?? null)) {
                 $member->rune_pouch = $validated['rune_pouch'];
                 $member->rune_pouch_last_update = $now;
             }
-
-            if (isset($validated['seed_vault'])) {
+            if (! is_null($validated['seed_vault'] ?? null)) {
                 $member->seed_vault = $validated['seed_vault'];
                 $member->seed_vault_last_update = $now;
             }
-
-            if (isset($validated['diary_vars'])) {
+            if (! is_null($validated['diary_vars'] ?? null)) {
                 $member->diary_vars = $validated['diary_vars'];
                 $member->diary_vars_last_update = $now;
             }
-
             if (isset($validated['interacting'])) {
                 $member->interacting = $validated['interacting'];
                 $member->interacting_last_update = $now;
@@ -283,28 +254,24 @@ class GroupMemberController extends Controller
 
             $member->save();
 
-            // Process deposited items
-            if (! empty($validated['deposited'])) {
+            if (! empty($validated['deposited'] ?? [])) {
                 $this->depositItems($groupId, $member->name, $validated['deposited']);
             }
 
-            // Update shared bank
-            if (! empty($validated['shared_bank'])) {
-                Member::where('group_id', $groupId)
-                    ->where('name', Member::SHARED_MEMBER)
+            if (! empty($validated['shared_bank'] ?? [])) {
+                Member::where('group_id', '=', $groupId)
+                    ->where('name', '=', Member::SHARED_MEMBER)
                     ->update([
                         'bank' => $validated['shared_bank'],
                         'bank_last_update' => $now,
                     ]);
             }
 
-            // Update collection log - use the validated and potentially modified collection log data
-            if ($collectionLogData !== null) {
+            if (! is_null($collectionLogData)) {
                 $this->updateCollectionLog($groupId, $member, $collectionLogData, $collectionLogInfo);
             }
 
-            // Update new collection log drops
-            if (! empty($validated['collection_log_new'])) {
+            if (! empty($validated['collection_log_new'] ?? [])) {
                 $this->updateCollectionLogNew($groupId, $member, $validated['collection_log_new'], $collectionLogInfo);
             }
         });
@@ -312,9 +279,6 @@ class GroupMemberController extends Controller
         return response()->json(null, 200);
     }
 
-    /**
-     * Update collection log items and completion counts
-     */
     protected function updateCollectionLog(int $groupId, Member $member, array $collectionLogs, CollectionLogInfo $collectionLogInfo): void
     {
         $now = now();
@@ -322,11 +286,10 @@ class GroupMemberController extends Controller
         foreach ($collectionLogs as $log) {
             $pageId = $collectionLogInfo->page_name_to_id($log['page_name']);
 
-            if ($pageId === null) {
+            if (is_null($pageId)) {
                 continue;
             }
 
-            // Update or create collection log entry
             CollectionLog::updateOrCreate(
                 [
                     'member_id' => $member->id,
@@ -339,7 +302,6 @@ class GroupMemberController extends Controller
                 ]
             );
 
-            // Clear new items for this page
             NewCollectionLog::updateOrCreate(
                 [
                     'member_id' => $member->id,
@@ -353,24 +315,19 @@ class GroupMemberController extends Controller
         }
     }
 
-    /**
-     * Update new collection log items
-     */
     protected function updateCollectionLogNew(int $groupId, Member $member, array $collectionLogNew, CollectionLogInfo $collectionLogInfo): void
     {
         $now = now();
 
-        // Convert item names to IDs
         $itemIds = [];
         foreach ($collectionLogNew as $itemName) {
             $itemId = $collectionLogInfo->item_name_to_id($itemName);
-            if ($itemId === null) {
+            if (is_null($itemId)) {
                 throw new Exception("{$itemName} is not a known collection log item");
             }
             $itemIds[] = $itemId;
         }
 
-        // Map page IDs to item IDs
         $pageIdsToItemIds = [];
         foreach ($itemIds as $itemId) {
             $pageIds = $collectionLogInfo->page_ids_for_item($itemId);
@@ -382,15 +339,10 @@ class GroupMemberController extends Controller
             }
         }
 
-        // Update the new items for each page
         foreach ($pageIdsToItemIds as $pageId => $pageItemIds) {
-            // Get existing items
             $existingItems = $this->getCollectionNewForPage($member->id, $pageId);
-
-            // Combine existing and new items
             $combinedItems = array_values(array_unique(array_merge($existingItems, array_keys($pageItemIds))));
 
-            // Update the collection log new table
             NewCollectionLog::updateOrCreate(
                 [
                     'member_id' => $member->id,
@@ -404,38 +356,31 @@ class GroupMemberController extends Controller
         }
     }
 
-    /**
-     * Get collection new items for a page
-     */
     protected function getCollectionNewForPage(int $memberId, int $pageId): array
     {
-        $result = NewCollectionLog::where('member_id', $memberId)
-            ->where('collection_page_id', $pageId)
+        $result = NewCollectionLog::where('member_id', '=', $memberId)
+            ->where('collection_page_id', '=', $pageId)
             ->value('items');
 
         return $result ?? [];
     }
 
-    /**
-     * Add deposited items to the player's bank
-     */
     protected function depositItems(int $groupId, string $memberName, array $deposited): void
     {
         if (empty($deposited)) {
             return;
         }
 
-        $member = Member::where('group_id', $groupId)
-            ->where('name', $memberName)
+        $member = Member::where('group_id', '=', $groupId)
+            ->where('name', '=', $memberName)
             ->first();
 
-        if (! $member) {
+        if (is_null($member)) {
             return;
         }
 
         $bankItems = $member->bank ?? [];
 
-        // Convert deposited items to a map of item_id => quantity
         $depositedMap = [];
         for ($i = 0; $i < count($deposited); $i += 2) {
             $itemId = $deposited[$i];
@@ -443,7 +388,6 @@ class GroupMemberController extends Controller
             $depositedMap[$itemId] = $quantity;
         }
 
-        // Update quantities of items already in bank
         for ($i = 0; $i < count($bankItems); $i += 2) {
             $itemId = $bankItems[$i];
             if (isset($depositedMap[$itemId])) {
@@ -452,17 +396,14 @@ class GroupMemberController extends Controller
             }
         }
 
-        // Add new items to bank
         foreach ($depositedMap as $itemId => $quantity) {
-            if ($itemId == 0 || $quantity <= 0) {
+            if ($itemId === 0 || $quantity <= 0) {
                 continue;
             }
-
             $bankItems[] = $itemId;
             $bankItems[] = $quantity;
         }
 
-        // Update bank in database
         $member->bank = $bankItems;
         $member->bank_last_update = now();
         $member->save();
@@ -477,7 +418,7 @@ class GroupMemberController extends Controller
         $fromTime = Carbon::parse($validated['from_time']);
         $groupId = app('group')->id;
 
-        $query = Member::where('group_id', $groupId)
+        $query = Member::where('group_id', '=', $groupId)
             ->selectRaw('name')
             ->selectRaw('GREATEST(
                     stats_last_update,
@@ -509,7 +450,7 @@ class GroupMemberController extends Controller
         $result = $members->map(function ($member) {
             return [
                 'name' => $member->name,
-                'last_updated' => Carbon::make($member->last_updated)?->toIso8601ZuluString(),
+                'last_updated' => is_null($member->last_updated) ? null : Carbon::make($member->last_updated)->toIso8601ZuluString(),
                 'stats' => $member->stats,
                 'coordinates' => $member->coordinates,
                 'skills' => $member->skills,
@@ -542,31 +483,31 @@ class GroupMemberController extends Controller
 
         $aggregatePeriod = match ($period) {
             'Day' => AggregatePeriod::Day,
-            'Week' => AggregatePeriod::Month, // Week uses month data as per Rust implementation
+            'Week' => AggregatePeriod::Month,
             'Month' => AggregatePeriod::Month,
             'Year' => AggregatePeriod::Year,
-            default => AggregatePeriod::Day
+            default => AggregatePeriod::Day,
         };
 
-        // Use Eloquent relationships to get skill stats
-        $members = Member::where('group_id', $groupId)
+        $members = Member::where('group_id', '=', $groupId)
             ->with(['skillStats' => function ($query) use ($aggregatePeriod) {
-                $query->where('type', $aggregatePeriod->value)
+                $query->where('type', '=', $aggregatePeriod->value)
                     ->orderBy('created_at');
             }])
             ->get();
 
-        // Organize data by member
         $memberData = [];
         foreach ($members as $member) {
+            $skillData = $member->skillStats->map(function ($stat) {
+                return [
+                    'time' => Carbon::make($stat->created_at)->toIso8601ZuluString(),
+                    'data' => $stat->skills,
+                ];
+            })->toArray();
+
             $memberData[] = [
                 'name' => $member->name,
-                'skill_data' => $member->skillStats->map(function ($stat) {
-                    return [
-                        'time' => Carbon::make($stat->created_at)->toIso8601ZuluString(),
-                        'data' => $stat->skills,
-                    ];
-                })->toArray(),
+                'skill_data' => $skillData,
             ];
         }
 
@@ -579,35 +520,29 @@ class GroupMemberController extends Controller
     {
         $groupId = app('group')->id;
 
-        // Get collection logs with their related members and pages
         $logs = CollectionLog::with(['member', 'page'])
             ->whereHas('member.group', function ($query) use ($groupId) {
-                $query->where('group_id', $groupId);
+                $query->where('group_id', '=', $groupId);
             })
             ->get();
 
-        // Get new collection log items
         $newLogs = NewCollectionLog::with('member')
             ->whereHas('member.group', function ($query) use ($groupId) {
-                $query->where('group_id', $groupId);
+                $query->where('group_id', '=', $groupId);
             })
             ->get();
 
-        // Build lookup for new items
         $newItemsLookup = [];
         foreach ($newLogs as $newLog) {
             $key = "{$newLog->member_id}_{$newLog->collection_page_id}";
             $newItemsLookup[$key] = $newLog->items ?? [];
         }
 
-        // Build the final result
         $result = [];
         foreach ($logs as $log) {
             $memberName = $log->member->name;
             $pageId = $log->collection_page_id;
             $memberId = $log->member_id;
-
-            // Get new items for this page and member (if any)
             $key = "{$memberId}_{$pageId}";
             $newItems = $newItemsLookup[$key] ?? [];
 
@@ -618,7 +553,6 @@ class GroupMemberController extends Controller
                 'new_items' => $newItems,
             ];
 
-            // Add to result
             if (! isset($result[$memberName])) {
                 $result[$memberName] = [];
             }
@@ -643,11 +577,11 @@ class GroupMemberController extends Controller
         $memberName = $validated['name'];
         $groupId = app('group')->id;
 
-        $memberExists = Member::where('group_id', $groupId)
-            ->where('name', $memberName)
+        $memberExists = Member::where('group_id', '=', $groupId)
+            ->where('name', '=', $memberName)
             ->exists();
 
-        if (! $memberExists) {
+        if ($memberExists === false) {
             return response()->json([
                 'error' => 'Player is not a member of this group',
             ], 401);

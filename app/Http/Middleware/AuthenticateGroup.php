@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Group;
 use Closure;
-use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,41 +15,53 @@ class AuthenticateGroup
     public function handle(Request $request, Closure $next): mixed
     {
         if (! is_null($this->groupId)) {
-            app()->instance('group', Group::findOrFail($this->groupId));
+            $group = Group::findOrFail($this->groupId);
+
+            app()->instance('group', $group);
 
             return $next($request);
         }
 
-        $group = $request->route('group');
+        $routeGroup = $request->route('group');
+
+        if (! $routeGroup) {
+            return $this->badRequest('Missing group name from request');
+        }
+
+        if ($routeGroup === '_') {
+            return $next($request);
+        }
+
+        $token = $request->header('Authorization');
+
+        if (! $token) {
+            return $this->badRequest('Authorization header missing from request');
+        }
+
+        $group = Group::where('name', '=', $routeGroup)
+            ->where('hash', '=', $token)
+            ->first();
 
         if (! $group) {
-            return response()->json([
-                'message' => 'Missing group name from request',
-            ], Response::HTTP_BAD_REQUEST);
+            return $this->unauthorized();
         }
 
-        if ($group !== '_') {
-            $token = $request->header('Authorization');
-
-            if (! $token) {
-                return response()->json([
-                    'message' => 'Authorization header missing from request',
-                ], Response::HTTP_BAD_REQUEST);
-            }
-
-            try {
-                $group = Group::where('name', '=', $group)
-                    ->where('hash', '=', $token)
-                    ->firstOrFail();
-
-                app()->instance('group', $group);
-            } catch (Exception) {
-                return response()->json([
-                    'message' => 'Unauthorized',
-                ], Response::HTTP_UNAUTHORIZED);
-            }
-        }
+        app()->instance('group', $group);
 
         return $next($request);
+    }
+
+    protected function badRequest(string $message): JsonResponse
+    {
+        return response()->json([
+            'message' => $message,
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
+    protected function unauthorized(): JsonResponse
+    {
+        return response()->json([
+            'message' => 'Unauthorized',
+        ], Response::HTTP_UNAUTHORIZED);
     }
 }
