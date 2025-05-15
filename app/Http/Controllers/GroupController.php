@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
-    /**
-     * Create a new group
-     */
     public function createGroup(Request $request): JsonResponse
     {
         $validated = $request->validate([

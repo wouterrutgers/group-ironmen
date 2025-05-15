@@ -3,28 +3,29 @@
 namespace App\Domain;
 
 use App\Models\CollectionPage;
+use Exception;
 
 class CollectionLogInfo
 {
     protected static ?self $instance = null;
 
-    protected array $page_name_to_id_lookup = [];
+    protected array $pageNameToIdLookup = [];
 
-    protected array $page_id_item_set_lookup = [];
+    protected array $pageIdItemSetLookup = [];
 
-    protected array $item_name_to_id_lookup = [];
+    protected array $itemNameToIdLookup = [];
 
-    protected array $item_id_to_page_id_lookup = [];
+    protected array $itemIdToPageIdLookup = [];
 
-    protected static array $collection_page_remap = [
+    protected static array $collectionPageRemap = [
         'The Grumbler' => 'Phantom Muspah',
     ];
 
-    protected static array $collection_item_remap = [
+    protected static array $collectionItemRemap = [
         'Pharaoh\'s sceptre' => 'Pharaoh\'s sceptre (uncharged)',
     ];
 
-    protected static array $collection_item_id_remap = [
+    protected static array $collectionItemIdRemap = [
         25627 => 12019, // coal bag
         25628 => 12020, // gem bag
         25629 => 24882, // plank sack
@@ -39,7 +40,7 @@ class CollectionLogInfo
         25630 => 12854, // Flamtaer bag
     ];
 
-    protected static ?array $collection_log_info = null;
+    protected static ?array $collectionLogInfo = null;
 
     public function __construct()
     {
@@ -61,31 +62,31 @@ class CollectionLogInfo
         $pages = CollectionPage::get();
 
         foreach ($pages as $page) {
-            $this->page_name_to_id_lookup[$page->name] = $page->id;
+            $this->pageNameToIdLookup[$page->name] = $page->id;
         }
 
-        $this->item_id_to_page_id_lookup = [];
-        $this->item_name_to_id_lookup = [];
-        $this->page_id_item_set_lookup = [];
+        $this->itemIdToPageIdLookup = [];
+        $this->itemNameToIdLookup = [];
+        $this->pageIdItemSetLookup = [];
 
         foreach (self::getCollectionLogInfo() as $tab) {
             foreach ($tab['pages'] as $page) {
-                $page_id = $this->getPageIdFromPageArray($page);
-                if ($page_id === null) {
+                $pageId = $this->getPageIdFromPageArray($page);
+                if (is_null($pageId)) {
                     continue;
                 }
 
-                if (!isset($this->page_id_item_set_lookup[$page_id])) {
-                    $this->page_id_item_set_lookup[$page_id] = [];
+                if (! array_key_exists($pageId, $this->pageIdItemSetLookup)) {
+                    $this->pageIdItemSetLookup[$pageId] = [];
                 }
 
                 foreach ($page['items'] as $item) {
-                    $this->item_name_to_id_lookup[$item['name']] = $item['id'];
-                    $this->page_id_item_set_lookup[$page_id][$item['id']] = true;
-                    if (!isset($this->item_id_to_page_id_lookup[$item['id']])) {
-                        $this->item_id_to_page_id_lookup[$item['id']] = [];
+                    $this->itemNameToIdLookup[$item['name']] = $item['id'];
+                    $this->pageIdItemSetLookup[$pageId][$item['id']] = true;
+                    if (! array_key_exists($item['id'], $this->itemIdToPageIdLookup)) {
+                        $this->itemIdToPageIdLookup[$item['id']] = [];
                     }
-                    $this->item_id_to_page_id_lookup[$item['id']][$page_id] = true;
+                    $this->itemIdToPageIdLookup[$item['id']][$pageId] = true;
                 }
             }
         }
@@ -93,14 +94,14 @@ class CollectionLogInfo
 
     protected function getPageIdFromPageArray(array $page): ?int
     {
-        if (array_key_exists($page['name'], $this->page_name_to_id_lookup)) {
-            return $this->page_name_to_id_lookup[$page['name']];
+        if (array_key_exists($page['name'], $this->pageNameToIdLookup)) {
+            return $this->pageNameToIdLookup[$page['name']];
         }
 
-        if (array_key_exists($page['name'], self::$collection_page_remap)) {
-            $remapped_name = self::$collection_page_remap[$page['name']];
-            if (array_key_exists($remapped_name, $this->page_name_to_id_lookup)) {
-                return $this->page_name_to_id_lookup[$remapped_name];
+        if (array_key_exists($page['name'], self::$collectionPageRemap)) {
+            $remappedName = self::$collectionPageRemap[$page['name']];
+            if (array_key_exists($remappedName, $this->pageNameToIdLookup)) {
+                return $this->pageNameToIdLookup[$remappedName];
             }
         }
 
@@ -109,16 +110,16 @@ class CollectionLogInfo
 
     protected static function loadCollectionLogData(): array
     {
-        if (self::$collection_log_info === null) {
+        if (is_null(self::$collectionLogInfo)) {
             $path = storage_path('cache/collection_log_info.json');
             $jsonData = file_get_contents($path);
             if ($jsonData === false) {
-                throw new \Exception("Could not read collection log info file at {$path}");
+                throw new Exception("Could not read collection log info file at {$path}");
             }
-            self::$collection_log_info = json_decode($jsonData, true);
+            self::$collectionLogInfo = json_decode($jsonData, true);
         }
 
-        return self::$collection_log_info;
+        return self::$collectionLogInfo;
     }
 
     public static function getCollectionLogInfo(): array
@@ -126,67 +127,69 @@ class CollectionLogInfo
         return self::loadCollectionLogData();
     }
 
-    public function page_name_to_id(string $page_name): ?int
+    public function pageNameToId(string $pageName): ?int
     {
-        if (array_key_exists($page_name, $this->page_name_to_id_lookup)) {
-            return $this->page_name_to_id_lookup[$page_name];
+        if (array_key_exists($pageName, $this->pageNameToIdLookup)) {
+            return $this->pageNameToIdLookup[$pageName];
         }
 
-        if (array_key_exists($page_name, self::$collection_page_remap)) {
-            $remapped_name = self::$collection_page_remap[$page_name];
-            return $this->page_name_to_id_lookup[$remapped_name] ?? null;
+        if (array_key_exists($pageName, self::$collectionPageRemap)) {
+            $remappedName = self::$collectionPageRemap[$pageName];
+
+            return $this->pageNameToIdLookup[$remappedName] ?? null;
         }
 
         return null;
     }
 
-    public function has_item(int $page_id, int $item_id): bool
+    public function hasItem(int $pageId, int $itemId): bool
     {
-        if (!array_key_exists($page_id, $this->page_id_item_set_lookup)) {
+        if (! array_key_exists($pageId, $this->pageIdItemSetLookup)) {
             return false;
         }
 
-        return array_key_exists($item_id, $this->page_id_item_set_lookup[$page_id]);
+        return array_key_exists($itemId, $this->pageIdItemSetLookup[$pageId]);
     }
 
-    public function remap_item_id(int $item_id): int
+    public function remapItemId(int $itemId): int
     {
-        if (array_key_exists($item_id, self::$collection_item_id_remap)) {
-            return self::$collection_item_id_remap[$item_id];
+        if (array_key_exists($itemId, self::$collectionItemIdRemap)) {
+            return self::$collectionItemIdRemap[$itemId];
         }
 
-        return $item_id;
+        return $itemId;
     }
 
-    public function item_name_to_id(string $item_name): ?int
+    public function itemNameToId(string $itemName): ?int
     {
-        if (array_key_exists($item_name, $this->item_name_to_id_lookup)) {
-            return $this->item_name_to_id_lookup[$item_name];
+        if (array_key_exists($itemName, $this->itemNameToIdLookup)) {
+            return $this->itemNameToIdLookup[$itemName];
         }
 
-        if (array_key_exists($item_name, self::$collection_item_remap)) {
-            $remapped_name = self::$collection_item_remap[$item_name];
-            return $this->item_name_to_id_lookup[$remapped_name] ?? null;
+        if (array_key_exists($itemName, self::$collectionItemRemap)) {
+            $remappedName = self::$collectionItemRemap[$itemName];
+
+            return $this->itemNameToIdLookup[$remappedName] ?? null;
         }
 
         return null;
     }
 
-    public function page_ids_for_item(int $item_id): array
+    public function pageIdsForItem(int $itemId): array
     {
-        if (!array_key_exists($item_id, $this->item_id_to_page_id_lookup)) {
+        if (! array_key_exists($itemId, $this->itemIdToPageIdLookup)) {
             return [];
         }
 
-        return \array_keys($this->item_id_to_page_id_lookup[$item_id]);
+        return array_keys($this->itemIdToPageIdLookup[$itemId]);
     }
 
-    public function number_of_items_in_page(int $page_id): int
+    public function numberOfItemsInPage(int $pageId): int
     {
-        if (!array_key_exists($page_id, $this->page_id_item_set_lookup)) {
+        if (! array_key_exists($pageId, $this->pageIdItemSetLookup)) {
             return 0;
         }
 
-        return \count($this->page_id_item_set_lookup[$page_id]);
+        return count($this->pageIdItemSetLookup[$pageId]);
     }
 }

@@ -95,7 +95,7 @@ class AggregateSkills extends Command
                     [$member->skills_last_update]
                 )->time,
                 AggregatePeriod::Month => DB::selectOne(
-                    "SELECT DATE(?) as time",
+                    'SELECT DATE(?) as time',
                     [$member->skills_last_update]
                 )->time,
                 AggregatePeriod::Year => DB::selectOne(
