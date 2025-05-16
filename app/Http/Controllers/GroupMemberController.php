@@ -175,23 +175,23 @@ class GroupMemberController extends Controller
         try {
             if (! is_null($collectionLogData)) {
                 foreach ($collectionLogData as $key => $log) {
-                    $pageId = $collectionLogInfo->page_name_to_id($log['page_name'] ?? '');
+                    $pageId = $collectionLogInfo->pageNameToId($log['page_name'] ?? '');
                     if (is_null($pageId)) {
                         throw new Exception("Invalid collection log page: {$log['page_name']}");
                     }
 
                     if (isset($log['items'])) {
                         $numberOfItems = count($log['items']) / 2;
-                        $maxItems = $collectionLogInfo->number_of_items_in_page($pageId);
+                        $maxItems = $collectionLogInfo->numberOfItemsInPage($pageId);
                         if ($numberOfItems > $maxItems) {
                             throw new Exception("{$numberOfItems} is too many items for collection log {$log['page_name']}");
                         }
 
                         for ($i = 0; $i < count($log['items']); $i += 2) {
-                            $itemId = $collectionLogInfo->remap_item_id($log['items'][$i]);
+                            $itemId = $collectionLogInfo->remapItemId($log['items'][$i]);
                             $collectionLogData[$key]['items'][$i] = $itemId;
 
-                            if (! $collectionLogInfo->has_item($pageId, $itemId)) {
+                            if (! $collectionLogInfo->hasItem($pageId, $itemId)) {
                                 throw new Exception("Collection log {$log['page_name']} does not have item id {$itemId}");
                             }
                         }
@@ -284,7 +284,7 @@ class GroupMemberController extends Controller
         $now = now();
 
         foreach ($collectionLogs as $log) {
-            $pageId = $collectionLogInfo->page_name_to_id($log['page_name']);
+            $pageId = $collectionLogInfo->pageNameToId($log['page_name']);
 
             if (is_null($pageId)) {
                 continue;
@@ -321,7 +321,7 @@ class GroupMemberController extends Controller
 
         $itemIds = [];
         foreach ($collectionLogNew as $itemName) {
-            $itemId = $collectionLogInfo->item_name_to_id($itemName);
+            $itemId = $collectionLogInfo->itemNameToId($itemName);
             if (is_null($itemId)) {
                 throw new Exception("{$itemName} is not a known collection log item");
             }
@@ -330,7 +330,7 @@ class GroupMemberController extends Controller
 
         $pageIdsToItemIds = [];
         foreach ($itemIds as $itemId) {
-            $pageIds = $collectionLogInfo->page_ids_for_item($itemId);
+            $pageIds = $collectionLogInfo->pageIdsForItem($itemId);
             foreach ($pageIds as $pageId) {
                 if (! isset($pageIdsToItemIds[$pageId])) {
                     $pageIdsToItemIds[$pageId] = [];
