@@ -438,8 +438,8 @@ class GroupMemberController extends Controller
                     ->filter(fn ($d) => ! is_null($d))
                     ->max();
 
-            return [
-                'name' => $member->name,
+                return [
+                    'name' => $member->name,
                     'last_updated' => is_null($lastUpdated) ? null : Carbon::make($lastUpdated)->toIso8601ZuluString(),
                     'stats' => (! is_null($member->stats_last_update) && $member->stats_last_update >= $fromTime) ? $member->stats : null,
                     'coordinates' => (! is_null($member->coordinates_last_update) && $member->coordinates_last_update >= $fromTime) ? $member->coordinates : null,
@@ -454,12 +454,12 @@ class GroupMemberController extends Controller
                         : null,
                     'seed_vault' => (! is_null($member->seed_vault_last_update) && $member->seed_vault_last_update >= $fromTime) ? $member->seed_vault : null,
                     'diary_vars' => (! is_null($member->diary_vars_last_update) && $member->diary_vars_last_update >= $fromTime) ? $member->diary_vars : null,
-                'shared_bank' => null,
-                'deposited' => null,
-                'collection_log' => null,
-                'collection_log_new' => null,
-            ];
-        });
+                    'shared_bank' => null,
+                    'deposited' => null,
+                    'collection_log' => null,
+                    'collection_log_new' => null,
+                ];
+            });
 
         return response()->json($members);
     }

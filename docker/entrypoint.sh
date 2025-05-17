@@ -20,18 +20,13 @@ if [ ! -s ".env" ]; then
     php artisan key:generate --force
 fi
 
-# Create storage link
-if [ ! -L /var/www/public/storage ]; then
-    php artisan storage:link
-fi
-
-# Optimize application
+# Run artisan commands
+php artisan storage:link
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-
-# Run migrations if requested
 php artisan migrate --force
+php artisan update-collection-pages
 
 # Start PHP-FPM
 php-fpm -D

@@ -11,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         if (DB::getDriverName() === 'sqlite') {
-            DB::unprepared(<<<SQL
+            DB::unprepared(<<<'SQL'
                 PRAGMA auto_vacuum = incremental;
                 PRAGMA journal_mode = WAL;
                 PRAGMA page_size = 32768;
