@@ -5,15 +5,4 @@ services:
       - "80:80"
     volumes:
       - /path/to/gim/data/.env:/var/www/.env
-
-  db:
-    image: mysql:8.0
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: group_ironmen
-      MYSQL_USER: group_ironmen
-      MYSQL_PASSWORD: secret
-      MYSQL_RANDOM_ROOT_PASSWORD: true
-    volumes:
-      - /path/to/gim/data/database:/var/lib/mysql/
+      - /path/to/gim/data/database.sqlite:/var/www/database/database.sqlite

@@ -418,50 +418,42 @@ class GroupMemberController extends Controller
         $fromTime = Carbon::parse($validated['from_time']);
         $groupId = app('group')->id;
 
-        $query = Member::where('group_id', '=', $groupId)
-            ->selectRaw('name')
-            ->selectRaw('GREATEST(
-                    stats_last_update,
-                    coordinates_last_update,
-                    skills_last_update,
-                    quests_last_update,
-                    inventory_last_update,
-                    equipment_last_update,
-                    bank_last_update,
-                    rune_pouch_last_update,
-                    interacting_last_update,
-                    seed_vault_last_update,
-                    diary_vars_last_update
-                ) as last_updated')
-            ->selectRaw('CASE WHEN stats_last_update >= ? THEN stats ELSE NULL END as stats', [$fromTime])
-            ->selectRaw('CASE WHEN coordinates_last_update >= ? THEN coordinates ELSE NULL END as coordinates', [$fromTime])
-            ->selectRaw('CASE WHEN skills_last_update >= ? THEN skills ELSE NULL END as skills', [$fromTime])
-            ->selectRaw('CASE WHEN quests_last_update >= ? THEN quests ELSE NULL END as quests', [$fromTime])
-            ->selectRaw('CASE WHEN inventory_last_update >= ? THEN inventory ELSE NULL END as inventory', [$fromTime])
-            ->selectRaw('CASE WHEN equipment_last_update >= ? THEN equipment ELSE NULL END as equipment', [$fromTime])
-            ->selectRaw('CASE WHEN bank_last_update >= ? THEN bank ELSE NULL END as bank', [$fromTime])
-            ->selectRaw('CASE WHEN rune_pouch_last_update >= ? THEN rune_pouch ELSE NULL END as rune_pouch', [$fromTime])
-            ->selectRaw('CASE WHEN interacting_last_update >= ? THEN json_set(interacting, "$.last_updated", date_format(interacting_last_update, "%Y-%m-%dT%H:%i:%s.000Z")) ELSE NULL END as interacting', [$fromTime])
-            ->selectRaw('CASE WHEN seed_vault_last_update >= ? THEN seed_vault ELSE NULL END as seed_vault', [$fromTime])
-            ->selectRaw('CASE WHEN diary_vars_last_update >= ? THEN diary_vars ELSE NULL END as diary_vars', [$fromTime]);
+        $members = Member::where('group_id', '=', $groupId)
+            ->get()
+            ->map(function ($member) use ($fromTime) {
+                $dates = [
+                    $member->stats_last_update,
+                    $member->coordinates_last_update,
+                    $member->skills_last_update,
+                    $member->quests_last_update,
+                    $member->inventory_last_update,
+                    $member->equipment_last_update,
+                    $member->bank_last_update,
+                    $member->rune_pouch_last_update,
+                    $member->interacting_last_update,
+                    $member->seed_vault_last_update,
+                    $member->diary_vars_last_update,
+                ];
+                $lastUpdated = collect($dates)
+                    ->filter(fn ($d) => ! is_null($d))
+                    ->max();
 
-        $members = $query->get();
-
-        $result = $members->map(function ($member) {
             return [
                 'name' => $member->name,
-                'last_updated' => is_null($member->last_updated) ? null : Carbon::make($member->last_updated)->toIso8601ZuluString(),
-                'stats' => $member->stats,
-                'coordinates' => $member->coordinates,
-                'skills' => $member->skills,
-                'quests' => $member->quests,
-                'inventory' => $member->inventory,
-                'equipment' => $member->equipment,
-                'bank' => $member->bank,
-                'rune_pouch' => $member->rune_pouch,
-                'interacting' => $member->interacting,
-                'seed_vault' => $member->seed_vault,
-                'diary_vars' => $member->diary_vars,
+                    'last_updated' => is_null($lastUpdated) ? null : Carbon::make($lastUpdated)->toIso8601ZuluString(),
+                    'stats' => (! is_null($member->stats_last_update) && $member->stats_last_update >= $fromTime) ? $member->stats : null,
+                    'coordinates' => (! is_null($member->coordinates_last_update) && $member->coordinates_last_update >= $fromTime) ? $member->coordinates : null,
+                    'skills' => (! is_null($member->skills_last_update) && $member->skills_last_update >= $fromTime) ? $member->skills : null,
+                    'quests' => (! is_null($member->quests_last_update) && $member->quests_last_update >= $fromTime) ? $member->quests : null,
+                    'inventory' => (! is_null($member->inventory_last_update) && $member->inventory_last_update >= $fromTime) ? $member->inventory : null,
+                    'equipment' => (! is_null($member->equipment_last_update) && $member->equipment_last_update >= $fromTime) ? $member->equipment : null,
+                    'bank' => (! is_null($member->bank_last_update) && $member->bank_last_update >= $fromTime) ? $member->bank : null,
+                    'rune_pouch' => (! is_null($member->rune_pouch_last_update) && $member->rune_pouch_last_update >= $fromTime) ? $member->rune_pouch : null,
+                    'interacting' => (! is_null($member->interacting_last_update) && $member->interacting_last_update >= $fromTime)
+                        ? $this->withInteractingTimestamp($member->interacting, $member->interacting_last_update)
+                        : null,
+                    'seed_vault' => (! is_null($member->seed_vault_last_update) && $member->seed_vault_last_update >= $fromTime) ? $member->seed_vault : null,
+                    'diary_vars' => (! is_null($member->diary_vars_last_update) && $member->diary_vars_last_update >= $fromTime) ? $member->diary_vars : null,
                 'shared_bank' => null,
                 'deposited' => null,
                 'collection_log' => null,
@@ -469,7 +461,20 @@ class GroupMemberController extends Controller
             ];
         });
 
-        return response()->json($result);
+        return response()->json($members);
+    }
+
+    protected function withInteractingTimestamp($interacting, $lastUpdated)
+    {
+        if (is_null($interacting) || is_null($lastUpdated)) {
+            return $interacting;
+        }
+
+        if (is_array($interacting)) {
+            $interacting['last_updated'] = Carbon::make($lastUpdated)->toIso8601ZuluString();
+        }
+
+        return $interacting;
     }
 
     public function getSkillData(Request $request): JsonResponse

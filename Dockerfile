@@ -11,6 +11,8 @@ RUN apk add --no-cache \
     oniguruma-dev \
     zip \
     unzip \
+    sqlite-dev \
+    sqlite \
     && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/cfg/gpg/gpg.155B6D79CA56EA34.key' > /etc/apk/keys/caddy.key \
     && echo "https://dl.cloudsmith.io/public/caddy/stable/alpine/any-version/main" >> /etc/apk/repositories \
     && apk add --no-cache caddy
@@ -18,6 +20,7 @@ RUN apk add --no-cache \
 # Install PHP extensions
 RUN docker-php-ext-install -j$(nproc) \
     pdo_mysql \
+    pdo_sqlite \
     bcmath \
     zip \
     opcache

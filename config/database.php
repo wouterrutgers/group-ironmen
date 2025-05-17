@@ -51,6 +51,16 @@ return [
             ]) : [],
         ],
 
+        'sqlite' => [
+            'driver' => 'sqlite',
+            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            'options' => [
+                PDO::ATTR_TIMEOUT => 5,
+                PDO::SQLITE_ATTR_OPEN_FLAGS => PDO::SQLITE_OPEN_READWRITE | PDO::SQLITE_OPEN_CREATE,
+            ],
+        ],
+
     ],
 
     /*
