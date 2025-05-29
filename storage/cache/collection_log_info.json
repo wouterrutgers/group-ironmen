@@ -1734,6 +1734,10 @@
             "name": "Chasm teleport scroll"
           },
           {
+            "id": 30765,
+            "name": "Oathplate shards"
+          },
+          {
             "id": 30750,
             "name": "Oathplate helm"
           },
@@ -1748,10 +1752,6 @@
           {
             "id": 30759,
             "name": "Soulflame horn"
-          },
-          {
-            "id": 3140,
-            "name": "Dragon chainbody"
           },
           {
             "id": 30806,
@@ -6309,6 +6309,10 @@
           {
             "id": 30622,
             "name": "Bran"
+          },
+          {
+            "id": 30888,
+            "name": "Yami"
           }
         ]
       },
