@@ -1,4 +1,3 @@
-# Workflow to build and push Docker image to Docker Hub
 name: Push Docker Image
 
 on:
