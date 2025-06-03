@@ -14,8 +14,6 @@ return new class extends Migration
             $table->foreignId('collection_page_id')->constrained();
             $table->json('items');
             $table->json('counts');
-            // $table->timestamp('last_updated')->nullable();
-            // $table->foreignId('group_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

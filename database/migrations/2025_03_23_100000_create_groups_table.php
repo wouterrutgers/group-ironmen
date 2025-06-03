@@ -10,10 +10,8 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            // $table->bigInteger('group_id')->primary();
             $table->string('name')->index();
             $table->string('hash')->index();
-            // $table->integer('version')->default(1);
             $table->timestamps();
         });
     }

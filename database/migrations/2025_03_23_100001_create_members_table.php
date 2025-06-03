@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            // $table->bigInteger('member_id')->nullable(false);
             $table->foreignId('group_id')->constrained();
             $table->string('name');
             $table->dateTime('stats_last_update')->nullable();
