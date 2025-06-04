@@ -11,6 +11,11 @@ trap shutdown SIGTERM SIGINT
 echo "Installing dependencies..."
 composer install --no-interaction --optimize-autoloader --no-dev
 
+chown -R www-data:www-data /var/www
+
+find /var/www -type d -exec chmod 755 {} \;
+find /var/www -type f -exec chmod 644 {} \;
+
 if [ ! -s ".env" ]; then
     echo "Creating .env file..."
     cat .env.example > .env
