@@ -7,46 +7,41 @@ use App\Models\Member;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid;
 
 class GroupController extends Controller
 {
-    protected function createGroup(Request $request): JsonResponse
+    public function createGroup(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'name' => 'required|string',
-            'token' => 'required|string',
             'member_names' => 'required|array',
-            'member_names.*' => 'string',
         ]);
 
-        try {
-            DB::transaction(function () use ($validated) {
-                $group = Group::create([
-                    'group_name' => $validated['name'],
-                    'hash' => $validated['token'],
-                ]);
+        $group = Group::create([
+            'name' => $validated['name'],
+            'hash' => Uuid::uuid4(),
+        ]);
 
-                Member::create([
-                    'group_id' => $group->group_id,
-                    'member_name' => Member::SHARED_MEMBER,
-                ]);
+        Member::create([
+            'group_id' => $group->id,
+            'name' => Member::SHARED_MEMBER,
+        ]);
 
-                foreach ($validated['member_names'] as $memberName) {
-                    Member::create([
-                        'group_id' => $group->group_id,
-                        'member_name' => $memberName,
-                    ]);
-                }
-            });
-
-            return response()->json(['message' => 'Group created successfully'], 201);
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        foreach (array_filter($validated['member_names']) as $memberName) {
+            Member::create([
+                'group_id' => $group->id,
+                'name' => $memberName,
+            ]);
         }
+
+        return response()->json([
+            'name' => $validated['name'],
+            'token' => $group->hash,
+        ], 201);
     }
 
-    protected function getGroup(Request $request): JsonResponse
+    public function getGroup(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'group_name' => 'required|string',

@@ -10,18 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticateGroup
 {
-    protected ?int $groupId = 1;
-
     public function handle(Request $request, Closure $next): mixed
     {
-        if (! is_null($this->groupId)) {
-            $group = Group::findOrFail($this->groupId);
-
-            app()->instance('group', $group);
-
-            return $next($request);
-        }
-
         $routeGroup = $request->route('group');
 
         if (! $routeGroup) {
