@@ -84997,5 +84997,30 @@
     "name": "Rotten turnip",
     "highalch": 0,
     "mapping": null
+  },
+  "30891": {
+    "name": "Keris partisan of amascut",
+    "highalch": 180000,
+    "mapping": null
+  },
+  "30893": {
+    "name": "Jewel of amascut",
+    "highalch": 180000,
+    "mapping": null
+  },
+  "30895": {
+    "name": "Steel ring",
+    "highalch": 9000,
+    "mapping": null
+  },
+  "30898": {
+    "name": "Giant bones",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30900": {
+    "name": "Shark lure",
+    "highalch": 6,
+    "mapping": null
   }
 }

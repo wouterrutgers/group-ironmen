@@ -546,6 +546,18 @@
         ]
       },
       {
+        "name": "Deranged Archaeologist",
+        "completion_labels": [
+          "Deranged Archaeologist kills"
+        ],
+        "items": [
+          {
+            "id": 30895,
+            "name": "Steel ring"
+          }
+        ]
+      },
+      {
         "name": "Duke Sucellus",
         "completion_labels": [
           "Duke Sucellus kills"
@@ -2082,6 +2094,10 @@
           {
             "id": 27289,
             "name": "Jewel of the sun"
+          },
+          {
+            "id": 30893,
+            "name": "Jewel of amascut"
           },
           {
             "id": 27255,
