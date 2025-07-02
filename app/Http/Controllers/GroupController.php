@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Validators;
 use App\Models\Group;
 use App\Models\Member;
 use Exception;
@@ -17,6 +18,14 @@ class GroupController extends Controller
             'name' => 'required|string',
             'member_names' => 'required|array',
         ]);
+
+        foreach (array_filter($validated['member_names']) as $memberName) {
+            if (! Validators::validName($memberName)) {
+                return response()->json([
+                    'error' => "Invalid member name: {$memberName}",
+                ], 422);
+            }
+        }
 
         $group = Group::create([
             'name' => $validated['name'],

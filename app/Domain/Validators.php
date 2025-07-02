@@ -8,7 +8,7 @@ class Validators
 {
     public static function validName(string $name): bool
     {
-        return preg_match('/^[a-zA-Z0-9_\-]{1,12}$/', $name);
+        return preg_match('/^[a-zA-Z0-9_\-\s]{1,12}$/', $name);
     }
 
     public static function validateMemberPropLength(string $propName, ?array $prop, int $minLength, int $maxLength): void
