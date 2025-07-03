@@ -4885,6 +4885,64 @@
             "name": "Purple sweets"
           }
         ]
+      },
+      {
+        "name": "Scroll Cases",
+        "completion_labels": [],
+        "items": [
+          {
+            "id": 30902,
+            "name": "Minor beginner scroll case"
+          },
+          {
+            "id": 30904,
+            "name": "Major beginner scroll case"
+          },
+          {
+            "id": 30906,
+            "name": "Minor easy scroll case"
+          },
+          {
+            "id": 30908,
+            "name": "Major easy scroll case"
+          },
+          {
+            "id": 30910,
+            "name": "Minor medium scroll case"
+          },
+          {
+            "id": 30912,
+            "name": "Major medium scroll case"
+          },
+          {
+            "id": 30914,
+            "name": "Minor hard scroll case"
+          },
+          {
+            "id": 30916,
+            "name": "Major hard scroll case"
+          },
+          {
+            "id": 30918,
+            "name": "Minor elite scroll case"
+          },
+          {
+            "id": 30920,
+            "name": "Major elite scroll case"
+          },
+          {
+            "id": 30922,
+            "name": "Minor master scroll case"
+          },
+          {
+            "id": 30924,
+            "name": "Major master scroll case"
+          },
+          {
+            "id": 30926,
+            "name": "Mimic scroll case"
+          }
+        ]
       }
     ]
   },

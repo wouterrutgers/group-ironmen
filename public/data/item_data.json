@@ -85022,5 +85022,70 @@
     "name": "Shark lure",
     "highalch": 6,
     "mapping": null
+  },
+  "30902": {
+    "name": "Minor beginner scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30904": {
+    "name": "Major beginner scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30906": {
+    "name": "Minor easy scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30908": {
+    "name": "Major easy scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30910": {
+    "name": "Minor medium scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30912": {
+    "name": "Major medium scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30914": {
+    "name": "Minor hard scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30916": {
+    "name": "Major hard scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30918": {
+    "name": "Minor elite scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30920": {
+    "name": "Major elite scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30922": {
+    "name": "Minor master scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30924": {
+    "name": "Major master scroll case",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30926": {
+    "name": "Mimic scroll case",
+    "highalch": 0,
+    "mapping": null
   }
 }
