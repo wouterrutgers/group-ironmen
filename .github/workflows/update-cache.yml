@@ -33,7 +33,7 @@ jobs:
           cache=$(curl -s https://archive.openrs2.org/caches.json | jq -r '
             [ .[] | select(.game == "oldschool" and .environment == "live" and .language == "en" and (.sources | contains(["Jagex"])) and .size != null) ] |
             map(. + {difference: (.keys - .valid_keys)}) |
-            map(select(.difference == 43)) |
+            map(select(.difference == 42)) |
             sort_by(.id) | last
           ')
           id=$(echo $cache | jq -r '.id')
