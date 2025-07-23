@@ -1214,7 +1214,7 @@
   "5190": {
     "name": "Shadows of Custodia",
     "difficulty": "Experienced",
-    "points": 0,
+    "points": "2",
     "member": true
   },
   "5191": {
@@ -1225,7 +1225,7 @@
   },
   "5194": {
     "name": "Vale Totems",
-    "difficulty": "",
+    "difficulty": "Novice",
     "points": 0,
     "member": true,
     "miniquest": true
