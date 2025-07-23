@@ -1204,5 +1204,29 @@
     "difficulty": "Master",
     "points": "2",
     "member": true
+  },
+  "5189": {
+    "name": "The Final Dawn",
+    "difficulty": "Master",
+    "points": "3",
+    "member": true
+  },
+  "5190": {
+    "name": "Shadows of Custodia",
+    "difficulty": "Experienced",
+    "points": 0,
+    "member": true
+  },
+  "5191": {
+    "name": "Scrambled!",
+    "difficulty": "Intermediate",
+    "points": 0,
+    "member": true
+  },
+  "5194": {
+    "name": "Vale Totems",
+    "difficulty": "",
+    "points": 0,
+    "member": true
   }
 }
