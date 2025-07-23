@@ -1227,6 +1227,7 @@
     "name": "Vale Totems",
     "difficulty": "",
     "points": 0,
-    "member": true
+    "member": true,
+    "miniquest": true
   }
 }
