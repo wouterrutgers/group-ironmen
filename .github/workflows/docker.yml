@@ -31,3 +31,4 @@ jobs:
           context: .
           push: true
           tags: wouterrutgers/group-ironmen:latest
+          platforms: linux/amd64,linux/arm64
