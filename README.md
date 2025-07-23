@@ -1,31 +1,28 @@
-# Getting Started (Hosted Environments)
+# Getting started
 
 Follow these steps to deploy the application in your hosted environment.
 
 ## 1. Use Docker Compose
 
-A [`docker-compose.yml`](./docker-compose.yml) file is provided at the root of this repository. Use this file to orchestrate and run all required services.
+A [`docker-compose.yml`](./docker-compose.yml) file is provided at the root of this repository. Use this file to run the container.
 
-## 2. Prepare Your `.env` File
+## 2. Prepare your `.env` and data files
 
-The application requires a `.env` file for configuration. This file is mounted into the container via Docker Compose.
+The application requires a `.env` file for configuration, and also requires an empty database file present before startup.
 
-- If you do **not** have an existing `.env`, the container will automatically create one from `.env.example` and run `php artisan key:generate` on first startup.
-- If you want to customize configuration **before** the container starts, copy the example to your host directory and edit as needed:
+**You must manually create these files before starting the container:**
 
-```bash
-cp .env.example /path/to/gim/data/.env
-```
+- Create an empty `.env` file in your data directory.  
+  If you want to start with the example configuration, copy it from the .env.example file in the repository.
+  If the file is empty, the application will create a default configuration from the example file.
 
-Replace `/path/to/gim/data/` with your actual host data directory.
+- Create an empty database.sqlite file in your data directory.  
 
-- If you want to let the entrypoint initialize the `.env` (including setting the app key), you can edit the `.env` **after** the first container startup. The application will use your changes on subsequent runs.
-
-## 3. Deploy the Application
+## 3. Deploy the application
 
 Start the application using Docker Compose:
 
-```bash
+```
 docker compose up -d
 ```
 
@@ -35,5 +32,4 @@ The application will be available on port **80**, or on the port you have config
 
 ---
 
-Your application should now be running in your environment using your configured `.env` file.  
-You can update environment variables by editing the mounted `.env` file and restarting the container for changes to take effect.
+Your application should now be running in your environment.
