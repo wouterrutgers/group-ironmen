@@ -30,14 +30,15 @@ jobs:
           path: cache/runelite
 
       - run: |
-          cache=$(curl -s https://archive.openrs2.org/caches.json | jq -r '
+          cache=$(curl -s https://archive.openrs2.org/caches.json | jq -r --arg cutoff "$(date -u -v-2H '+%Y-%m-%dT%H:%M:%SZ')" '
             [ .[] | select(.game == "oldschool" and .environment == "live" and .language == "en" and (.sources | contains(["Jagex"])) and .size != null) ] |
-            map(. + {difference: (.keys - .valid_keys)}) |
-            map(select(.difference == 42)) |
+            map(select(.timestamp <= $cutoff)) |
             sort_by(.id) | last
           ')
           id=$(echo $cache | jq -r '.id')
+          valid_keys=$(echo $cache | jq -r '.valid_keys')
           echo "CACHE_ID=$id" >> $GITHUB_ENV
+          echo "VALID_KEYS=$valid_keys" >> $GITHUB_ENV
 
       - run: npm install
         working-directory: ./cache
@@ -49,7 +50,7 @@ jobs:
         id: cache
         with:
           path: cache/cache
-          key: cache-${{ env.CACHE_ID }}
+          key: cache-${{ env.CACHE_ID }}-${{ env.VALID_KEYS }}
 
       - if: steps.cache.outputs.cache-hit != 'true'
         run: curl -o cache/cache/xteas.json https://archive.openrs2.org/caches/runescape/$CACHE_ID/keys.json
