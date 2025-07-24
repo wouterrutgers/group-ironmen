@@ -558,6 +558,40 @@
         ]
       },
       {
+        "name": "Doom of Mokhaiotl",
+        "completion_labels": [
+          "Deepest delve",
+          "Deep delves",
+          "Total delves"
+        ],
+        "items": [
+          {
+            "id": 31130,
+            "name": "Dom"
+          },
+          {
+            "id": 31088,
+            "name": "Avernic treads"
+          },
+          {
+            "id": 31115,
+            "name": "Eye of ayak (uncharged)"
+          },
+          {
+            "id": 31109,
+            "name": "Mokhaiotl cloth"
+          },
+          {
+            "id": 31099,
+            "name": "Mokhaiotl waystone"
+          },
+          {
+            "id": 31111,
+            "name": "Demon tear"
+          }
+        ]
+      },
+      {
         "name": "Duke Sucellus",
         "completion_labels": [
           "Duke Sucellus kills"
@@ -6044,6 +6078,28 @@
         ]
       },
       {
+        "name": "Vale Totems",
+        "completion_labels": [],
+        "items": [
+          {
+            "id": 31043,
+            "name": "Fletching knife"
+          },
+          {
+            "id": 31052,
+            "name": "Bow string spool"
+          },
+          {
+            "id": 31032,
+            "name": "Ent branch"
+          },
+          {
+            "id": 31034,
+            "name": "Greenman mask"
+          }
+        ]
+      },
+      {
         "name": "Volcanic Mine",
         "completion_labels": [],
         "items": [
@@ -6387,6 +6443,10 @@
           {
             "id": 30888,
             "name": "Yami"
+          },
+          {
+            "id": 31130,
+            "name": "Dom"
           }
         ]
       },
@@ -7752,6 +7812,22 @@
           {
             "id": 29895,
             "name": "Frozen tear"
+          },
+          {
+            "id": 30957,
+            "name": "Earthbound tecpatl"
+          },
+          {
+            "id": 31081,
+            "name": "Antler guard"
+          },
+          {
+            "id": 31084,
+            "name": "Alchemist\u0027s signet"
+          },
+          {
+            "id": 31086,
+            "name": "Broken antler"
           }
         ]
       },

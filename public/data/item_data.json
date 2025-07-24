@@ -85087,5 +85087,635 @@
     "name": "Mimic scroll case",
     "highalch": 0,
     "mapping": null
+  },
+  "30928": {
+    "name": "Clue scroll (easy)",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30929": {
+    "name": "Clue scroll (hard)",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30930": {
+    "name": "Challenge scroll (hard)",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30931": {
+    "name": "Clue scroll (hard)",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30932": {
+    "name": "Clue scroll (elite)",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30933": {
+    "name": "Clue scroll (medium)",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30934": {
+    "name": "Challenge scroll (medium)",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30935": {
+    "name": "Clue scroll (medium)",
+    "highalch": 12,
+    "mapping": null
+  },
+  "30936": {
+    "name": "Wet fabric scrap",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30937": {
+    "name": "Caerula berries",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30939": {
+    "name": "Mind mender",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30941": {
+    "name": "Coin purse",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30942": {
+    "name": "Empty coin purse",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30943": {
+    "name": "Sandy coin purse",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30944": {
+    "name": "Makeshift blackjack",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30945": {
+    "name": "Branch",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30947": {
+    "name": "Potato sack",
+    "highalch": 120,
+    "mapping": null
+  },
+  "30949": {
+    "name": "Emissary scroll",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30950": {
+    "name": "Canvas piece",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30951": {
+    "name": "Key",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30952": {
+    "name": "Stone tablet",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30953": {
+    "name": "Stone tablet",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30954": {
+    "name": "Stone tablet",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30955": {
+    "name": "Arkan blade",
+    "highalch": 45000,
+    "mapping": null
+  },
+  "30957": {
+    "name": "Earthbound tecpatl",
+    "highalch": 18000,
+    "mapping": null
+  },
+  "30960": {
+    "name": "Antique lamp",
+    "highalch": 30,
+    "mapping": null
+  },
+  "30961": {
+    "name": "Keystone fragment",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30962": {
+    "name": "Kuhu essence",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30963": {
+    "name": "Ancient roots",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30964": {
+    "name": "Root kindling",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30965": {
+    "name": "Knife blade",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30966": {
+    "name": "Ancient teleporter",
+    "highalch": 6000,
+    "mapping": null
+  },
+  "30967": {
+    "name": "Large egg",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30968": {
+    "name": "Dragon egg",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30969": {
+    "name": "Jaguar egg",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30970": {
+    "name": "Egg",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30973": {
+    "name": "Alan's bones",
+    "highalch": 30,
+    "mapping": null
+  },
+  "30975": {
+    "name": "Alan's bonemeal",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30977": {
+    "name": "Damiana leaves",
+    "highalch": 2,
+    "mapping": null
+  },
+  "30979": {
+    "name": "Damiana water",
+    "highalch": 2,
+    "mapping": null
+  },
+  "30981": {
+    "name": "Damiana tea",
+    "highalch": 2,
+    "mapping": null
+  },
+  "30983": {
+    "name": "Damiana tea",
+    "highalch": 2,
+    "mapping": null
+  },
+  "30985": {
+    "name": "Cup of tea",
+    "highalch": 6,
+    "mapping": null
+  },
+  "30987": {
+    "name": "Cup of tea",
+    "highalch": 6,
+    "mapping": null
+  },
+  "30989": {
+    "name": "Acatzin's axe",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30990": {
+    "name": "Acatzin's axe",
+    "highalch": 18,
+    "mapping": null
+  },
+  "30991": {
+    "name": "Kite shield",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30992": {
+    "name": "Dungeon entrance",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30993": {
+    "name": "Custodian stalker",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30994": {
+    "name": "Custodian stalker",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30995": {
+    "name": "Custodian stalker",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30997": {
+    "name": "Events tool",
+    "highalch": 0,
+    "mapping": null
+  },
+  "30998": {
+    "name": "Atlatl dart tips",
+    "highalch": 147,
+    "mapping": null,
+    "stacks": [
+      [
+        2,
+        31000
+      ],
+      [
+        3,
+        31001
+      ],
+      [
+        4,
+        31002
+      ],
+      [
+        5,
+        31003
+      ]
+    ]
+  },
+  "31004": {
+    "name": "Atlatl dart shaft",
+    "highalch": 132,
+    "mapping": null,
+    "stacks": [
+      [
+        2,
+        31006
+      ],
+      [
+        3,
+        31007
+      ],
+      [
+        4,
+        31008
+      ],
+      [
+        5,
+        31009
+      ]
+    ]
+  },
+  "31010": {
+    "name": "Headless atlatl dart",
+    "highalch": 147,
+    "mapping": null,
+    "stacks": [
+      [
+        2,
+        31012
+      ],
+      [
+        3,
+        31013
+      ],
+      [
+        4,
+        31014
+      ],
+      [
+        5,
+        31015
+      ]
+    ]
+  },
+  "31016": {
+    "name": "Sacraments of ent folk",
+    "highalch": 60,
+    "mapping": null
+  },
+  "31018": {
+    "name": "Ent seed",
+    "highalch": 1,
+    "mapping": null,
+    "stacks": [
+      [
+        2,
+        31020
+      ],
+      [
+        3,
+        31021
+      ],
+      [
+        20,
+        31023
+      ]
+    ]
+  },
+  "31024": {
+    "name": "Greenman carving",
+    "highalch": 5547,
+    "mapping": null
+  },
+  "31027": {
+    "name": "Greenman statue",
+    "highalch": 5547,
+    "mapping": null
+  },
+  "31030": {
+    "name": "Greenman carving",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31031": {
+    "name": "Greenman statue",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31032": {
+    "name": "Ent branch",
+    "highalch": 132,
+    "mapping": null
+  },
+  "31034": {
+    "name": "Greenman mask",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31037": {
+    "name": "Greenman mask (normal)",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31038": {
+    "name": "Greenman mask (oak)",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31039": {
+    "name": "Greenman mask (willow)",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31040": {
+    "name": "Greenman mask (maple)",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31041": {
+    "name": "Greenman mask (yew)",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31042": {
+    "name": "Greenman mask (magic)",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31043": {
+    "name": "Fletching knife",
+    "highalch": 3000,
+    "mapping": null
+  },
+  "31045": {
+    "name": "Bale of flax",
+    "highalch": 75,
+    "mapping": null
+  },
+  "31047": {
+    "name": "Dirty arrowtips",
+    "highalch": 9,
+    "mapping": null
+  },
+  "31049": {
+    "name": "Redwood hiking staff",
+    "highalch": 240,
+    "mapping": null
+  },
+  "31052": {
+    "name": "Bow string spool",
+    "highalch": 1200,
+    "mapping": null
+  },
+  "31054": {
+    "name": "Vale offerings",
+    "highalch": 0,
+    "mapping": null,
+    "stacks": [
+      [
+        100,
+        31056
+      ],
+      [
+        500,
+        31057
+      ],
+      [
+        1000,
+        31058
+      ]
+    ]
+  },
+  "31071": {
+    "name": "Letter",
+    "highalch": 6,
+    "mapping": null
+  },
+  "31073": {
+    "name": "Letter",
+    "highalch": 6,
+    "mapping": null
+  },
+  "31075": {
+    "name": "Alan's blessed bones",
+    "highalch": 0,
+    "mapping": null
+  },
+  "31077": {
+    "name": "On migration patterns",
+    "highalch": 18,
+    "mapping": null
+  },
+  "31079": {
+    "name": "Auburn valley ecological reports",
+    "highalch": 18,
+    "mapping": null
+  },
+  "31081": {
+    "name": "Antler guard",
+    "highalch": 60000,
+    "mapping": null
+  },
+  "31084": {
+    "name": "Alchemist's signet",
+    "highalch": 3000,
+    "mapping": null
+  },
+  "31086": {
+    "name": "Broken antler",
+    "highalch": 31,
+    "mapping": null
+  },
+  "31088": {
+    "name": "Avernic treads",
+    "highalch": 115200,
+    "mapping": null
+  },
+  "31091": {
+    "name": "Avernic treads (pr)",
+    "highalch": 115200,
+    "mapping": null
+  },
+  "31092": {
+    "name": "Avernic treads (pe)",
+    "highalch": 115200,
+    "mapping": null
+  },
+  "31093": {
+    "name": "Avernic treads (et)",
+    "highalch": 115200,
+    "mapping": null
+  },
+  "31094": {
+    "name": "Avernic treads (pr)(pe)",
+    "highalch": 115200,
+    "mapping": null
+  },
+  "31095": {
+    "name": "Avernic treads (pr)(et)",
+    "highalch": 115200,
+    "mapping": null
+  },
+  "31096": {
+    "name": "Avernic treads (pe)(et)",
+    "highalch": 115200,
+    "mapping": null
+  },
+  "31097": {
+    "name": "Avernic treads (max)",
+    "highalch": 115200,
+    "mapping": null
+  },
+  "31099": {
+    "name": "Mokhaiotl waystone",
+    "highalch": 6000,
+    "mapping": null,
+    "stacks": [
+      [
+        2,
+        31102
+      ],
+      [
+        3,
+        31103
+      ],
+      [
+        4,
+        31104
+      ],
+      [
+        5,
+        31105
+      ]
+    ]
+  },
+  "31106": {
+    "name": "Confliction gauntlets",
+    "highalch": 240000,
+    "mapping": null
+  },
+  "31109": {
+    "name": "Mokhaiotl cloth",
+    "highalch": 120000,
+    "mapping": null
+  },
+  "31111": {
+    "name": "Demon tear",
+    "highalch": 300,
+    "mapping": null
+  },
+  "31113": {
+    "name": "Eye of ayak",
+    "highalch": 3600000,
+    "mapping": null
+  },
+  "31115": {
+    "name": "Eye of ayak (uncharged)",
+    "highalch": 3600000,
+    "mapping": null
+  },
+  "31117": {
+    "name": "Orange",
+    "highalch": 6,
+    "mapping": null
+  },
+  "31121": {
+    "name": "Old letter",
+    "highalch": 6,
+    "mapping": null
+  },
+  "31123": {
+    "name": "Token",
+    "highalch": 73,
+    "mapping": null
+  },
+  "31124": {
+    "name": "Token",
+    "highalch": 73,
+    "mapping": null
+  },
+  "31125": {
+    "name": "Token",
+    "highalch": 73,
+    "mapping": null
+  },
+  "31126": {
+    "name": "Token",
+    "highalch": 73,
+    "mapping": null
+  },
+  "31127": {
+    "name": "Token",
+    "highalch": 73,
+    "mapping": null
+  },
+  "31128": {
+    "name": "Blueberry muffin",
+    "highalch": 24,
+    "mapping": null
+  },
+  "31130": {
+    "name": "Dom",
+    "highalch": 0,
+    "mapping": null
   }
 }
