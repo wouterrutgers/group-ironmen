@@ -1222,12 +1222,5 @@
     "difficulty": "Intermediate",
     "points": "1",
     "member": true
-  },
-  "5194": {
-    "name": "Vale Totems",
-    "difficulty": "Novice",
-    "points": 0,
-    "member": true,
-    "miniquest": true
   }
 }
