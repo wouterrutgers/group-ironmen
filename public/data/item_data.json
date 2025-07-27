@@ -85170,7 +85170,7 @@
   },
   "30947": {
     "name": "Potato sack",
-    "highalch": 120,
+    "highalch": 0,
     "mapping": null
   },
   "30949": {
@@ -85245,7 +85245,7 @@
   },
   "30966": {
     "name": "Ancient teleporter",
-    "highalch": 6000,
+    "highalch": 0,
     "mapping": null
   },
   "30967": {
