@@ -1,0 +1,66 @@
+.player-diaries {
+  display: block;
+  max-height: 300px;
+  width: 100%;
+  padding: 4px;
+  overflow-y: scroll;
+}
+
+.player-diaries-title {
+  margin: 0;
+  text-align: center;
+  color: var(--orange);
+}
+
+.diary-dialog-header h1 {
+  text-shadow: 1.3px 1.3px var(--black);
+  text-align: center;
+  font-size: 20px;
+  color: var(--orange);
+  margin: 0;
+  flex: 1;
+}
+
+.player-diaries-completions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.diary-dialog-title-border {
+  background: url("/ui/173-0.png") repeat;
+  width: 100%;
+  height: 6px;
+  flex-shrink: 0;
+}
+
+.diary-completion {
+  display: block;
+  color: yellow;
+  padding: 4px;
+}
+
+.diary-completion.clickable:hover {
+  background: rgb(0 0 0 / 15%);
+  cursor: pointer;
+}
+
+.diary-completion-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.diary-completion-bottom {
+  display: flex;
+}
+
+.diary-completion-bottom .stat-bar {
+  height: 8px;
+  flex-grow: 1;
+  border: 1px solid black;
+}
+
+.diary-completion-bottom .stat-bar + .stat-bar {
+  border-left: none;
+}

@@ -1,29 +1,40 @@
-login-page {
+#login-page-container {
   display: flex;
+  height: 100%;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
 }
 
-.login__container {
-  max-width: 500px;
+#login-page-container .validation-error {
+  min-height: 20px;
+}
+
+#login-page-window {
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 8px 24px;
+  gap: 4px;
+  min-width: 260px;
+  padding: 16px;
 }
 
-.login__container input,
-.login__container {
-  font-size: 1.2em;
+#login-page-window > button {
+  align-self: center;
 }
 
-.login__button {
-  margin-top: 1em;
+.login-page-step {
+  display: flex;
+  flex-direction: column;
 }
 
-.login__error {
-  text-align: center;
-  margin-top: 1em;
+#login-page-window > .validation-error {
+  align-self: center;
+  font-size: 24px;
+}
+
+#login-page-loading-overlay {
+  background-color: black;
+  opacity: 0.6;
+  position: absolute;
+  inset: 0;
 }

@@ -1,36 +1,33 @@
-xp-dropper {
-  display: block;
+/* Makes the xp drop rise upward from bottom to top of its parent */
+@keyframes rising {
+  0% {
+    bottom: -20px;
+  }
+
+  100% {
+    bottom: calc(100% + 80px);
+    display: none;
+  }
+}
+
+.xp-dropper {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.xp-dropper-drop {
   position: absolute;
   right: 0;
-  top: 0;
-  width: 100%;
-  overflow: hidden;
-  height: 100%;
-  pointer-events: none;
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateY(0%);
-  }
-  100% {
-    transform: translateY(-100%);
-  }
-}
-
-.xp-dropper__drop {
-  position: absolute;
-  right: 4px;
-  top: 0;
-  height: max-content;
-  animation: scroll 4s linear;
+  animation-name: rising;
+  animation-duration: 8s;
   animation-fill-mode: forwards;
-  white-space: nowrap;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  animation-timing-function: linear;
 }
 
-.xp-droppper__skill-icon {
-  height: 1em;
+.xp-dropper-drop > img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }

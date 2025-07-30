@@ -1,11 +1,38 @@
-skill-graph {
-  display: block;
-  max-width: 100%;
-  overflow: hidden;
-  position: relative;
+#skill-graph-control-container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
 }
 
-.skill-graph__skill-image {
+#skill-graph-body {
+  display: flex;
+  overflow-y: auto;
+  position: relative;
+  flex-direction: column;
+  flex: 1;
+}
+
+#skill-graph-container {
+  min-width: 0;
+  position: relative;
+  height: max(40vh, 300px);
+  display: flex;
+  justify-content: space-around;
+  flex-shrink: 0;
+}
+
+.skill-graph-dropdown > select {
+  padding: 8px;
+}
+
+#skill-graph-canvas {
+  position: absolute;
+  height: 300px;
+  box-sizing: border-box;
+  background: rgb(255 255 255 / 5%);
+}
+
+#skill-graph-skill-image {
   position: absolute;
   height: 50%;
   top: 50%;
@@ -13,55 +40,39 @@ skill-graph {
   right: 0;
   margin: auto;
   transform: translateY(-50%);
-  image-rendering: crisp-edges;
   image-rendering: pixelated;
   opacity: 0.2;
-  z-index: 0;
+  aspect-ratio: 1;
+  object-fit: contain;
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
 }
 
-.skill-graph__top {
-  position: relative;
+#skill-graph-loading-overlay {
+  background-color: black;
+  opacity: 0.8;
+  position: absolute;
+  inset: 0;
 }
 
-.skill-graph__container {
-  position: relative;
-  height: max(40vh, 300px);
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.skill-graph__table-container {
-  padding: 1em 2em 0 2em;
-}
-
-.skill-graph__table-container table {
-  width: 100%;
+#skill-graph-xp-change-table {
+  margin: 8px 24px;
+  font-size: 16px;
   border-collapse: collapse;
-  font-size: 20px;
 }
 
-.skill-graph__table-container tr {
-  border-bottom: 1px solid var(--graph-grid-border);
+#skill-graph-xp-change-table img {
+  width: 1em;
+  margin-inline: 0.5em;
+  object-fit: contain;
 }
 
-.skill-graph__table-container tr:hover {
-  border-bottom: 1px solid white;
-}
-
-.skill-graph__table-container td {
-  padding: 4px;
-}
-
-.skill-graph__overall-skill-change {
-  font-size: 18px;
-}
-
-.skill-graph__overall-skill-change > td:first-child {
+.skill-graph-xp-change-table-label {
   display: flex;
   align-items: center;
 }
 
-.skill-graph__overall-skill-change img {
-  margin-right: 0.5em;
-  width: 1.25em;
+#skill-graph-no-data {
+  padding: 8px;
 }
