@@ -1,4 +1,4 @@
-men-link > a {
+.men-link {
   display: flex;
   justify-content: center;
   align-items: center;

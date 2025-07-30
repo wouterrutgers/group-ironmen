@@ -1,0 +1,73 @@
+.player-stats {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  white-space: nowrap;
+  line-height: 1;
+  position: relative;
+  color: white;
+}
+
+.player-stats-prayer-numbers,
+.player-stats-name,
+.player-stats-hitpoints-numbers {
+  margin-left: 8px;
+  z-index: 1;
+  position: relative;
+}
+
+.player-stats-prayer,
+.player-stats-hitpoints,
+.player-stats-energy {
+  box-sizing: border-box;
+  position: relative;
+  padding: 2px 0;
+}
+
+.player-stats-prayer-bar,
+.player-stats-hitpoints-bar,
+.player-stats-energy-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+.player-stats-energy {
+  height: 3px;
+}
+
+.stat-bar {
+  display: block;
+  height: 100%;
+  min-height: 4px;
+}
+
+.player-stats-inactive .stat-bar {
+  filter: grayscale(100%);
+}
+
+.player-interacting {
+  display: block;
+}
+
+.player-interacting-name {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  padding: 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform: translateY(-50%);
+  max-width: 100%;
+}
+
+.player-stats .player-interacting {
+  height: 45%;
+  width: 40%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+}

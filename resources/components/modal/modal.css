@@ -1,0 +1,22 @@
+#modal-clickbox {
+  z-index: 99;
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 60%);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+
+#modal {
+  z-index: 100;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  pointer-events: none;
+}
+
+#modal > * {
+  pointer-events: all;
+}

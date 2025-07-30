@@ -40,7 +40,7 @@ COPY package.json ./
 RUN --mount=type=cache,target=/root/.npm \
     npm install
 
-COPY build.js ./
+COPY vite.config.mts ./
 COPY resources ./resources
 COPY public ./public
 
