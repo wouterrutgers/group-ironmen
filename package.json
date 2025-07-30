@@ -35,9 +35,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "prod": "npm run bundle && npm run serve",
-    "bundle": "vite build",
-    "serve": "tsx scripts/server.ts --prod",
+    "build": "vite build",
     "lint": "eslint . && tsc --noemit -p . && stylelint resources/**/*.css",
     "lint:fix": "eslint . --fix && tsc --noemit -p . && stylelint resources/**/*.css --fix",
     "format": "prettier --write .",

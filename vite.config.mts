@@ -36,12 +36,19 @@ const mapJsonPlugin = (): PluginOption => ({
 });
 
 // Use a proxy for API during development, so we can hook up to a remote server that is not setting CORS headers to allow locahost.
-const DEFAULT_API_URL = "http://localhost:5000";
+const DEFAULT_API_URL = "http://localhost:8000";
 const backendURL = process.env.VITE_API_URL ?? DEFAULT_API_URL;
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [mapJsonPlugin(), react(), laravel({ input: ["resources/views/index.tsx"], refresh: true })],
+  plugins: [
+    mapJsonPlugin(),
+    react(),
+    laravel({
+      input: ["resources/views/index.tsx"],
+      refresh: true,
+    }),
+  ],
   define: {
     __API_URL__: process.env.NODE_ENV === "production" ? JSON.stringify(`${backendURL}/api`) : "'/api'",
   },
