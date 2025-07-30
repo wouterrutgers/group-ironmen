@@ -11,6 +11,8 @@ RUN apk add --no-cache \
     unzip \
     sqlite-dev \
     sqlite \
+    nodejs \
+    npm \
     && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/cfg/gpg/gpg.155B6D79CA56EA34.key' > /etc/apk/keys/caddy.key \
     && echo "https://dl.cloudsmith.io/public/caddy/stable/alpine/any-version/main" >> /etc/apk/repositories \
     && apk add --no-cache caddy
@@ -37,6 +39,9 @@ RUN find /var/www -type d -exec chmod 755 {} +
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 RUN rm -rf /var/www/.git*
+
+RUN npm install
+RUN npm run build
 
 EXPOSE 80
 
