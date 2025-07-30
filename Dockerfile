@@ -31,9 +31,8 @@ COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-COPY --chown=www-data:www-data . /var/www/
-RUN find /var/www -type d -exec chmod 755 {} + && \
-    find /var/www -type f -exec chmod 644 {} +
+COPY --chown=www-data:www-data --chmod=644 . /var/www/
+RUN find /var/www -type d -exec chmod 755 {} +
 
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
