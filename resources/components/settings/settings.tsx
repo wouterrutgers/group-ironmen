@@ -288,7 +288,7 @@ export const SettingsPage = (): ReactElement => {
   if (memberElements.length < MEMBER_COUNT_MAX) {
     const invalid = (addMemberErrors?.length ?? 0) > 0;
     memberElements.push(
-      <div className="group-settings-member-section rsborder-tiny">
+      <div key="add-new-member-element" className="group-settings-member-section rsborder-tiny">
         <label htmlFor="add-member-input">Name for new member</label>
         <br />
         <input
