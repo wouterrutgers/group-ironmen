@@ -41,9 +41,15 @@ const mapJsonPlugin = (): PluginOption => ({
   },
 });
 
-// Use a proxy for API during development, so we can hook up to a remote server that is not setting CORS headers to allow locahost.
 const DEFAULT_API_URL = "http://localhost:8000";
-const backendURL = process.env.VITE_API_URL ?? DEFAULT_API_URL;
+const backendURL = process.env.APP_URL ?? DEFAULT_API_URL;
+if (!process.env.APP_URL) {
+  console.info(
+    `API URL used for requests to backend/app (loaded from default, env.APP_URL was '${process.env.APP_URL}'): ${backendURL}`,
+  );
+} else {
+  console.info(`API URL uses for requests to backend/app (loaded from env): ${backendURL}`);
+}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -57,14 +63,5 @@ export default defineConfig({
   ],
   define: {
     __API_URL__: process.env.NODE_ENV === "production" ? JSON.stringify(`${backendURL}/api`) : "'/api'",
-  },
-  server: {
-    hmr: { host: "localhost" },
-    proxy: {
-      "/api": {
-        target: backendURL,
-        changeOrigin: true,
-      },
-    },
   },
 });
