@@ -109,6 +109,15 @@ interface MapLabel {
 
 type MapLabelGrid = Map<MapRegionCoordinate2DHash, MapLabel[]>;
 
+/*
+ * We bound the regions we bother attempting to load, to avoid loading regions
+ * outside the valid area and creating superfluous requests.
+ */
+const REGION_X_MIN = 18;
+const REGION_X_MAX = 68;
+const REGION_Y_MIN = 19;
+const REGION_Y_MAX = 160;
+
 export class CanvasMapRenderer {
   private regions: RegionGrid;
   private camera: CanvasMapCamera;
@@ -205,7 +214,7 @@ export class CanvasMapRenderer {
       followingAnimation: undefined,
       zoom: INITIAL_ZOOM,
       minZoom: 1 / 32,
-      maxZoom: 2,
+      maxZoom: 1 / 4,
       followPlayer: undefined,
     };
     this.cursor = {
@@ -509,6 +518,10 @@ export class CanvasMapRenderer {
 
     for (let regionX = visibleRect.min.x - 1; regionX <= visibleRect.max.x; regionX++) {
       for (let regionY = visibleRect.min.y - 1; regionY <= visibleRect.max.y; regionY++) {
+        if (regionX < REGION_X_MIN || regionX > REGION_X_MAX || regionY < REGION_Y_MIN || regionY > REGION_Y_MAX) {
+          continue;
+        }
+
         const regionPosition = Vec2D.create<RegionPosition2D>({ x: regionX, y: regionY });
         const hash3D = hashMapRegionCoordinate3Ds(regionPosition, this.plane);
         const hash2D = hashMapRegionCoordinate2Ds(regionPosition);
@@ -521,7 +534,6 @@ export class CanvasMapRenderer {
             alpha: 0,
             position: Vec2D.create(regionPosition),
           };
-          image.src = `/map/${regionFileBaseName}.webp`;
           image.onload = (): void => {
             createImageBitmap(image)
               .then((bitmap) => {
@@ -531,6 +543,7 @@ export class CanvasMapRenderer {
                 console.error("Failed to load image bitmap for:", image.src, reason);
               });
           };
+          image.src = `/map/${regionFileBaseName}.webp`;
 
           this.regions.set(hash3D, region);
         }

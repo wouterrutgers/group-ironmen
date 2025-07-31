@@ -4,9 +4,9 @@ import { CanvasMapRenderer, type LabelledCoordinates } from "./canvas-map-render
 import { useGroupStateContext } from "../../context/group-state-context";
 import type { GroupState } from "../../api/api";
 import { Vec2D, type WikiPosition2D } from "./coordinates";
+import { createPortal } from "react-dom";
 
 import "./canvas-map.css";
-import { createPortal } from "react-dom";
 
 const memberCoordinatesSelector = (state: GroupState | undefined): LabelledCoordinates[] => {
   if (!state) return [];
