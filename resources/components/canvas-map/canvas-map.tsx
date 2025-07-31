@@ -145,7 +145,7 @@ export const CanvasMap = ({ interactive }: { interactive: boolean }): ReactEleme
     [renderer],
   );
 
-  const coordinatesView = coordinates ? `X: ${coordinates.x}, Y: ${coordinates.y}` : undefined;
+  const coordinatesView = coordinates ? `X: ${Math.floor(coordinates.x)}, Y: ${Math.floor(coordinates.y)}` : undefined;
   const draggingClass = dragging ? "dragging" : "";
   const interactiveClass = interactive ? "interactive" : "";
 
