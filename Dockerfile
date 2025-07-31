@@ -73,7 +73,7 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 RUN rm -rf .git*
 
 RUN npm install
-RUN npm run build
+RUN npm run bundle
 
 EXPOSE 80
 
