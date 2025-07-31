@@ -41,7 +41,7 @@ RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 RUN rm -rf /var/www/.git*
 
 RUN npm install
-RUN npm run build
+RUN npm run bundle
 
 EXPOSE 80
 
