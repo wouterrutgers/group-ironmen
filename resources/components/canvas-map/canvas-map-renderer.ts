@@ -63,6 +63,7 @@ interface CanvasMapCursor {
    */
   accumulatedFrictionMS: number;
 
+  isVisible: boolean;
   isDragging: boolean;
 
   // Multiple scroll events may occur in a frame, so we add them all up.
@@ -127,6 +128,14 @@ export class CanvasMapRenderer {
   private iconsByRegion?: MapIconGrid;
   private labelsByRegion?: MapLabelGrid;
   private playerPositions = new Map<string, { coords: WorldPosition2D; plane: number }>();
+
+  private interactive = false;
+  public setInteractive(interactive: boolean): void {
+    if (this.interactive === interactive) return;
+
+    this.interactive = interactive;
+    this.forceRenderNextFrame = true;
+  }
 
   public forceRenderNextFrame = false;
 
@@ -222,6 +231,7 @@ export class CanvasMapRenderer {
       positionPrevious: Vec2D.create({ x: 0, y: 0 }),
       rateSamples: [Vec2D.create({ x: 0, y: 0 })],
       accumulatedFrictionMS: 0,
+      isVisible: false,
       isDragging: false,
       accumulatedScroll: 0,
     };
@@ -265,10 +275,17 @@ export class CanvasMapRenderer {
     this.onDraggingUpdate?.(this.cursor.isDragging);
   }
   handlePointerMove(position: CursorPosition2D): void {
+    if (!Vec2D.equals(this.cursor.position, position)) {
+      this.forceRenderNextFrame = true;
+    }
+    this.cursor.isVisible = true;
     this.cursor.position = position;
   }
   handlePointerLeave(): void {
     this.cursor.isDragging = false;
+    this.cursor.isVisible = false;
+    this.forceRenderNextFrame = true;
+
     this.onDraggingUpdate?.(this.cursor.isDragging);
   }
   handleScroll(amount: number): void {
@@ -716,11 +733,35 @@ export class CanvasMapRenderer {
     }
   }
 
+  /**
+   * Draw square of the currently hovered tile.
+   */
+  private drawCursor(context: Context2DScaledWrapper): void {
+    const world = Pos2D.cursorToWorld({
+      cursor: this.cursor.position,
+      camera: context.getCamera(),
+      canvasExtent: context.getCanvasExtent(),
+    });
+
+    const rect = Rect2D.create({
+      position: Vec2D.create<WorldPosition2D>({ x: Math.floor(world.x), y: Math.ceil(world.y) }),
+      extent: Vec2D.create<WorldDisplacement2D>({ x: 1, y: -1 }),
+    });
+    context.drawRect({
+      fillStyle: "rgb(0 200 255 / 50%)",
+      insetBorder: { style: "rgb(0 200 255 / 50%)", widthPixels: 2 },
+      rect,
+    });
+  }
+
   private drawAll(context: Context2DScaledWrapper): void {
     context.clear();
     this.drawVisibleRegions(context);
     this.drawVisibleIcons(context);
     this.drawVisibleAreaLabels(context);
     this.drawPlayerPositionMarkers(context);
+    if (this.cursor.isVisible && this.interactive) {
+      this.drawCursor(context);
+    }
   }
 }
