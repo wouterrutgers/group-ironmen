@@ -55,6 +55,7 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  align-self: baseline;
 }
 
 .canvas-map-selected-teleport-button {

@@ -33,6 +33,10 @@ export const CanvasMap = ({ interactive }: { interactive: boolean }): ReactEleme
     renderer?.tryUpdatePlayerPositions(memberCoordinates);
   }
 
+  if (renderer) {
+    renderer.setInteractive(interactive);
+  }
+
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
