@@ -56,7 +56,7 @@ const SkillIcons: { skill: Skill | "Overall"; iconURL: string }[] = [
   { skill: "Hunter", iconURL: "/ui/220-0.png" },
 ];
 export const SkillIconsBySkill = new Map<Skill | "Overall", URL>(
-  SkillIcons.map(({ skill, iconURL }) => [skill, new URL(iconURL, import.meta.url)] as [Skill, URL]),
+  SkillIcons.map(({ skill, iconURL }) => [skill, new URL(iconURL, window.location.href)] as [Skill, URL]),
 );
 
 const levelLookup = new Map<number, number>();
