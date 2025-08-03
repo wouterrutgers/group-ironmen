@@ -16,7 +16,7 @@ The application requires a `.env` file for configuration, and also requires an e
   If you want to start with the example configuration, copy it from the .env.example file in the repository.
   If the file is empty, the application will create a default configuration from the example file.
 
-- Create an empty database.sqlite file in your data directory.  
+- Create an empty database.sqlite file in your data directory.
 
 ## 3. Deploy the application
 

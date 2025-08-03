@@ -5,7 +5,7 @@
 
 .collection-log-container {
   height: 90vh;
-  width: min(90vw, 800px);
+  width: min(90vw, 1000px);
   display: flex;
   flex-direction: column;
 }
@@ -189,8 +189,15 @@
   padding: 8px;
   overflow-y: auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(64px, max-content));
+  grid-template-columns: repeat(6, 1fr);
   justify-content: center;
+  gap: 1rem;
+}
+
+@media (max-width: 1070px) {
+  .collection-log-page-items {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  }
 }
 
 .collection-log-page-completion-quantity {
@@ -215,11 +222,12 @@
 
 .collection-log-page-item {
   position: relative;
-  width: 64px;
   height: 64px;
+  display: flex;
+  justify-content: center;
 }
 
-/* 
+/*
  * object-fit, object-position, width, and height all work together to center
  * the image and make it as large as possible. This is used since the image
  * icons are not square.
@@ -229,6 +237,8 @@
   object-position: center;
   width: 100%;
   height: 100%;
+  max-width: 64px;
+  max-height: 64px;
 }
 
 .collection-log-page-item:hover {

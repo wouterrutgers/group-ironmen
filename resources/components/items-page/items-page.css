@@ -1,13 +1,9 @@
 #items-page-list {
-  display: flex;
-  flex: 1;
-  flex-flow: row wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   padding: 12px;
   gap: 12px;
-  align-items: flex-start;
   overflow-y: auto;
-  -webkit-font-smoothing: antialiased;
-  justify-content: center;
 }
 
 #items-page-head {
@@ -37,17 +33,18 @@
 
 #items-page-utility > * {
   padding: 4px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .items-page-panel {
   display: flex;
-  height: 280px;
-  width: 300px;
+  min-width: 300px;
   box-sizing: border-box;
-  overflow: hidden;
   flex-direction: column;
   position: relative;
-  transform: translate3d(0, 0, 1px);
   color: var(--primary-text);
 }
 
@@ -100,6 +97,7 @@
 .items-page-panel-name {
   font-size: 20px;
   color: var(--yellow);
+  text-decoration: none;
 }
 
 .items-page-panel-name:hover {

@@ -5,7 +5,7 @@ name: Dump game data
 on:
   workflow_dispatch:
   schedule:
-    - cron: '47 * * * *'
+    - cron: "47 * * * *"
 
 jobs:
   cache:

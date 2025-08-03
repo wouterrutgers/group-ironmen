@@ -8,8 +8,8 @@
 #tooltip {
   transform: translate(5px, calc(-100% - 5px));
   min-width: 160px;
-  background-color: rgb(0 0 0 / 60%);
-  border: solid 1px rgb(255 255 255 / 60%);
+  background-color: rgb(0 0 0;
+  border: solid 1px rgb(255 255 255);
   visibility: hidden; /* Hidden until toggled on by a component */
   padding: 5px;
 }
