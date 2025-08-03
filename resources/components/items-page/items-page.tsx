@@ -6,6 +6,7 @@ import { GameDataContext } from "../../context/game-data-context";
 import { composeItemIconHref, type ItemID } from "../../game/items";
 import { useGroupListMembersContext, useGroupStateContext } from "../../context/group-state-context";
 import { Link } from "react-router-dom";
+import { useItemsPriceTooltip } from "./items-page-tooltip";
 
 type ItemFilter = "All" | Member.Name;
 const ItemSortCategory = [
@@ -37,6 +38,8 @@ const ItemPanel = ({
   filter: ItemFilter;
   quantities: Map<Member.Name, number>;
 }): ReactElement => {
+  const { tooltipElement, hideTooltip, showTooltip } = useItemsPriceTooltip();
+
   const quantityBreakdown = [...quantities].map(([name, quantity]: [Member.Name, number]) => {
     if (filter !== "All" && filter !== name) return;
 
@@ -69,23 +72,42 @@ const ItemPanel = ({
             <span>Quantity</span>
             <span>{totalQuantity.toLocaleString()}</span>
             <span>High Alch</span>
-            <span>{highAlchPer.toLocaleString()}gp</span>
-            <span>Total</span>
-            <span>{highAlch.toLocaleString()}gp</span>
+            <span
+              onPointerEnter={() =>
+                showTooltip({
+                  perPiecePrice: highAlchPer,
+                  totalPrice: highAlch,
+                  quantity: totalQuantity,
+                })
+              }
+              onPointerLeave={hideTooltip}
+            >
+              {highAlch.toLocaleString()}gp
+            </span>
             <span>GE Price</span>
-            <span>{gePricePer.toLocaleString()}gp</span>
-            <span>Total</span>
-            <span>{gePrice.toLocaleString()}gp</span>
+            <span
+              onPointerEnter={() =>
+                showTooltip({
+                  perPiecePrice: gePricePer,
+                  totalPrice: gePrice,
+                  quantity: totalQuantity,
+                })
+              }
+              onPointerLeave={hideTooltip}
+            >
+              {gePrice.toLocaleString()}gp
+            </span>
           </div>
         </div>
         <img loading="lazy" className="items-page-panel-icon" alt={itemName ?? "An unknown item"} src={imageURL} />
       </div>
       <div className="items-page-panel-quantity-breakdown">{quantityBreakdown}</div>
+      {tooltipElement}
     </div>
   );
 };
 
-const ITEMS_PER_PAGE = 100;
+const ITEMS_PER_PAGE = 200;
 const usePageSelection = ({
   itemCount,
 }: {

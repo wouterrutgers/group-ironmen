@@ -1,37 +1,37 @@
-const child_process = require('child_process');
-const fs = require('fs');
-const xml2js = require('xml2js');
-const glob = require('glob');
-const nAsync = require('async');
-const path = require('path');
-const axios = require('axios');
-const sharp = require('sharp');
+const child_process = require("child_process");
+const fs = require("fs");
+const xml2js = require("xml2js");
+const glob = require("glob");
+const nAsync = require("async");
+const path = require("path");
+const axios = require("axios");
+const sharp = require("sharp");
 // NOTE: sharp will keep some files open and prevent them from being deleted
 sharp.cache(false);
 
 const xmlParser = new xml2js.Parser();
 const xmlBuilder = new xml2js.Builder();
 
-const runelitePath = './runelite';
+const runelitePath = "./runelite";
 const cacheProjectPath = `${runelitePath}/cache`;
 const apiProjectPath = `${runelitePath}/runelite-api`;
 const clientProjectPath = `${runelitePath}/runelite-client`;
 const apiPomPath = `${apiProjectPath}/pom.xml`;
-const osrsCacheDirectory = path.resolve('./cache/cache');
-const siteItemDataPath = '../public/data/item_data.json';
-const siteMapIconMetaPath = '../public/data/map_icons.json';
-const siteMapLabelMetaPath = '../public/data/map_labels.json';
-const siteItemImagesPath = '../public/icons/items';
-const siteMapImagesPath = '../public/map';
-const siteMapLabelsPath = '../public/map/labels';
-const siteMapIconPath = '../public/map/icons/map_icons.webp';
-const siteQuestMapping = path.resolve('../resources/js/quests/mapping.json');
+const osrsCacheDirectory = path.resolve("./cache/cache");
+const siteItemDataPath = "../public/data/item_data.json";
+const siteMapIconMetaPath = "../public/data/map_icons.json";
+const siteMapLabelMetaPath = "../public/data/map_labels.json";
+const siteItemImagesPath = "../public/icons/items";
+const siteMapImagesPath = "../public/map";
+const siteMapLabelsPath = "../public/map/labels";
+const siteMapIconPath = "../public/map/icons/map_icons.webp";
+const siteQuestMapping = path.resolve("../resources/js/quests/mapping.json");
 const tileSize = 256;
 
 function exec(command, options) {
   console.log(command);
   options = options || {};
-  options.stdio = 'inherit';
+  options.stdio = "inherit";
   try {
     child_process.execSync(command, options);
   } catch (err) {
@@ -47,20 +47,22 @@ async function retry(fn, skipLast) {
       await fn();
       return;
     } catch (ex) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      if (i === (attempts - 1) && skipLast) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      if (i === attempts - 1 && skipLast) {
         console.error(ex);
       }
     }
   }
 
-  if (! skipLast) {
+  if (!skipLast) {
     fn();
   }
 }
 
 function execRuneliteCache(mainClass, arguments) {
-  exec(`MAVEN_OPTS="-Xmx8000m" mvn compile exec:java -Dexec.mainClass="${mainClass}" -Dexec.args="${arguments}"`, { cwd: cacheProjectPath });
+  exec(`MAVEN_OPTS="-Xmx8000m" mvn compile exec:java -Dexec.mainClass="${mainClass}" -Dexec.args="${arguments}"`, {
+    cwd: cacheProjectPath,
+  });
 
   exec(`git clean -ffdx .; git checkout HEAD -- .`, { cwd: cacheProjectPath });
 }
@@ -73,7 +75,7 @@ function execRuneliteApi(mainClass, arguments) {
 
 async function addDependencyInApiPom(groupId, artifactId, version) {
   xmlParser.reset();
-  const apiPomData = fs.readFileSync(apiPomPath, 'utf8');
+  const apiPomData = fs.readFileSync(apiPomPath, "utf8");
   const apiPom = await xmlParser.parseStringPromise(apiPomData);
 
   const dependencies = apiPom.project.dependencies;
@@ -84,11 +86,11 @@ async function addDependencyInApiPom(groupId, artifactId, version) {
 }
 
 async function readAllItemFiles() {
-  const itemFiles = glob.sync(`${path.resolve('./item-data')}/*.json`);
+  const itemFiles = glob.sync(`${path.resolve("./item-data")}/*.json`);
   const result = {};
 
   const q = nAsync.queue((itemFile, callback) => {
-    fs.promises.readFile(itemFile, 'utf8').then((itemFileData) => {
+    fs.promises.readFile(itemFile, "utf8").then((itemFileData) => {
       const item = JSON.parse(itemFileData);
       if (isNaN(item.id)) console.log(item);
       result[item.id] = item;
@@ -107,32 +109,43 @@ async function readAllItemFiles() {
 }
 
 async function dumpItemData() {
-  console.log('\nStep: Unpacking item data from cache');
-  execRuneliteCache('net.runelite.cache.Cache', `-c ${osrsCacheDirectory} -items ${path.resolve('./item-data')}`);
+  console.log("\nStep: Unpacking item data from cache");
+  execRuneliteCache("net.runelite.cache.Cache", `-c ${osrsCacheDirectory} -items ${path.resolve("./item-data")}`);
 
   fs.mkdirSync(`${apiProjectPath}/src/main/java/net/runelite/client/game/`, { recursive: true });
   fs.mkdirSync(`${apiProjectPath}/src/main/resources`);
 
-  fs.copyFileSync(`${clientProjectPath}/src/main/java/net/runelite/client/game/ItemMapping.java`, `${apiProjectPath}/src/main/java/net/runelite/client/game/ItemMapping.java`);
-  fs.copyFileSync(`${clientProjectPath}/src/main/java/net/runelite/client/game/ItemVariationMapping.java`, `${apiProjectPath}/src/main/java/net/runelite/client/game/ItemVariationMapping.java`);
-  fs.copyFileSync(`${clientProjectPath}/src/main/resources/item_variations.json`, `${apiProjectPath}/src/main/resources/item_variations.json`);
-  fs.copyFileSync('./ItemDumper.java', `${apiProjectPath}/src/main/java/net/runelite/api/ItemDumper.java`);
+  fs.copyFileSync(
+    `${clientProjectPath}/src/main/java/net/runelite/client/game/ItemMapping.java`,
+    `${apiProjectPath}/src/main/java/net/runelite/client/game/ItemMapping.java`,
+  );
+  fs.copyFileSync(
+    `${clientProjectPath}/src/main/java/net/runelite/client/game/ItemVariationMapping.java`,
+    `${apiProjectPath}/src/main/java/net/runelite/client/game/ItemVariationMapping.java`,
+  );
+  fs.copyFileSync(
+    `${clientProjectPath}/src/main/resources/item_variations.json`,
+    `${apiProjectPath}/src/main/resources/item_variations.json`,
+  );
+  fs.copyFileSync("./ItemDumper.java", `${apiProjectPath}/src/main/java/net/runelite/api/ItemDumper.java`);
 
-  await addDependencyInApiPom('com.fasterxml.jackson.core', 'jackson-databind', '2.17.0');
-  await addDependencyInApiPom('com.google.guava', 'guava', '33.3.1-jre');
-  await addDependencyInApiPom('com.google.code.gson', 'gson', '2.11.0');
+  await addDependencyInApiPom("com.fasterxml.jackson.core", "jackson-databind", "2.17.0");
+  await addDependencyInApiPom("com.google.guava", "guava", "33.3.1-jre");
+  await addDependencyInApiPom("com.google.code.gson", "gson", "2.11.0");
 
-  execRuneliteApi('net.runelite.api.ItemDumper', path.resolve(`./item-data`));
+  execRuneliteApi("net.runelite.api.ItemDumper", path.resolve(`./item-data`));
 }
 
 async function getNonAlchableItemNames() {
-  console.log('\nStep: Fetching unalchable items from wiki');
+  console.log("\nStep: Fetching unalchable items from wiki");
   const nonAlchableItemNames = new Set();
-  let cmcontinue = '';
+  let cmcontinue = "";
   do {
     const url = `https://oldschool.runescape.wiki/api.php?cmtitle=Category:Items_that_cannot_be_alchemised&action=query&list=categorymembers&format=json&cmlimit=500&cmcontinue=${cmcontinue}`;
     const response = await axios.get(url);
-    const itemNames = response.data.query.categorymembers.map((member) => member.title).filter((title) => ! title.startsWith('File:') && ! title.startsWith('Category:'));
+    const itemNames = response.data.query.categorymembers
+      .map((member) => member.title)
+      .filter((title) => !title.startsWith("File:") && !title.startsWith("Category:"));
     itemNames.forEach((name) => nonAlchableItemNames.add(name));
     cmcontinue = response.data?.continue?.cmcontinue || null;
   } while (cmcontinue);
@@ -141,12 +154,12 @@ async function getNonAlchableItemNames() {
 }
 
 async function buildItemDataJson() {
-  console.log('\nStep: Build item_data.json');
+  console.log("\nStep: Build item_data.json");
   const items = await readAllItemFiles();
   const includedItems = {};
   const allIncludedItemIds = new Set();
   for (const [itemId, item] of Object.entries(items)) {
-    if (item.name && item.name.trim().toLowerCase() !== 'null') {
+    if (item.name && item.name.trim().toLowerCase() !== "null") {
       includedItem = {
         name: item.name,
         highalch: Math.floor(item.cost * 0.6),
@@ -190,8 +203,8 @@ async function buildItemDataJson() {
 
     // NOTE: The wiki data does not list every variant of an item such as 'Abyssal lantern (yew logs)'
     // which is also not alchable. So this step is to handle that case by searching for the non variant item.
-    if (itemName.trim().endsWith(')') && itemName.indexOf('(') !== -1) {
-      const nonVariantItemName = itemName.substring(0, itemName.indexOf('(')).trim();
+    if (itemName.trim().endsWith(")") && itemName.indexOf("(") !== -1) {
+      const nonVariantItemName = itemName.substring(0, itemName.indexOf("(")).trim();
       if (nonAlchableItemNames.has(nonVariantItemName)) {
         item.highalch = 0;
         itemsMadeNonAlchable++;
@@ -199,37 +212,48 @@ async function buildItemDataJson() {
     }
   }
   console.log(`${itemsMadeNonAlchable} items were updated to be unalchable`);
-  fs.writeFileSync('./item_data.json', JSON.stringify(includedItems, null, 2));
+  fs.writeFileSync("./item_data.json", JSON.stringify(includedItems, null, 2));
 
   return allIncludedItemIds;
 }
 
 async function dumpItemImages(allIncludedItemIds) {
   // TODO: Zoom on holy symbol is incorrect
-  console.log('\nStep: Extract item model images');
+  console.log("\nStep: Extract item model images");
 
   console.log(`Generating images for ${allIncludedItemIds.size} items`);
-  fs.writeFileSync('items_need_images.csv', Array.from(allIncludedItemIds.values()).join(','));
-  const imageDumperDriver = fs.readFileSync('./Cache.java', 'utf8');
+  fs.writeFileSync("items_need_images.csv", Array.from(allIncludedItemIds.values()).join(","));
+  const imageDumperDriver = fs.readFileSync("./Cache.java", "utf8");
   fs.writeFileSync(`${cacheProjectPath}/src/main/java/net/runelite/cache/Cache.java`, imageDumperDriver);
-  const itemSpriteFactory = fs.readFileSync('./ItemSpriteFactory.java', 'utf8');
-  fs.writeFileSync(`${cacheProjectPath}/src/main/java/net/runelite/cache/item/ItemSpriteFactory.java`, itemSpriteFactory);
-  execRuneliteCache('net.runelite.cache.Cache', `-c ${osrsCacheDirectory} -ids ${path.resolve('./items_need_images.csv')} -output ${path.resolve('./item-images')}`);
+  const itemSpriteFactory = fs.readFileSync("./ItemSpriteFactory.java", "utf8");
+  fs.writeFileSync(
+    `${cacheProjectPath}/src/main/java/net/runelite/cache/item/ItemSpriteFactory.java`,
+    itemSpriteFactory,
+  );
+  execRuneliteCache(
+    "net.runelite.cache.Cache",
+    `-c ${osrsCacheDirectory} -ids ${path.resolve("./items_need_images.csv")} -output ${path.resolve("./item-images")}`,
+  );
 
   const itemImages = glob.sync(`./item-images/*.png`);
   let p = [];
   for (const itemImage of itemImages) {
-    p.push(new Promise(async (resolve) => {
-      const itemImageData = await sharp(itemImage).webp({ lossless: true }).toBuffer();
-      fs.unlinkSync(itemImage);
-      await sharp(itemImageData).webp({ lossless: true, effort: 6 }).toFile(itemImage.replace('.png', '.webp')).then(resolve);
-    }));
+    p.push(
+      new Promise(async (resolve) => {
+        const itemImageData = await sharp(itemImage).webp({ lossless: true }).toBuffer();
+        fs.unlinkSync(itemImage);
+        await sharp(itemImageData)
+          .webp({ lossless: true, effort: 6 })
+          .toFile(itemImage.replace(".png", ".webp"))
+          .then(resolve);
+      }),
+    );
   }
   await Promise.all(p);
 }
 
 async function convertXteasToRuneliteFormat() {
-  const xteas = JSON.parse(fs.readFileSync(`${osrsCacheDirectory}/../xteas.json`, 'utf8'));
+  const xteas = JSON.parse(fs.readFileSync(`${osrsCacheDirectory}/../xteas.json`, "utf8"));
   let result = xteas.map((region) => ({
     region: region.mapsquare,
     keys: region.key,
@@ -242,63 +266,84 @@ async function convertXteasToRuneliteFormat() {
 }
 
 async function dumpMapData(xteasLocation) {
-  console.log('\nStep: Dumping map data');
-  const mapImageDumper = fs.readFileSync('./MapImageDumper.java', 'utf8');
+  console.log("\nStep: Dumping map data");
+  const mapImageDumper = fs.readFileSync("./MapImageDumper.java", "utf8");
   fs.writeFileSync(`${cacheProjectPath}/src/main/java/net/runelite/cache/MapImageDumper.java`, mapImageDumper);
-  execRuneliteCache('net.runelite.cache.MapImageDumper', `--cachedir ${osrsCacheDirectory} --xteapath ${xteasLocation} --outputdir ${path.resolve('./map-data')}`);
+  execRuneliteCache(
+    "net.runelite.cache.MapImageDumper",
+    `--cachedir ${osrsCacheDirectory} --xteapath ${xteasLocation} --outputdir ${path.resolve("./map-data")}`,
+  );
 }
 
 async function dumpMapLabels() {
-  console.log('\nStep: Dumping map labels');
-  const mapLabelDumper = fs.readFileSync('./MapLabelDumper.java', 'utf8');
+  console.log("\nStep: Dumping map labels");
+  const mapLabelDumper = fs.readFileSync("./MapLabelDumper.java", "utf8");
   fs.writeFileSync(`${cacheProjectPath}/src/main/java/net/runelite/cache/MapLabelDumper.java`, mapLabelDumper);
-  execRuneliteCache('net.runelite.cache.MapLabelDumper', `--cachedir ${osrsCacheDirectory} --outputdir ${path.resolve('./map-data/labels')}`);
+  execRuneliteCache(
+    "net.runelite.cache.MapLabelDumper",
+    `--cachedir ${osrsCacheDirectory} --outputdir ${path.resolve("./map-data/labels")}`,
+  );
 
-  const mapLabels = glob.sync('./map-data/labels/*.png');
+  const mapLabels = glob.sync("./map-data/labels/*.png");
   let p = [];
   for (const mapLabel of mapLabels) {
-    p.push(new Promise(async (resolve) => {
-      const mapLabelImageData = await sharp(mapLabel).webp({ lossless: true }).toBuffer();
-      fs.unlinkSync(mapLabel);
-      await sharp(mapLabelImageData).webp({ lossless: true, effort: 6 }).toFile(mapLabel.replace('.png', '.webp')).then(resolve);
-    }));
+    p.push(
+      new Promise(async (resolve) => {
+        const mapLabelImageData = await sharp(mapLabel).webp({ lossless: true }).toBuffer();
+        fs.unlinkSync(mapLabel);
+        await sharp(mapLabelImageData)
+          .webp({ lossless: true, effort: 6 })
+          .toFile(mapLabel.replace(".png", ".webp"))
+          .then(resolve);
+      }),
+    );
   }
   await Promise.all(p);
 }
 
 async function dumpCollectionLog() {
-  console.log('\nStep: Dumping collection log');
-  const collectionLogDumper = fs.readFileSync('./CollectionLogDumper.java', 'utf8');
-  fs.writeFileSync(`${cacheProjectPath}/src/main/java/net/runelite/cache/CollectionLogDumper.java`, collectionLogDumper);
-  execRuneliteCache('net.runelite.cache.CollectionLogDumper', `--cachedir ${osrsCacheDirectory} --outputdir ${path.resolve('../storage/cache')}`);
+  console.log("\nStep: Dumping collection log");
+  const collectionLogDumper = fs.readFileSync("./CollectionLogDumper.java", "utf8");
+  fs.writeFileSync(
+    `${cacheProjectPath}/src/main/java/net/runelite/cache/CollectionLogDumper.java`,
+    collectionLogDumper,
+  );
+  execRuneliteCache(
+    "net.runelite.cache.CollectionLogDumper",
+    `--cachedir ${osrsCacheDirectory} --outputdir ${path.resolve("../storage/cache")}`,
+  );
 }
 
 async function tilePlane(plane) {
-  await retry(() => fs.rmSync('./output_files', { recursive: true, force: true }));
+  await retry(() => fs.rmSync("./output_files", { recursive: true, force: true }));
   const planeImage = sharp(`./map-data/img-${plane}.png`, { limitInputPixels: false }).flip();
-  await planeImage.webp({ lossless: true }).tile({
-    size: tileSize,
-    depth: 'one',
-    background: { r: 0, g: 0, b: 0, alpha: 0 },
-    skipBlanks: 0,
-  }).toFile('output.dz');
+  await planeImage
+    .webp({ lossless: true })
+    .tile({
+      size: tileSize,
+      depth: "one",
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+      skipBlanks: 0,
+    })
+    .toFile("output.dz");
 }
 
 async function outputTileImage(s, plane, x, y) {
-  return s.flatten({ background: '#000' })
+  return s
+    .flatten({ background: "#000" })
     .webp({ lossless: true, alphaQuality: 0, effort: 6 })
     .toFile(`./map-data/tiles/${plane}_${x}_${y}.webp`);
 }
 
 async function finalizePlaneTiles(plane, previousTiles) {
-  const tileImages = glob.sync('./output_files/0/*.webp');
+  const tileImages = glob.sync("./output_files/0/*.webp");
 
   for (const tileImage of tileImages) {
-    const filename = path.basename(tileImage, '.webp');
-    const [x, y] = filename.split('_').map((coord) => parseInt(coord, 10));
+    const filename = path.basename(tileImage, ".webp");
+    const [x, y] = filename.split("_").map((coord) => parseInt(coord, 10));
 
-    const finalX = x + (4608 / tileSize);
-    const finalY = y + (4864 / tileSize);
+    const finalX = x + 4608 / tileSize;
+    const finalY = y + 4864 / tileSize;
 
     let s;
     if (plane > 0) {
@@ -308,14 +353,11 @@ async function finalizePlaneTiles(plane, previousTiles) {
       if (backgroundExists) {
         const tile = await sharp(tileImage).flip().webp({ lossless: true }).toBuffer();
         const background = await sharp(backgroundPath).linear(0.5).webp({ lossless: true }).toBuffer();
-        s = sharp(background)
-          .composite([
-            { input: tile },
-          ]);
+        s = sharp(background).composite([{ input: tile }]);
       }
     }
 
-    if (! s) {
+    if (!s) {
       s = sharp(tileImage).flip();
     }
 
@@ -326,11 +368,11 @@ async function finalizePlaneTiles(plane, previousTiles) {
   // NOTE: This is just so the plane will have a darker version of the tile below it
   // even if the plane does not have its own image for a tile.
   if (plane > 0) {
-    const belowTiles = [...previousTiles].filter(x => x.startsWith(plane - 1));
+    const belowTiles = [...previousTiles].filter((x) => x.startsWith(plane - 1));
     for (const belowTile of belowTiles) {
-      const [belowPlane, x, y] = belowTile.split('_');
+      const [belowPlane, x, y] = belowTile.split("_");
       const lookup = `${plane}_${x}_${y}`;
-      if (! previousTiles.has(lookup)) {
+      if (!previousTiles.has(lookup)) {
         const outputPath = `./map-data/tiles/${plane}_${x}_${y}.webp`;
         if (fs.existsSync(outputPath) === true) {
           throw new Error(`Filling tile ${outputPath} but it already exists!`);
@@ -345,9 +387,9 @@ async function finalizePlaneTiles(plane, previousTiles) {
 }
 
 async function generateMapTiles() {
-  console.log('\nStep: Generate map tiles');
-  fs.rmSync('./map-data/tiles', { recursive: true, force: true });
-  fs.mkdirSync('./map-data/tiles');
+  console.log("\nStep: Generate map tiles");
+  fs.rmSync("./map-data/tiles", { recursive: true, force: true });
+  fs.mkdirSync("./map-data/tiles");
 
   const previousTiles = new Set();
   const planes = 4;
@@ -370,15 +412,15 @@ async function moveFiles(globSource, destination) {
 }
 
 async function moveResults() {
-  console.log('\nStep: Moving results to site');
-  await retry(() => fs.renameSync('./item_data.json', siteItemDataPath), true);
+  console.log("\nStep: Moving results to site");
+  await retry(() => fs.renameSync("./item_data.json", siteItemDataPath), true);
 
-  await moveFiles('./item-images/*.webp', siteItemImagesPath);
-  await moveFiles('./map-data/tiles/*.webp', siteMapImagesPath);
-  await moveFiles('./map-data/labels/*.webp', siteMapLabelsPath);
+  await moveFiles("./item-images/*.webp", siteItemImagesPath);
+  await moveFiles("./map-data/tiles/*.webp", siteMapImagesPath);
+  await moveFiles("./map-data/labels/*.webp", siteMapLabelsPath);
 
   // Create a tile sheet of the map icons
-  const mapIcons = glob.sync('./map-data/icons/*.png');
+  const mapIcons = glob.sync("./map-data/icons/*.png");
   let mapIconsCompositeOpts = [];
   const iconIdToSpriteMapIndex = {};
   for (let i = 0; i < mapIcons.length; ++i) {
@@ -388,7 +430,7 @@ async function moveResults() {
       top: 0,
     });
 
-    iconIdToSpriteMapIndex[path.basename(mapIcons[i], '.png')] = i;
+    iconIdToSpriteMapIndex[path.basename(mapIcons[i], ".png")] = i;
   }
   await sharp({
     create: {
@@ -397,12 +439,15 @@ async function moveResults() {
       channels: 4,
       background: { r: 0, g: 0, b: 0, alpha: 0 },
     },
-  }).composite(mapIconsCompositeOpts).webp({ lossless: true, effort: 6 }).toFile(siteMapIconPath);
+  })
+    .composite(mapIconsCompositeOpts)
+    .webp({ lossless: true, effort: 6 })
+    .toFile(siteMapIconPath);
 
   // Convert the output of the map-icons locations to be keyed by the X an Y of the regions
   // that they are in. This is done so that the canvas map component can quickly lookup
   // all of the icons in each of the regions that are being shown.
-  const mapIconsMeta = JSON.parse(fs.readFileSync('./map-data/icons/map-icons.json', 'utf8'));
+  const mapIconsMeta = JSON.parse(fs.readFileSync("./map-data/icons/map-icons.json", "utf8"));
   const locationByRegion = {};
 
   for (const [iconId, coordinates] of Object.entries(mapIconsMeta)) {
@@ -415,7 +460,7 @@ async function moveResults() {
 
       const spriteMapIndex = iconIdToSpriteMapIndex[iconId];
       if (spriteMapIndex === undefined) {
-        throw new Error('Could not find sprite map index for map icon: ' + iconId);
+        throw new Error("Could not find sprite map index for map icon: " + iconId);
       }
 
       locationByRegion[regionX] = locationByRegion[regionX] || {};
@@ -429,7 +474,7 @@ async function moveResults() {
   fs.writeFileSync(siteMapIconMetaPath, JSON.stringify(locationByRegion, null, 2));
 
   // Do the same for map labels
-  const mapLabelsMeta = JSON.parse(fs.readFileSync('./map-data/labels/map-labels.json', 'utf8'));
+  const mapLabelsMeta = JSON.parse(fs.readFileSync("./map-data/labels/map-labels.json", "utf8"));
   const labelByRegion = {};
 
   for (let i = 0; i < mapLabelsMeta.length; ++i) {
@@ -452,10 +497,10 @@ async function moveResults() {
 }
 
 async function dumpQuestMapping() {
-  await addDependencyInApiPom('com.fasterxml.jackson.core', 'jackson-databind', '2.17.0');
-  fs.copyFileSync('./QuestDumper.java', `${apiProjectPath}/src/main/java/net/runelite/api/QuestDumper.java`);
+  await addDependencyInApiPom("com.fasterxml.jackson.core", "jackson-databind", "2.17.0");
+  fs.copyFileSync("./QuestDumper.java", `${apiProjectPath}/src/main/java/net/runelite/api/QuestDumper.java`);
 
-  execRuneliteApi('net.runelite.api.QuestDumper', siteQuestMapping);
+  execRuneliteApi("net.runelite.api.QuestDumper", siteQuestMapping);
 }
 
 (async () => {
