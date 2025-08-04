@@ -8,7 +8,7 @@
 
 #setup-instructions {
   max-width: 500px;
-  padding: 8px 24px;
+  padding: 8px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -33,6 +33,7 @@
 .setup-credential {
   padding: 0.25em 0.5em;
   position: relative;
+  width: 100%;
 }
 
 #setup-credential-hide {

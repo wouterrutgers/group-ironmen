@@ -1,0 +1,30 @@
+#side-panels-container {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  gap: 16px;
+  list-style: none;
+  overflow-y: auto;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+@media only screen and (width <= 800px) {
+  #side-panels-container {
+    display: none;
+  }
+}
+
+#main-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+  z-index: 1;
+}
+
+#unauthed-content {
+  position: absolute;
+  inset: 0;
+  overflow-y: scroll;
+}

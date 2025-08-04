@@ -4,7 +4,7 @@
 }
 
 .collection-log-container {
-  height: 90vh;
+  height: 90svh;
   width: min(90vw, 1000px);
   display: flex;
   flex-direction: column;
@@ -194,7 +194,7 @@
   gap: 1rem;
 }
 
-@media (max-width: 1070px) {
+@media (width <= 1070px) {
   .collection-log-page-items {
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   }
@@ -266,4 +266,24 @@
 
 .collection-log-page-name-link > a:hover {
   color: var(--yellow-light);
+}
+
+@media screen and (width <= 800px) {
+  .collection-log-tab-buttons {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  }
+
+  .collection-log-tab-container {
+    flex-direction: column;
+  }
+
+  .collection-log-tab-list {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .collection-log-page-container {
+    flex: 1;
+    overflow-y: scroll;
+  }
 }

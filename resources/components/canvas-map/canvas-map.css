@@ -6,6 +6,27 @@
   inset: 0;
 }
 
+#canvas-map-follow-dropdown {
+  display: none;
+}
+
+#canvas-map-teleport-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 42px;
+}
+
+@media only screen and (width <= 800px) {
+  #canvas-map-follow-dropdown {
+    display: block;
+  }
+
+  #canvas-map-teleport-buttons {
+    display: none;
+  }
+}
+
 #canvas-map {
   position: absolute;
   pointer-events: none;
@@ -43,11 +64,11 @@
   left: 8px;
 }
 
-#canvas-map-plane-select-container {
+.canvas-map-plane-select-container {
   align-self: baseline;
 }
 
-#canvas-map-plane-select {
+.canvas-map-plane-select {
   padding: 0.4em;
 }
 
