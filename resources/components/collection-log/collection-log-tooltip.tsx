@@ -14,7 +14,7 @@ export const useCollectionLogItemTooltip = (): {
   showTooltip: (props: CollectionLogItemTooltipProps) => void;
 } => {
   const [props, setProps] = useState<CollectionLogItemTooltipProps>();
-  const tooltipRef = useRef<HTMLDivElement>(document.body.querySelector<HTMLDivElement>("div#tooltip")!);
+  const tooltipRef = useRef<HTMLElement>(document.getElementById("tooltip")!);
 
   const hideTooltip = (): void => {
     setProps(undefined);

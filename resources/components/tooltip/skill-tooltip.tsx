@@ -29,7 +29,7 @@ export const useSkillTooltip = (): {
   showTooltip: (item: SkillTooltipProps) => void;
 } => {
   const [skillProps, setSkillProps] = useState<SkillTooltipProps>();
-  const tooltipRef = useRef<HTMLDivElement>(document.body.querySelector<HTMLDivElement>("div#tooltip")!);
+  const tooltipRef = useRef<HTMLElement>(document.getElementById("tooltip")!);
 
   const hideTooltip = (): void => {
     setSkillProps(undefined);

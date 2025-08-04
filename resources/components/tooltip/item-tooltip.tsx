@@ -25,7 +25,7 @@ export const useItemTooltip = (): {
   showTooltip: (item: ItemTooltipProps) => void;
 } => {
   const [item, setTooltipItem] = useState<ItemTooltipProps>();
-  const tooltipRef = useRef<HTMLDivElement>(document.body.querySelector<HTMLDivElement>("div#tooltip")!);
+  const tooltipRef = useRef<HTMLElement>(document.getElementById("tooltip")!);
 
   const hideTooltip = (): void => {
     setTooltipItem(undefined);
