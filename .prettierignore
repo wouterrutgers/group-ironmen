@@ -7,5 +7,8 @@ auto-save-list
 tramp
 .#*
 *.html
+
+# Ignore auto-generated resources, such as JSON generated when updating from the game cache
 public/*
 dist/*
+storage/cache/*
