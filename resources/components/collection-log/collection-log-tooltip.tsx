@@ -18,11 +18,9 @@ export const useCollectionLogItemTooltip = (): {
 
   const hideTooltip = (): void => {
     setProps(undefined);
-    tooltipRef.current.style.visibility = "hidden";
   };
   const showTooltip = (item: CollectionLogItemTooltipProps): void => {
     setProps(item);
-    tooltipRef.current.style.visibility = "visible";
   };
 
   const content = (

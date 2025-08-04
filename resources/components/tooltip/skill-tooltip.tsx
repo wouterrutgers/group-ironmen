@@ -33,11 +33,9 @@ export const useSkillTooltip = (): {
 
   const hideTooltip = (): void => {
     setSkillProps(undefined);
-    tooltipRef.current.style.visibility = "hidden";
   };
   const showTooltip = (item: SkillTooltipProps): void => {
     setSkillProps(item);
-    tooltipRef.current.style.visibility = "visible";
   };
 
   let element = undefined;

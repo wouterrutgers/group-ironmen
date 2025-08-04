@@ -29,11 +29,9 @@ export const useItemTooltip = (): {
 
   const hideTooltip = (): void => {
     setTooltipItem(undefined);
-    tooltipRef.current.style.visibility = "hidden";
   };
   const showTooltip = (item: ItemTooltipProps): void => {
     setTooltipItem(item);
-    tooltipRef.current.style.visibility = "visible";
   };
 
   const lines: ({ key: string; value: string; type?: undefined } | { key: string; type: "separator" })[] = [];
