@@ -154,9 +154,9 @@ export const CanvasMap = ({ interactive }: { interactive: boolean }): ReactEleme
   const interactiveClass = interactive ? "interactive" : "";
 
   const planeSelect = (
-    <div id="canvas-map-plane-select-container" className="rsborder-tiny rsbackground">
+    <div className="canvas-map-plane-select-container rsborder-tiny rsbackground">
       <select
-        id="canvas-map-plane-select"
+        className="canvas-map-plane-select"
         onChange={(e) => {
           const plane = parseInt(e.target.options[e.target.selectedIndex].value);
           if (visiblePlane === plane) return;
@@ -171,12 +171,17 @@ export const CanvasMap = ({ interactive }: { interactive: boolean }): ReactEleme
       </select>
     </div>
   );
+
+  /**
+   * Buttons to tap that snaps the camera to each member of the group, and
+   * follows them.
+   */
   const teleportButtons = [];
   for (const { label: player } of memberCoordinates) {
     teleportButtons.push(
       <button
         key={player}
-        className={`${player === followedPlayer ? "canvas-map-selected-teleport-button" : ""} men-button `}
+        className={`${player === followedPlayer ? "canvas-map-selected-teleport-button" : ""} men-button canvas-map-teleport-button`}
         onClick={() => {
           if (!renderer) return;
           renderer.startFollowingPlayer({
@@ -189,6 +194,34 @@ export const CanvasMap = ({ interactive }: { interactive: boolean }): ReactEleme
       </button>,
     );
   }
+
+  /**
+   * A dropdown for following members, displayed on the mobile layout. It is
+   * less convenient, but takes up less space.
+   */
+  const followDropdown = (
+    <div id="canvas-map-follow-dropdown" className="canvas-map-plane-select-container rsborder-tiny rsbackground">
+      <select
+        className="canvas-map-plane-select"
+        onChange={(e) => {
+          if (!renderer) return;
+          renderer.startFollowingPlayer({
+            player: e.target.value,
+          });
+          renderer.forceRenderNextFrame = true;
+        }}
+      >
+        <option value={undefined}>None</option>
+        {memberCoordinates.map(({ label: player }) => {
+          return (
+            <option key={player} value={player}>
+              {player}
+            </option>
+          );
+        })}
+      </select>
+    </div>
+  );
 
   const backgroundMap = (
     <div id="canvas-map-container">
@@ -216,7 +249,8 @@ export const CanvasMap = ({ interactive }: { interactive: boolean }): ReactEleme
     const controls = (
       <div key="controls" id="canvas-map-controls">
         {planeSelect}
-        {teleportButtons}
+        {followDropdown}
+        <span id="canvas-map-teleport-buttons">{teleportButtons}</span>
       </div>
     );
 

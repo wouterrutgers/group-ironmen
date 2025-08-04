@@ -17,13 +17,13 @@
   --rsbackground-dark: url("/ui/297-0-dark.png");
 }
 
-/* 
+/*
  * This gets rid of default button styling which can be very helpful when you
  * wish to make a random element a button instead but you aren't ready for all
- * the default styling. 
+ * the default styling.
  *
  * This selection of properties is probably not exhaustive (I haven't checked),
- * but it covers our usage. 
+ * but it covers our usage.
  */
 button {
   cursor: pointer;
@@ -45,6 +45,7 @@ a {
 html {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -344,19 +345,11 @@ ul {
   pointer-events: none;
 }
 
-#main-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 8px;
-  z-index: 1;
-}
-
 *:focus {
-  /* 
+  /*
    * Sorta hacky, but an easy way to get consistent focus behavior across all
    * input. Good outlines for specific elements should be implemented, and the
-   * important tag dropped. 
+   * important tag dropped.
    */
   outline: auto !important;
 }
@@ -371,33 +364,6 @@ ul {
 
 .pointer-passthrough {
   pointer-events: none;
-}
-
-#side-panels-container {
-  display: flex;
-  flex-direction: column;
-  padding: 4px;
-  gap: 16px;
-  list-style: none;
-  overflow-y: auto;
-  box-sizing: border-box;
-  height: 100%;
-}
-
-@media only screen and (width <= 800px) {
-  #side-panels-container {
-    display: none;
-  }
-}
-
-#panels-page-container {
-  gap: 16px;
-  padding: 8px;
-  overflow-y: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, max-content));
-  justify-content: center;
-  align-items: start;
 }
 
 .orange-link {

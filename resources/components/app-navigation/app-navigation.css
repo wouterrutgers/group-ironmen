@@ -19,6 +19,10 @@
   .mobile {
     display: initial;
   }
+
+  #app-navigation {
+    flex-direction: column;
+  }
 }
 
 #app-navigation .men-button img {
@@ -28,8 +32,9 @@
 #app-navigation-nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-grow: 1;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -45,6 +50,10 @@
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
+}
+
+#app-navigation-spacer {
+  flex: 1 1 0;
 }
 
 #app-navigation-group-name {

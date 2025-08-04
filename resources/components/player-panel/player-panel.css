@@ -1,6 +1,6 @@
 .player-panel {
   display: block;
-  width: 300px;
+  width: 280px;
   position: relative;
   transform: translate3d(0, 0, 1px);
   color: white;

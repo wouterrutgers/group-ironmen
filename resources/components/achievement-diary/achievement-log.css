@@ -3,9 +3,7 @@
   flex-direction: column;
   padding: 0;
   margin: 20px;
-  max-height: 90vh;
-  width: 800px;
-  min-width: 70vh;
+  max-height: 90svh;
   cursor: auto;
 }
 
@@ -39,7 +37,7 @@
 .diary-dialog-task {
   display: flex;
   flex-wrap: wrap;
-  padding: 6px 0;
+  padding: 6px;
   justify-content: center;
 }
 
@@ -137,4 +135,10 @@
   text-underline-offset: -40%;
   text-decoration-skip-ink: none;
   color: rgb(255 255 255 / 60%);
+}
+
+@media screen and (width <= 800px) {
+  .diary-dialog-container {
+    text-wrap: wrap;
+  }
 }

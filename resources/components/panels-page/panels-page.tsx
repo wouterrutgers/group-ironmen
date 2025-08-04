@@ -2,6 +2,8 @@ import type { ReactElement } from "react";
 import { useGroupListMembersContext } from "../../context/group-state-context";
 import { PlayerPanel } from "../player-panel/player-panel";
 
+import "./panels-page.css";
+
 export const PanelsPage = (): ReactElement => {
   const groupMembers = useGroupListMembersContext();
 

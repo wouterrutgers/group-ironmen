@@ -6,10 +6,12 @@ import { PlayerPanel } from "../player-panel/player-panel.tsx";
 import { Context as APIContext } from "../../context/api-context.tsx";
 import { Context as SettingsContext } from "../../context/settings-context.tsx";
 
+import "./layout.css";
+
 export const UnauthedLayout = ({ children }: { children?: ReactNode }): ReactElement => {
   return (
     <>
-      <div style={{ position: "absolute", inset: 0 }}>{children}</div>
+      <div id="unauthed-content">{children}</div>
     </>
   );
 };

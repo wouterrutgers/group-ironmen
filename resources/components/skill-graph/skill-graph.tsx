@@ -124,12 +124,12 @@ const buildLineChartOptions = ({ period, yAxisUnit }: SkillGraphOptions): ChartO
       mode: "index",
     },
     layout: {
-      padding: 16,
+      padding: 4,
     },
     scales: {
       x: {
         title: {
-          display: true,
+          display: false,
           text: "Time",
         },
         type: "time",
@@ -458,7 +458,10 @@ export const SkillGraph = (): ReactElement => {
   });
 
   const [tableRowData, setTableRowData] = useState<SkillGraphTableRow[]>([]);
-  const [chart, setChart] = useState<SkillChart>({ data: { datasets: [] }, options: {} });
+  const [chart, setChart] = useState<SkillChart>({
+    data: { datasets: [] },
+    options: buildLineChartOptions({ period: "Day", yAxisUnit: "Total Experience", skillFilter: "Overall" }),
+  });
 
   const [loading, setLoading] = useState<boolean>(true);
   const updateChartPromiseRef = useRef<Promise<void>>(undefined);
@@ -627,7 +630,9 @@ export const SkillGraph = (): ReactElement => {
             loading="lazy"
             src={SkillIconsBySkill.get(skillFilter)?.href ?? ""}
           />
-          <Line id="skill-graph-canvas" options={chart.options} data={chart.data} />
+          <div id="skill-graph-line-chart-container">
+            <Line options={chart.options} data={chart.data} />
+          </div>
         </div>
         {xpGainsTable}
         {loadingOverlay}

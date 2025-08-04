@@ -1,8 +1,8 @@
 import { Fragment, type ReactElement } from "react";
 import { MenLink } from "../men-link/men-link";
+import { useLocation } from "react-router-dom";
 
 import "./app-navigation.css";
-import { useLocation } from "react-router-dom";
 
 export const AppNavigation = ({ groupName }: { groupName: string }): ReactElement => {
   const location = useLocation();
@@ -24,25 +24,28 @@ export const AppNavigation = ({ groupName }: { groupName: string }): ReactElemen
     links.map(({ label, href, mobileIconSource }) => (
       <Fragment key={label}>
         <span className="desktop">
-          <MenLink key={label} href={href} selected={location.pathname === href}>
+          <MenLink href={href} selected={location.pathname === href}>
             {label}
           </MenLink>
         </span>
         <span className="mobile">
-          <MenLink key={label} href={href} selected={location.pathname === href}>
+          <MenLink href={href} selected={location.pathname === href}>
             <img alt={label} src={mobileIconSource} />
           </MenLink>
         </span>
       </Fragment>
     ));
 
+  const elements = [
+    ...renderLinks(mainLinks),
+    <span key="spacer" id="app-navigation-spacer" className="desktop" />,
+    ...renderLinks(rightAlignedLinks),
+  ];
+
   return (
     <div id="app-navigation" className="rsborder-tiny rsbackground">
       <h4 id="app-navigation-group-name">{groupName}</h4>
-      <nav id="app-navigation-nav">
-        <div className="nav-main-links">{renderLinks(mainLinks)}</div>
-        <div className="nav-right-links">{renderLinks(rightAlignedLinks)}</div>
-      </nav>
+      <nav id="app-navigation-nav">{elements}</nav>
     </div>
   );
 };
