@@ -13,7 +13,7 @@ export const useItemsPriceTooltip = (): {
   showTooltip: (props: ItemsPriceTooltipProps) => void;
 } => {
   const [tooltipData, setTooltipData] = useState<ItemsPriceTooltipProps>();
-  const tooltipRef = useRef<HTMLDivElement>(document.body.querySelector<HTMLDivElement>("div#tooltip")!);
+  const tooltipRef = useRef<HTMLElement>(document.getElementById("tooltip")!);
 
   const hideTooltip = (): void => {
     setTooltipData(undefined);
