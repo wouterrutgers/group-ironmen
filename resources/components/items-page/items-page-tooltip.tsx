@@ -17,12 +17,10 @@ export const useItemsPriceTooltip = (): {
 
   const hideTooltip = (): void => {
     setTooltipData(undefined);
-    tooltipRef.current.style.visibility = "hidden";
   };
 
   const showTooltip = (props: ItemsPriceTooltipProps): void => {
     setTooltipData(props);
-    tooltipRef.current.style.visibility = "visible";
   };
 
   let content: ReactElement = <></>;

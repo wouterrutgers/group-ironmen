@@ -12,9 +12,8 @@ import "./tooltip.css";
  * reference to the node such as with a DOM query for '#tooltip', then use
  * createPortal and attach to that node.
  *
- * For right now, the tooltip should only be accessed by one component at a
- * time. So, nodes with overlapping pointer hitboxes should not both try to
- * control the visibility/add content.
+ * Tooltip visibility is based on whether or not it is populated i.e. has child
+ * DOM nodes.
  */
 export const Tooltip = (): ReactElement => {
   const elementRef = useRef<HTMLDivElement>(null);
