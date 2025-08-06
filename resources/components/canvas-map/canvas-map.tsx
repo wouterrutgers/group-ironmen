@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import { Context2DScaledWrapper } from "./canvas-wrapper";
 import { CanvasMapRenderer, type LabelledCoordinates } from "./canvas-map-renderer";
-import { useGroupStateContext } from "../../context/group-state-context";
-import type { GroupState } from "../../api/api";
+import { useGroupMemberContext } from "../../context/group-context";
 import { Vec2D, type WikiPosition2D } from "./coordinates";
 import { createPortal } from "react-dom";
+import * as Member from "../../game/member";
 
 import "./canvas-map.css";
 
-const memberCoordinatesSelector = (state: GroupState | undefined): LabelledCoordinates[] => {
+const memberCoordinatesSelector = (state: Map<Member.Name, Member.State> | undefined): LabelledCoordinates[] => {
   if (!state) return [];
   return [
-    ...state.members
+    ...state
       .entries()
       .filter(([_, state]) => state.coordinates)
       .map(([name, state]) => ({ label: name, coords: state.coordinates!.coords, plane: state.coordinates!.plane })),
@@ -27,7 +27,7 @@ export const CanvasMap = ({ interactive }: { interactive: boolean }): ReactEleme
   const [followedPlayer, setFollowedPlayer] = useState<string>();
   const [visiblePlane, setVisiblePlane] = useState<number>(0);
   const animationFrameHandleRef = useRef<number>(undefined);
-  const memberCoordinates = useGroupStateContext(memberCoordinatesSelector);
+  const memberCoordinates = useGroupMemberContext(memberCoordinatesSelector);
 
   if (memberCoordinates) {
     renderer?.tryUpdatePlayerPositions(memberCoordinates);

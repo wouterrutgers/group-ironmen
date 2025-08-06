@@ -1,6 +1,5 @@
 import { Fragment, useCallback, useContext, useEffect, useRef, useState, type ReactElement } from "react";
 import * as SiteSettings from "../../context/settings-context";
-import { useGroupListMembersContext } from "../../context/group-state-context";
 import { Context as APIContext } from "../../context/api-context";
 import * as Member from "../../game/member";
 import { MemberNameSchema } from "../create-group-page/create-group-page";
@@ -8,6 +7,7 @@ import z from "zod/v4";
 import { LoadingScreen } from "../loading-screen/loading-screen";
 import { PlayerIcon } from "../player-icon/player-icon";
 import { useModal } from "../modal/modal";
+import { GroupMemberNamesContext } from "../../context/group-context";
 
 import "./settings.css";
 
@@ -229,8 +229,8 @@ const EditMemberInput = ({ member }: { member: Member.Name }): ReactElement => {
  * A component that contains fields for tweaking site settings such as sidebar position, and group settings like member names.
  */
 export const SettingsPage = (): ReactElement => {
-  const { siteTheme, setSiteTheme, sidebarPosition, setSidebarPosition } = useContext(SiteSettings.Context);
-  const members = useGroupListMembersContext();
+  const { siteTheme, setSiteTheme, sidebarPosition, setSidebarPosition } = useContext(SiteSettings.SettingsContext);
+  const members = useContext(GroupMemberNamesContext);
   const [addMemberErrors, setAddMemberErrors] = useState<string[]>();
   const addMemberInputRef = useRef<HTMLInputElement>(null);
   const { addMember } = useContext(APIContext);

@@ -2,7 +2,7 @@ import { useContext, type ReactElement, type ReactNode } from "react";
 import { useItemTooltip, type ItemTooltipProps } from "../tooltip/item-tooltip";
 import { GameDataContext } from "../../context/game-data-context";
 import * as Member from "../../game/member";
-import { useMemberInventoryContext, useMemberRunePouchContext } from "../../context/group-state-context";
+import { useMemberInventoryContext, useMemberRunePouchContext } from "../../context/group-context";
 import { composeItemIconHref, formatShortQuantity, formatVeryShortQuantity, isRunePouch } from "../../game/items";
 
 import "./player-inventory.css";

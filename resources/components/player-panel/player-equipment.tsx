@@ -3,7 +3,7 @@ import { useItemTooltip } from "../tooltip/item-tooltip";
 import { GameDataContext } from "../../context/game-data-context";
 import { EquipmentSlot } from "../../game/equipment";
 import type * as Member from "../../game/member";
-import { useMemberEquipmentContext } from "../../context/group-state-context";
+import { useMemberEquipmentContext } from "../../context/group-context";
 
 import "./player-equipment.css";
 import { composeItemIconHref, formatShortQuantity } from "../../game/items";

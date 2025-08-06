@@ -1,12 +1,13 @@
 import { type ReactElement, Fragment, useContext, useState } from "react";
 import { SearchElement } from "../search-element/search-element";
-import "./items-page.css";
 import type * as Member from "../../game/member";
 import { GameDataContext } from "../../context/game-data-context";
 import { composeItemIconHref, type ItemID } from "../../game/items";
-import { useGroupListMembersContext, useGroupStateContext } from "../../context/group-state-context";
+import { GroupItemsContext, GroupMemberNamesContext } from "../../context/group-context";
 import { Link } from "react-router-dom";
 import { useItemsPriceTooltip } from "./items-page-tooltip";
+
+import "./items-page.css";
 
 type ItemFilter = "All" | Member.Name;
 const ItemSortCategory = [
@@ -150,8 +151,8 @@ export const ItemsPage = (): ReactElement => {
   const [sortCategory, setSortCategory] = useState<ItemSortCategory>("GE Unit Price");
   const { gePrices: geData, items: itemData } = useContext(GameDataContext);
 
-  const members = useGroupListMembersContext();
-  const items = useGroupStateContext((state) => state?.items);
+  const members = useContext(GroupMemberNamesContext);
+  const items = useContext(GroupItemsContext);
 
   interface ItemAggregates {
     totalHighAlch: number;

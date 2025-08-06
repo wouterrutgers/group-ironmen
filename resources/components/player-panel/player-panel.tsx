@@ -8,8 +8,7 @@ import { PlayerDiaries } from "./player-diaries";
 import * as Member from "../../game/member";
 import { useModal } from "../modal/modal";
 import { CollectionLogWindow } from "../collection-log/collection-log";
-import type { GroupState } from "../../api/api";
-import { useGroupStateContext } from "../../context/group-state-context";
+import { useGroupMemberContext } from "../../context/group-context";
 
 import "./player-panel.css";
 
@@ -28,12 +27,14 @@ interface PlayerPanelButtonProps {
   onClick: () => void;
 }
 
-const collectionsSelector = (group: GroupState | undefined): Map<Member.Name, Member.Collection> => {
+const collectionsSelector = (
+  group: Map<Member.Name, Member.State> | undefined,
+): Map<Member.Name, Member.Collection> => {
   const collections = new Map<Member.Name, Member.Collection>();
 
   if (!group) return collections;
 
-  for (const [name, { collection }] of group.members) {
+  for (const [name, { collection }] of group) {
     if (!collection) continue;
     collections.set(name, collection);
   }
@@ -42,7 +43,7 @@ const collectionsSelector = (group: GroupState | undefined): Map<Member.Name, Me
 
 export const PlayerPanel = ({ member }: { member: Member.Name }): ReactElement => {
   const [subcategory, setSubcategory] = useState<PlayerPanelSubcategory>();
-  const collections = useGroupStateContext(collectionsSelector);
+  const collections = useGroupMemberContext(collectionsSelector);
   const { open: openCollectionLogModal, modal: collectionLogModal } = useModal(CollectionLogWindow);
 
   const toggleCategory = useCallback(

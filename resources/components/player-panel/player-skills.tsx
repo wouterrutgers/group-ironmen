@@ -2,7 +2,7 @@ import { type ReactElement } from "react";
 import { type Experience, Skill, SkillIconsBySkill, decomposeExperience } from "../../game/skill";
 import { useSkillTooltip } from "../tooltip/skill-tooltip";
 import type * as Member from "../../game/member";
-import { useMemberSkillsContext } from "../../context/group-state-context";
+import { useMemberSkillsContext } from "../../context/group-context";
 
 import "./player-skills.css";
 

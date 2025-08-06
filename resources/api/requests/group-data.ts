@@ -884,55 +884,71 @@ const GetGroupDataResponseSchema = z
     /**
      * Current world coordinates of the player.
      */
-    coordinates: CoordinatesSchema.nullish(),
+    coordinates: CoordinatesSchema.nullish().transform((value) => value ?? undefined),
     /**
      * The last time the player sent an update
      */
-    last_updated: DateSchema.nullish(),
+    last_updated: DateSchema.nullish().transform((value) => value ?? undefined),
     /**
      * The items in the player's bank.
      * When defined, it always contains all of the items.
      */
-    bank: z.nullish(ItemCollectionSchema),
+    bank: z.nullish(ItemCollectionSchema).transform((value) => value ?? undefined),
     /**
      * The items in the player's equipment.
      * When defined, it always contains all of the items.
      */
-    equipment: z.nullish(EquipmentSchema),
+    equipment: z.nullish(EquipmentSchema).transform((value) => value ?? undefined),
     /**
      * The items in the player's inventory.
      * When defined, it always contains all of the items.
      */
-    inventory: z.nullish(InventoryFromBackend),
+    inventory: z.nullish(InventoryFromBackend).transform((value) => value ?? undefined),
     /**
      * The items in the player's rune pouch.
      * When defined, it always contains all of the items.
      */
-    rune_pouch: z.nullish(ItemCollectionSchema),
+    rune_pouch: z.nullish(ItemCollectionSchema).transform((value) => value ?? undefined),
     /**
      * The items in the player's farming guild seed vault.
      * When defined, it always contains all of the items.
      */
-    seed_vault: z.nullish(ItemCollectionSchema),
+    seed_vault: z.nullish(ItemCollectionSchema).transform((value) => value ?? undefined),
     /**
      * Information on NPC the player last interacted with.
      */
-    interacting: NPCInteractionSchema.nullish(),
+    interacting: NPCInteractionSchema.nullish().transform((value) => value ?? undefined),
     /**
      * Stats of the player, including the last known world they were on.
      */
-    stats: StatsSchema.nullish(),
+    stats: StatsSchema.nullish().transform((value) => value ?? undefined),
     /**
      * Skills of the player, given in XP amount.
      */
-    skills: SkillsSchema.nullish(),
+    skills: SkillsSchema.nullish().transform((value) => value ?? undefined),
     /**
      * Quest progress/completion status per quest.
      */
-    quests: QuestsSchema.nullish(),
+    quests: QuestsSchema.nullish().transform((value) => value ?? undefined),
     /**
      * Achievement diary progression
      */
-    diary_vars: DiariesSchema.nullish(),
+    diary_vars: DiariesSchema.nullish().transform((value) => value ?? undefined),
+  })
+  .transform(({ last_updated, rune_pouch, seed_vault, diary_vars, ...rest }) => ({
+    lastUpdated: last_updated,
+    runePouch: rune_pouch,
+    seedVault: seed_vault,
+    diaryVars: diary_vars,
+    ...rest,
+  }))
+  .transform((memberState) => {
+    for (const key of Object.keys(memberState)) {
+      if (memberState[key as keyof typeof memberState] !== undefined) continue;
+
+      delete memberState[key as keyof typeof memberState];
+    }
+
+    return memberState;
   })
   .array();
