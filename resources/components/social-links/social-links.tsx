@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { CachedImage } from "../cached-image/cached-image";
 import "./social-links.css";
 
 export const SocialLinks = (): ReactElement => {
@@ -7,7 +8,7 @@ export const SocialLinks = (): ReactElement => {
       <li>
         <a href="https://ko-fi.com/gimplugin" title="Support the original creator on Ko-fi" target="_blank">
           <div>
-            <img alt="kofi logo" loading="lazy" src="/images/kofi_p_logo_nolabel.webp" height="20" />
+            <CachedImage alt="kofi logo" loading="lazy" src="/images/kofi_p_logo_nolabel.webp" height="20" />
           </div>
           Support the original creator on Ko-fi
         </a>
@@ -19,7 +20,7 @@ export const SocialLinks = (): ReactElement => {
           target="_blank"
         >
           <div>
-            <img alt="github logo" loading="lazy" src="/images/github-light.webp" height="20" />
+            <CachedImage alt="github logo" loading="lazy" src="/images/github-light.webp" height="20" />
           </div>
           Original creator's GitHub
         </a>
@@ -27,7 +28,7 @@ export const SocialLinks = (): ReactElement => {
       <li>
         <a href="https://github.com/BunniesRabbits/group-ironmen" title="Github" target="_blank">
           <div>
-            <img alt="github logo" loading="lazy" src="/images/github-light.webp" height="20" />
+            <CachedImage alt="github logo" loading="lazy" src="/images/github-light.webp" height="20" />
           </div>
           This site's GitHub
         </a>

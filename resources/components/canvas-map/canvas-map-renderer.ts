@@ -128,6 +128,7 @@ export class CanvasMapRenderer {
   private iconsByRegion?: MapIconGrid;
   private labelsByRegion?: MapLabelGrid;
   private playerPositions = new Map<string, { coords: WorldPosition2D; plane: number }>();
+  private getImageUrl: (path: string) => string;
 
   private interactive = false;
   public setInteractive(interactive: boolean): void {
@@ -211,12 +212,13 @@ export class CanvasMapRenderer {
     }
   }
 
-  private constructor() {
+  private constructor(getImageUrl: (path: string) => string) {
     const INITIAL_X = 3232;
     const INITIAL_Y = -3232;
     const INITIAL_ZOOM = 1 / 4;
     const INITIAL_PLANE = 0;
 
+    this.getImageUrl = getImageUrl;
     this.regions = new Map();
     this.camera = {
       position: Vec2D.create({ x: INITIAL_X, y: INITIAL_Y }),
@@ -239,14 +241,14 @@ export class CanvasMapRenderer {
     this.plane = INITIAL_PLANE;
   }
 
-  public static async load(): Promise<CanvasMapRenderer> {
-    const renderer = new CanvasMapRenderer();
+  public static async load(getImageUrl: (path: string) => string): Promise<CanvasMapRenderer> {
+    const renderer = new CanvasMapRenderer(getImageUrl);
 
     // Promisify the image loading
     const iconAtlasPromise = new Promise<ImageBitmap>((resolve) => {
       const ICONS_IN_ATLAS = 123;
       const iconAtlas = new Image(ICONS_IN_ATLAS * ICON_IMAGE_PIXEL_EXTENT.x, ICON_IMAGE_PIXEL_EXTENT.y);
-      iconAtlas.src = "/map/icons/map_icons.webp";
+      iconAtlas.src = getImageUrl("/map/icons/map_icons.webp");
       iconAtlas.onload = (): void => {
         resolve(createImageBitmap(iconAtlas));
       };
@@ -560,7 +562,7 @@ export class CanvasMapRenderer {
                 console.error("Failed to load image bitmap for:", image.src, reason);
               });
           };
-          image.src = `/map/${regionFileBaseName}.webp`;
+          image.src = this.getImageUrl(`/map/${regionFileBaseName}.webp`);
 
           this.regions.set(hash3D, region);
         }
@@ -574,7 +576,7 @@ export class CanvasMapRenderer {
 
           if (label.image === undefined) {
             const image = new Image();
-            image.src = `/map/labels/${labelID}.webp`;
+            image.src = this.getImageUrl(`/map/labels/${labelID}.webp`);
             image.onload = (): void => {
               createImageBitmap(image)
                 .then((bitmap) => (label.image = bitmap))

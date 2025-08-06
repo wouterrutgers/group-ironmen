@@ -2,6 +2,7 @@ import { type ReactElement, type ReactNode } from "react";
 import { DiaryRegion, DiaryTier } from "../../game/diaries";
 import { SkillIconsBySkill, type Level, type Skill } from "../../game/skill";
 import type * as Member from "../../game/member";
+import { CachedImage } from "../cached-image/cached-image";
 
 import "./achievement-log.css";
 
@@ -24,8 +25,9 @@ export const DiaryRegionWindow = ({ region, player, progress, onCloseModal }: Di
   const tierElements = progress.map(([tier, tierProgress]) => {
     const href = `${regionHref}#${tier}`;
     const complete = tierProgress.reduce((complete, task) => {
-      return (complete &&= task.complete);
+      return complete && task.complete;
     }, true);
+
     return (
       <div key={tier} className={`diary-dialog-section ${complete ? "diary-dialog-tier-complete" : ""}`}>
         <h2 className="diary-dialog-section-title">
@@ -48,7 +50,7 @@ export const DiaryRegionWindow = ({ region, player, progress, onCloseModal }: Di
           </a>
         </h1>
         <button className="diary-dialog-close" onClick={onCloseModal}>
-          <img src="/ui/1731-0.png" alt="Close dialog" title="Close dialog" />
+          <CachedImage src="/ui/1731-0.png" alt="Close dialog" title="Close dialog" />
         </button>
       </div>
       <div className="diary-dialog-title-border" />
@@ -67,7 +69,7 @@ const TierTasksDisplay = ({ tasks }: { tasks: DiaryTaskProgress[] }): ReactEleme
           className={`diary-dialog-skill-icon ${complete ? "diary-dialog-skill-complete" : ""}`}
         >
           {` ${current} / ${required} `}
-          <img alt={skill} src={SkillIconsBySkill.get(skill)?.href ?? ""} />
+          <CachedImage alt={skill} src={SkillIconsBySkill.get(skill)?.href ?? ""} />
         </span>
       );
     });

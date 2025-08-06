@@ -32,7 +32,6 @@
 
 .items-page-panel {
   display: flex;
-  width: 280px;
   box-sizing: border-box;
   flex-direction: column;
   position: relative;

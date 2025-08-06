@@ -22,6 +22,7 @@ import { LoadingScreen } from "../loading-screen/loading-screen";
 import { SkillsInBackendOrder } from "../../api/requests/group-data";
 import { utc } from "@date-fns/utc";
 import { Link } from "react-router-dom";
+import { CachedImage } from "../cached-image/cached-image";
 
 import "./skill-graph.css";
 
@@ -588,7 +589,7 @@ export const SkillGraph = (): ReactElement => {
           }}
         >
           <td className="skill-graph-xp-change-table-label">
-            <img alt="attack" src={iconSource} />
+            <CachedImage alt="attack" src={iconSource} />
             {name}
           </td>
           <td className="skill-graph-xp-change-data">+{quantity.toLocaleString()}</td>
@@ -624,7 +625,7 @@ export const SkillGraph = (): ReactElement => {
       </div>
       <div id="skill-graph-body" className="rsborder rsbackground">
         <div id="skill-graph-container" className="rsborder-tiny">
-          <img
+          <CachedImage
             alt={skillFilter}
             id="skill-graph-skill-image"
             loading="lazy"

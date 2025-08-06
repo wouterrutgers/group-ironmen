@@ -1,6 +1,7 @@
 import { type ReactElement } from "react";
 import type * as Member from "../../game/member";
 import { SkillIconsBySkill } from "../../game/skill";
+import { CachedImage } from "../cached-image/cached-image";
 
 import "./xp-dropper.css";
 
@@ -27,7 +28,7 @@ export const XpDropper = ({ xpDrops }: { xpDrops: Member.ExperienceDrop[] | unde
             }}
             className="xp-dropper-drop"
           >
-            <img alt={skill} src={SkillIconsBySkill.get(skill)?.href ?? ""} />+{amount}
+            <CachedImage alt={skill} src={SkillIconsBySkill.get(skill)?.href ?? ""} />+{amount}
           </div>
         );
       })}

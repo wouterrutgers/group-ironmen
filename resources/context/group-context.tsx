@@ -93,7 +93,7 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
   let updated = false;
 
   {
-    const newMemberNames = new Set<Member.Name>(stateUpdate.keys().filter((name) => name !== "@SHARED"));
+    const newMemberNames = new Set<Member.Name>(stateUpdate.keys());
     if (newMemberNames.size !== oldState.memberNames.size || newMemberNames.difference(oldState.memberNames).size > 0) {
       newState.memberNames = newMemberNames;
       updated = true;
@@ -103,8 +103,6 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
   {
     const newMemberStates = new Map(oldState.memberStates);
     for (const [member, memberStateUpdate] of stateUpdate) {
-      if (member === "@SHARED") continue;
-
       const memberState: Member.State = oldState.memberStates.get(member) ?? {
         bank: new Map(),
         equipment: new Map(),
