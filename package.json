@@ -3,6 +3,7 @@
   "type": "module",
   "devDependencies": {
     "@date-fns/utc": "^2.1.0",
+    "@tanstack/react-virtual": "^3.13.12",
     "@types/chart.js": "^2.9.41",
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.7",

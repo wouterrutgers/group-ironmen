@@ -9,10 +9,7 @@ export interface ItemStack {
 export type Item = z.infer<typeof ItemsDataEntrySchema>;
 export type ItemsDatabase = z.infer<typeof ItemsDataSchema>;
 
-export const composeItemIconHref = (
-  { itemID, quantity }: ItemStack,
-  itemDatum?: ItemsDatabase extends Map<unknown, infer I> ? I : never,
-): string => {
+export const composeItemIconHref = ({ itemID, quantity }: ItemStack, itemDatum?: Item): string => {
   let id = itemID;
   if (itemDatum?.stacks) {
     for (const [stackBreakpoint, stackItemID] of itemDatum.stacks) {

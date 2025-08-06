@@ -1,4 +1,4 @@
-import { type ReactElement, Fragment, useContext, useState } from "react";
+import { type ReactElement, Fragment, useContext, useEffect, useRef, useState } from "react";
 import { SearchElement } from "../search-element/search-element";
 import type * as Member from "../../game/member";
 import { GameDataContext } from "../../context/game-data-context";
@@ -6,6 +6,7 @@ import { composeItemIconHref, type ItemID } from "../../game/items";
 import { GroupItemsContext, GroupMemberNamesContext } from "../../context/group-context";
 import { Link } from "react-router-dom";
 import { useItemsPriceTooltip } from "./items-page-tooltip";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 import "./items-page.css";
 
@@ -27,7 +28,6 @@ const ItemPanel = ({
   gePricePer,
   imageURL,
   totalQuantity,
-  filter,
   quantities,
 }: {
   itemName: string;
@@ -36,14 +36,11 @@ const ItemPanel = ({
   gePricePer: number;
   imageURL: string;
   totalQuantity: number;
-  filter: ItemFilter;
   quantities: Map<Member.Name, number>;
 }): ReactElement => {
   const { tooltipElement, hideTooltip, showTooltip } = useItemsPriceTooltip();
 
   const quantityBreakdown = [...quantities].map(([name, quantity]: [Member.Name, number]) => {
-    if (filter !== "All" && filter !== name) return;
-
     const quantityPercent = (quantity / totalQuantity) * 100;
     return (
       <Fragment key={name}>
@@ -108,44 +105,95 @@ const ItemPanel = ({
   );
 };
 
-const ITEMS_PER_PAGE = 200;
-const usePageSelection = ({
-  itemCount,
-}: {
-  itemCount: number;
-}): { pageNumber: number; resetPage: () => void; element: ReactElement } => {
-  const [pageCurrent, setPageCurrent] = useState<number>(0);
+interface FilteredItem {
+  itemID: ItemID;
+  itemName: string;
+  imageURL: string;
+  quantityByMemberName: Map<Member.Name, number>;
+  totalQuantity: number;
+  gePrice: number;
+  highAlch: number;
+}
 
-  const pageCount = Math.ceil(itemCount / ITEMS_PER_PAGE);
+// css width + gap
+const PANEL_WIDTH_PIXELS = 280 + 16;
 
-  if (itemCount > 0 && pageCurrent >= pageCount) setPageCurrent(0);
+const ItemPanelsScrollArea = ({ sortedItems }: { sortedItems: FilteredItem[] }): ReactElement => {
+  const parentRef = useRef<HTMLDivElement>(null);
+  const childRef = useRef<HTMLDivElement>(null);
+  const [columns, setColumns] = useState(3);
+  const itemsVirtualizer = useVirtualizer({
+    count: Math.ceil(sortedItems.length / columns),
+    getScrollElement: () => parentRef.current,
+    overscan: 3,
+    estimateSize: () => 220,
+    gap: 16,
+  });
 
-  const buttons = [];
-  for (let page = 0; page < pageCount; page += 1) {
-    buttons.push(
-      <button
-        key={page}
-        onClick={() => {
-          setPageCurrent(page);
-        }}
-        className={`${pageCurrent === page ? "active" : ""} inventory-pager__button men-button`}
+  useEffect(() => {
+    const updateColumnsFromDivWidth = (): void => {
+      const newColumns = Math.floor((childRef.current?.scrollWidth ?? 0) / PANEL_WIDTH_PIXELS);
+      if (newColumns < 1) {
+        setColumns(1);
+        return;
+      }
+
+      setColumns(newColumns);
+    };
+    window.addEventListener("resize", updateColumnsFromDivWidth);
+
+    updateColumnsFromDivWidth();
+
+    return (): void => {
+      window.removeEventListener("resize", updateColumnsFromDivWidth);
+    };
+  }, []);
+
+  return (
+    <div ref={parentRef} style={{ overflowY: "auto", padding: 16 }}>
+      <div
+        ref={childRef}
+        style={{ height: `${itemsVirtualizer.getTotalSize()}px`, width: "100%", position: "relative" }}
       >
-        {page + 1}
-      </button>,
-    );
-  }
+        {itemsVirtualizer.getVirtualItems().map((rowOfItems) => {
+          const items = sortedItems.slice(rowOfItems.index * columns, (rowOfItems.index + 1) * columns);
 
-  const element = (
-    <div id="inventory-pager">
-      <div id="inventory-pager-label">Page:</div>
-      <div id="inventory-pager-buttons">{buttons}</div>
+          return (
+            <div
+              key={rowOfItems.key}
+              data-index={rowOfItems.index}
+              ref={itemsVirtualizer.measureElement}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                transform: `translateY(${rowOfItems.start - itemsVirtualizer.options.scrollMargin}px)`,
+                display: "flex",
+                justifyContent: "center",
+                gap: "16px",
+              }}
+            >
+              {items.map((item) => (
+                <ItemPanel
+                  itemID={item.itemID}
+                  imageURL={item.imageURL}
+                  totalQuantity={item.totalQuantity}
+                  highAlchPer={item.highAlch}
+                  gePricePer={item.gePrice}
+                  itemName={item.itemName}
+                  quantities={item.quantityByMemberName}
+                />
+              ))}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
-  return { pageNumber: pageCurrent, resetPage: () => setPageCurrent(0), element };
 };
 
 export const ItemsPage = (): ReactElement => {
-  // const [itemCount, setItemCount] = useState<number>(0);
   const [filter, setFilter] = useState<ItemFilter>("All");
   const [searchString, setSearchString] = useState<string>("");
   const [sortCategory, setSortCategory] = useState<ItemSortCategory>("GE Unit Price");
@@ -157,14 +205,7 @@ export const ItemsPage = (): ReactElement => {
   interface ItemAggregates {
     totalHighAlch: number;
     totalGEPrice: number;
-    filteredItems: {
-      itemID: ItemID;
-      itemName: string;
-      quantityByMemberName: Map<Member.Name, number>;
-      totalQuantity: number;
-      gePrice: number;
-      highAlch: number;
-    }[];
+    filteredItems: FilteredItem[];
   }
   const { totalHighAlch, totalGEPrice, filteredItems } = [...(items ?? [])].reduce<ItemAggregates>(
     (previousValue, [itemID, quantityByMemberName]) => {
@@ -194,6 +235,7 @@ export const ItemsPage = (): ReactElement => {
         totalQuantity: filteredTotalQuantity,
         gePrice,
         highAlch,
+        imageURL: composeItemIconHref({ itemID, quantity: filteredTotalQuantity }, itemDatum),
       });
 
       return previousValue;
@@ -201,42 +243,38 @@ export const ItemsPage = (): ReactElement => {
     { totalHighAlch: 0, totalGEPrice: 0, filteredItems: [] },
   );
 
-  const { pageNumber, element: pageSelection } = usePageSelection({ itemCount: filteredItems.length });
+  const sortedItems = filteredItems.sort((lhs, rhs) => {
+    switch (sortCategory) {
+      case "Total Quantity":
+        return rhs.totalQuantity - lhs.totalQuantity;
+      case "HA Total Value":
+        return rhs.highAlch * rhs.totalQuantity - lhs.highAlch * lhs.totalQuantity;
+      case "HA Unit Value":
+        return rhs.highAlch - lhs.highAlch;
+      case "GE Total Price":
+        return rhs.gePrice * rhs.totalQuantity - lhs.gePrice * lhs.totalQuantity;
+      case "GE Unit Price":
+        return rhs.gePrice - lhs.gePrice;
+      case "Alphabetical":
+        return lhs.itemName.localeCompare(rhs.itemName);
+    }
+  });
 
-  const fromIndex = pageNumber * ITEMS_PER_PAGE;
-  const toIndex = (pageNumber + 1) * ITEMS_PER_PAGE;
-
-  const renderedPanels = filteredItems
-    .sort((lhs, rhs) => {
-      switch (sortCategory) {
-        case "Total Quantity":
-          return rhs.totalQuantity - lhs.totalQuantity;
-        case "HA Total Value":
-          return rhs.highAlch * rhs.totalQuantity - lhs.highAlch * lhs.totalQuantity;
-        case "HA Unit Value":
-          return rhs.highAlch - lhs.highAlch;
-        case "GE Total Price":
-          return rhs.gePrice * rhs.totalQuantity - lhs.gePrice * lhs.totalQuantity;
-        case "GE Unit Price":
-          return rhs.gePrice - lhs.gePrice;
-        case "Alphabetical":
-          return lhs.itemName.localeCompare(rhs.itemName);
-      }
-    })
-    .filter((_, index) => index >= fromIndex && index < toIndex)
-    .map(({ gePrice, highAlch, itemID, itemName, quantityByMemberName, totalQuantity }) => (
-      <ItemPanel
-        key={itemID}
-        itemID={itemID}
-        imageURL={composeItemIconHref({ itemID, quantity: totalQuantity }, itemData?.get(itemID))}
-        totalQuantity={totalQuantity}
-        highAlchPer={highAlch}
-        gePricePer={gePrice}
-        filter={filter}
-        itemName={itemName}
-        quantities={quantityByMemberName}
-      />
-    ));
+  if ((items?.size ?? 0) <= 0) {
+    return (
+      <div id="items-page-no-items" className="rsborder rsbackground">
+        <h3>Your group has no recorded items!</h3>
+        <p>
+          Either no members have logged in with the plugin, or there is an issue. Please double check that the names in
+          the{" "}
+          <Link to="../settings" className="orange-link">
+            settings
+          </Link>{" "}
+          page <span className="emphasize">exactly</span> match your group members' in-game display names.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -247,7 +285,6 @@ export const ItemsPage = (): ReactElement => {
           placeholder="Search"
           auto-focus
         />
-        {filteredItems.length > 0 ? pageSelection : undefined}
       </div>
       <div id="items-page-utility">
         <div className="rsborder-tiny rsbackground rsbackground-hover">
@@ -291,23 +328,7 @@ export const ItemsPage = (): ReactElement => {
           <span>gp</span>
         </span>
       </div>
-      <section id="items-page-list">
-        {filteredItems.length > 0 ? (
-          renderedPanels
-        ) : (
-          <div id="items-page-no-items" className="rsborder rsbackground">
-            <h3>Your group has no recorded items!</h3>
-            <p>
-              Either no members have logged in with the plugin, or there is an issue. Please double check that the names
-              in the{" "}
-              <Link to="../settings" className="orange-link">
-                settings
-              </Link>{" "}
-              page <span className="emphasize">exactly</span> match your group members' in-game display names.
-            </p>
-          </div>
-        )}
-      </section>
+      <ItemPanelsScrollArea sortedItems={sortedItems} />
     </>
   );
 };
