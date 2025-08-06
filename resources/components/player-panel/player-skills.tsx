@@ -3,6 +3,7 @@ import { type Experience, Skill, SkillIconsBySkill, decomposeExperience } from "
 import { useSkillTooltip } from "../tooltip/skill-tooltip";
 import type * as Member from "../../game/member";
 import { useMemberSkillsContext } from "../../context/group-context";
+import { CachedImage } from "../cached-image/cached-image";
 
 import "./player-skills.css";
 
@@ -73,7 +74,7 @@ export const PlayerSkills = ({ member }: { member: Member.Name }): ReactElement 
             }
           >
             <div className="skill-box-left">
-              <img alt={`osrs ${skill} icon`} className="skill-box__icon" src={iconURLRaw} />
+              <CachedImage alt={`osrs ${skill} icon`} className="skill-box__icon" src={iconURLRaw ?? ""} />
             </div>
             <div className="skill-box-right">
               <div className="skill-box-current-level">{levelReal}</div>
@@ -89,8 +90,8 @@ export const PlayerSkills = ({ member }: { member: Member.Name }): ReactElement 
         className="total-level-box"
         onPointerEnter={() => showTooltip({ style: "Total", xp: xpTotal as Experience })}
       >
-        <img alt="osrs total level" className="total-level-box-image" src="/ui/183-0.png" />
-        <img alt="osrs total level" className="total-level-box-image" src="/ui/184-0.png" />
+        <CachedImage alt="osrs total level" className="total-level-box-image" src="/ui/183-0.png" />
+        <CachedImage alt="osrs total level" className="total-level-box-image" src="/ui/184-0.png" />
         <div className="total-level-box-content">
           <span>Total level:</span>
           <span className="total-level-box__level">{levelTotal}</span>

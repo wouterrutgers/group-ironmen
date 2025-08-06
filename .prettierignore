@@ -12,3 +12,9 @@ tramp
 public/*
 dist/*
 storage/cache/*
+cache/cache
+cache/item-data
+cache/item-images
+cache/map-data
+cache/output_files
+cache/runelite

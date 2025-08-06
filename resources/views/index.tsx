@@ -6,21 +6,24 @@ import { APIProvider } from "../context/api-context";
 import { GameDataProvider } from "../context/game-data-context";
 import { SettingsProvider } from "../context/settings-context";
 import { GroupProvider } from "../context/group-context";
+import { ImageProvider } from "../context/image-provider";
 
 const root = document.getElementById("root")!;
 
 createRoot(root).render(
   <StrictMode>
     <APIProvider>
-      <GameDataProvider>
-        <GroupProvider>
-          <SettingsProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </SettingsProvider>
-        </GroupProvider>
-      </GameDataProvider>
+      <ImageProvider>
+        <GameDataProvider>
+          <GroupProvider>
+            <SettingsProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </SettingsProvider>
+          </GroupProvider>
+        </GameDataProvider>
+      </ImageProvider>
     </APIProvider>
   </StrictMode>,
 );

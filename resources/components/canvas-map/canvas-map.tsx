@@ -5,6 +5,7 @@ import { useGroupMemberContext } from "../../context/group-context";
 import { Vec2D, type WikiPosition2D } from "./coordinates";
 import { createPortal } from "react-dom";
 import * as Member from "../../game/member";
+import { useCachedImages } from "../../hooks/use-cached-images";
 
 import "./canvas-map.css";
 
@@ -28,6 +29,7 @@ export const CanvasMap = ({ interactive }: { interactive: boolean }): ReactEleme
   const [visiblePlane, setVisiblePlane] = useState<number>(0);
   const animationFrameHandleRef = useRef<number>(undefined);
   const memberCoordinates = useGroupMemberContext(memberCoordinatesSelector);
+  const { getImageUrl } = useCachedImages();
 
   if (memberCoordinates) {
     renderer?.tryUpdatePlayerPositions(memberCoordinates);
@@ -86,14 +88,14 @@ export const CanvasMap = ({ interactive }: { interactive: boolean }): ReactEleme
   useEffect(() => {
     console.info("Rebuilding renderer.");
 
-    CanvasMapRenderer.load()
+    CanvasMapRenderer.load(getImageUrl)
       .then((renderer) => {
         setRenderer(renderer);
       })
       .catch((reason) => {
         console.error("Failed to build renderer:", reason);
       });
-  }, []);
+  }, [getImageUrl]);
 
   useEffect(() => {
     if (renderer === undefined) return;
