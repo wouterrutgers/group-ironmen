@@ -4,6 +4,7 @@ import { GameDataContext } from "../../context/game-data-context";
 import * as Member from "../../game/member";
 import { useMemberInventoryContext, useMemberRunePouchContext } from "../../context/group-context";
 import { composeItemIconHref, formatShortQuantity, formatVeryShortQuantity, isRunePouch } from "../../game/items";
+import { CachedImage } from "../cached-image/cached-image";
 
 import "./player-inventory.css";
 
@@ -15,7 +16,7 @@ interface ItemBoxPouchRuneProps {
 const ItemBoxPouchRune = ({ iconSource, name, quantity }: ItemBoxPouchRuneProps): ReactElement => {
   return (
     <div className="player-inventory-pouch-item-box">
-      <img alt={name} src={iconSource} />
+      <CachedImage alt={name} src={iconSource} />
       <span className="player-inventory-item-quantity">{formatVeryShortQuantity(quantity)}</span>
     </div>
   );
@@ -42,7 +43,7 @@ const ItemBox = ({ link, iconSource, quantity, onPointerEnter, children }: ItemB
       rel="noopener noreferrer"
       onPointerEnter={onPointerEnter}
     >
-      <img alt="osrs item" src={iconSource} />
+      <CachedImage alt="osrs item" src={iconSource} />
       {quantityOverlay}
       {children}
     </a>

@@ -5,6 +5,7 @@ import type * as Member from "../../game/member";
 import { useCollectionLogItemTooltip } from "./collection-log-tooltip";
 import { PlayerIcon } from "../player-icon/player-icon";
 import type { ItemID } from "../../game/items";
+import { CachedImage } from "../cached-image/cached-image";
 
 import "./collection-log.css";
 
@@ -20,7 +21,7 @@ const CollectionLogPageItems = ({ items }: CollectionLogPageItemProps): ReactEle
     const itemName = itemDatabase?.get(itemID)?.name;
 
     const itemImage = (
-      <img
+      <CachedImage
         className={`${quantity === 0 ? "collection-log-page-item-missing" : ""}`}
         alt={itemName ?? "osrs item"}
         src={`/icons/items/${itemID}.webp`}
@@ -263,7 +264,7 @@ export const CollectionLogWindow = ({
           {player}'s Collection Log - {totalCollected} / {collectionLogInfo?.uniqueSlots ?? 0}
         </h1>
         <button className="collection-log-close dialog__close" onClick={onCloseModal}>
-          <img src="/ui/1731-0.png" alt="Close dialog" title="Close dialog" />
+          <CachedImage src="/ui/1731-0.png" alt="Close dialog" title="Close dialog" />
         </button>
       </div>
       <div className="collection-log-title-border" />

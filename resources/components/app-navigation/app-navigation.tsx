@@ -1,6 +1,7 @@
 import { Fragment, type ReactElement } from "react";
 import { MenLink } from "../men-link/men-link";
 import { useLocation } from "react-router-dom";
+import { CachedImage } from "../cached-image/cached-image";
 
 import "./app-navigation.css";
 
@@ -30,7 +31,7 @@ export const AppNavigation = ({ groupName }: { groupName: string }): ReactElemen
         </span>
         <span className="mobile">
           <MenLink href={href} selected={location.pathname === href}>
-            <img alt={label} src={mobileIconSource} />
+            <CachedImage alt={label} src={mobileIconSource} />
           </MenLink>
         </span>
       </Fragment>

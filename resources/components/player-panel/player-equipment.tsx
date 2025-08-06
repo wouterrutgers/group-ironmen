@@ -4,6 +4,7 @@ import { GameDataContext } from "../../context/game-data-context";
 import { EquipmentSlot } from "../../game/equipment";
 import type * as Member from "../../game/member";
 import { useMemberEquipmentContext } from "../../context/group-context";
+import { CachedImage } from "../cached-image/cached-image";
 
 import "./player-equipment.css";
 import { composeItemIconHref, formatShortQuantity } from "../../game/items";
@@ -49,7 +50,7 @@ export const PlayerEquipment = ({ member }: { member: Member.Name }): ReactEleme
     if (!item) {
       slotElements.push(
         <div key={slot} className={`equipment-${slot.toLowerCase()} equipment-slot-empty`}>
-          <img alt={`empty equipment ${slot} slot`} src={`/ui/${EquipmentSlotEmptyIcons.get(slot) ?? ""}`} />
+          <CachedImage alt={`empty equipment ${slot} slot`} src={`/ui/${EquipmentSlotEmptyIcons.get(slot) ?? ""}`} />
         </div>,
       );
       continue;
@@ -87,7 +88,7 @@ export const PlayerEquipment = ({ member }: { member: Member.Name }): ReactEleme
         onPointerLeave={hideTooltip}
         className={`equipment-${slot.toLowerCase()} equipment-slot-filled`}
       >
-        <img alt={itemDatum?.name ?? "equipment"} className="equipment-slot-item" src={iconHref} />
+        <CachedImage alt={itemDatum?.name ?? "equipment"} className="equipment-slot-item" src={iconHref} />
         {quantityOverlay}
       </a>,
     );

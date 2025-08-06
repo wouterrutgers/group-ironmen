@@ -2,11 +2,13 @@ import { type ReactElement, Fragment, useContext, useEffect, useRef, useState } 
 import { SearchElement } from "../search-element/search-element";
 import type * as Member from "../../game/member";
 import { GameDataContext } from "../../context/game-data-context";
-import { composeItemIconHref, type ItemID } from "../../game/items";
+import { type ItemID } from "../../game/items";
 import { GroupItemsContext, GroupMemberNamesContext } from "../../context/group-context";
 import { Link } from "react-router-dom";
 import { useItemsPriceTooltip } from "./items-page-tooltip";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { useCachedImages } from "../../hooks/use-cached-images";
+import { CachedImage } from "../cached-image/cached-image";
 
 import "./items-page.css";
 
@@ -97,7 +99,12 @@ const ItemPanel = ({
             </span>
           </div>
         </div>
-        <img loading="lazy" className="items-page-panel-icon" alt={itemName ?? "An unknown item"} src={imageURL} />
+        <CachedImage
+          loading="lazy"
+          className="items-page-panel-icon"
+          alt={itemName ?? "An unknown item"}
+          src={imageURL}
+        />
       </div>
       <div className="items-page-panel-quantity-breakdown">{quantityBreakdown}</div>
       {tooltipElement}
@@ -169,8 +176,8 @@ const ItemPanelsScrollArea = ({ sortedItems }: { sortedItems: FilteredItem[] }):
                 left: 0,
                 right: 0,
                 transform: `translateY(${rowOfItems.start - itemsVirtualizer.options.scrollMargin}px)`,
-                display: "flex",
-                justifyContent: "center",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                 gap: "16px",
               }}
             >
@@ -198,6 +205,7 @@ export const ItemsPage = (): ReactElement => {
   const [searchString, setSearchString] = useState<string>("");
   const [sortCategory, setSortCategory] = useState<ItemSortCategory>("GE Unit Price");
   const { gePrices: geData, items: itemData } = useContext(GameDataContext);
+  const { getItemIconUrl } = useCachedImages();
 
   const members = useContext(GroupMemberNamesContext);
   const items = useContext(GroupItemsContext);
@@ -235,7 +243,7 @@ export const ItemsPage = (): ReactElement => {
         totalQuantity: filteredTotalQuantity,
         gePrice,
         highAlch,
-        imageURL: composeItemIconHref({ itemID, quantity: filteredTotalQuantity }, itemDatum),
+        imageURL: getItemIconUrl({ itemID, quantity: filteredTotalQuantity }, itemDatum),
       });
 
       return previousValue;
