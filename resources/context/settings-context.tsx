@@ -15,8 +15,15 @@ interface Settings {
 }
 const DEFAULT_SITE_SETTINGS = Object.freeze({ sidebarPosition: "left", siteTheme: "light" });
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const Context = createContext<Settings>(DEFAULT_SITE_SETTINGS);
+/* eslint-disable react-refresh/only-export-components */
+
+/**
+ * Provides user settings for the website, such as the position of the sidebar
+ * and dark or light theme.
+ */
+export const SettingsContext = createContext<Settings>(DEFAULT_SITE_SETTINGS);
+
+/* eslint-enable react-refresh/only-export-components */
 
 const KEY_SITE_THEME = "settings-site-theme";
 const KEY_SIDEBAR_POSITION = "settings-sidebar-position";
@@ -30,6 +37,9 @@ const validateSidebarPosition = (value: string | undefined): SidebarPosition | u
   return validated;
 };
 
+/**
+ * The provider for {@link SettingsContext}
+ */
 export const SettingsProvider = ({ children }: { children: ReactNode }): ReactElement => {
   const [siteTheme, setSiteTheme] = useLocalStorage<SiteTheme>({
     key: KEY_SITE_THEME,
@@ -42,5 +52,9 @@ export const SettingsProvider = ({ children }: { children: ReactNode }): ReactEl
     validator: validateSidebarPosition,
   });
 
-  return <Context value={{ siteTheme, sidebarPosition, setSidebarPosition, setSiteTheme }}>{children}</Context>;
+  return (
+    <SettingsContext value={{ siteTheme, sidebarPosition, setSidebarPosition, setSiteTheme }}>
+      {children}
+    </SettingsContext>
+  );
 };

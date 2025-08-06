@@ -1,16 +1,16 @@
-import { type ReactElement, type ReactNode } from "react";
-
-import "./player-stats.css";
+import { useContext, type ReactElement, type ReactNode } from "react";
 import { StatBar } from "./stat-bar";
 import * as Member from "../../game/member";
 import { PlayerIcon } from "../player-icon/player-icon";
 import { XpDropper } from "../xp-dropper/xp-dropper";
 import {
+  GroupXPDropsContext,
   useMemberInteractingContext,
   useMemberLastUpdatedContext,
   useMemberStatsContext,
-  useMemberXPDropsContext,
-} from "../../context/group-state-context";
+} from "../../context/group-context";
+
+import "./player-stats.css";
 
 /**
  * Time in milliseconds before a player is considered offline/inactive.
@@ -60,7 +60,7 @@ export const PlayerStats = ({ member }: { member: Member.Name }): ReactElement =
   const interacting = useMemberInteractingContext(member);
   const stats = useMemberStatsContext(member);
   const lastUpdated = useMemberLastUpdatedContext(member);
-  const xpDrops = useMemberXPDropsContext(member);
+  const xpDrops = useContext(GroupXPDropsContext);
 
   const now = new Date();
   const online = now.getTime() - (lastUpdated ?? new Date(0)).getTime() < INACTIVE_TIMER_MS;
@@ -90,7 +90,7 @@ export const PlayerStats = ({ member }: { member: Member.Name }): ReactElement =
 
   return (
     <div className={`player-stats ${online ? "" : "player-stats-inactive"}`}>
-      <XpDropper xpDrops={xpDrops} />
+      <XpDropper xpDrops={xpDrops.get(member)} />
       <div className="player-stats-hitpoints">
         <StatBar
           className="player-stats-hitpoints-bar"

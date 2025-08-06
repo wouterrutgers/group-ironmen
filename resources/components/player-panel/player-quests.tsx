@@ -3,9 +3,9 @@ import type { QuestDifficulty, QuestStatus } from "../../game/quests";
 import { SearchElement } from "../search-element/search-element";
 import { GameDataContext } from "../../context/game-data-context";
 import type * as Member from "../../game/member";
+import { useMemberQuestsContext } from "../../context/group-context";
 
 import "./player-quests.css";
-import { useMemberQuestsContext } from "../../context/group-state-context";
 
 const getDifficultyIconURL = (difficulty: QuestDifficulty): string => {
   switch (difficulty) {

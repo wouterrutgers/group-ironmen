@@ -1,13 +1,14 @@
-import type { ReactElement } from "react";
-import { useGroupListMembersContext } from "../../context/group-state-context";
+import { useContext, type ReactElement } from "react";
 import { PlayerPanel } from "../player-panel/player-panel";
+import { GroupMemberNamesContext } from "../../context/group-context";
 
 import "./panels-page.css";
 
 export const PanelsPage = (): ReactElement => {
-  const groupMembers = useGroupListMembersContext();
+  const groupMembers = useContext(GroupMemberNamesContext);
 
   const panels = groupMembers
+    .values()
     .filter((member) => member !== "@SHARED")
     .map<ReactElement>((member) => <PlayerPanel key={member} member={member} />);
 

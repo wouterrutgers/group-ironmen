@@ -5,11 +5,7 @@ import { useModal } from "../modal/modal";
 import { computeVirtualLevelFromXP, type Level } from "../../game/skill";
 import { GameDataContext } from "../../context/game-data-context";
 import type * as Member from "../../game/member";
-import {
-  useMemberDiariesContext,
-  useMemberQuestsContext,
-  useMemberSkillsContext,
-} from "../../context/group-state-context";
+import { useMemberDiariesContext, useMemberQuestsContext, useMemberSkillsContext } from "../../context/group-context";
 import { DiaryRegionWindow, type DiaryTaskProgress } from "../achievement-diary/achievement-diary";
 
 import "./player-diaries.css";
