@@ -85205,7 +85205,7 @@
   },
   "30955": {
     "name": "Arkan blade",
-    "highalch": 45000,
+    "highalch": 150000,
     "mapping": null
   },
   "30957": {
@@ -85593,37 +85593,120 @@
   "31091": {
     "name": "Avernic treads (pr)",
     "highalch": 115200,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13239,
+        "quantity": 1
+      },
+      {
+        "id": 31088,
+        "quantity": 1
+      }
+    ]
   },
   "31092": {
     "name": "Avernic treads (pe)",
     "highalch": 115200,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13237,
+        "quantity": 1
+      },
+      {
+        "id": 31088,
+        "quantity": 1
+      }
+    ]
   },
   "31093": {
     "name": "Avernic treads (et)",
     "highalch": 115200,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13235,
+        "quantity": 1
+      },
+      {
+        "id": 31088,
+        "quantity": 1
+      }
+    ]
   },
   "31094": {
     "name": "Avernic treads (pr)(pe)",
     "highalch": 115200,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13237,
+        "quantity": 1
+      },
+      {
+        "id": 13239,
+        "quantity": 1
+      },
+      {
+        "id": 31088,
+        "quantity": 1
+      }
+    ]
   },
   "31095": {
     "name": "Avernic treads (pr)(et)",
     "highalch": 115200,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13235,
+        "quantity": 1
+      },
+      {
+        "id": 13239,
+        "quantity": 1
+      },
+      {
+        "id": 31088,
+        "quantity": 1
+      }
+    ]
   },
   "31096": {
     "name": "Avernic treads (pe)(et)",
     "highalch": 115200,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13235,
+        "quantity": 1
+      },
+      {
+        "id": 13237,
+        "quantity": 1
+      },
+      {
+        "id": 31088,
+        "quantity": 1
+      }
+    ]
   },
   "31097": {
     "name": "Avernic treads (max)",
     "highalch": 115200,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 13235,
+        "quantity": 1
+      },
+      {
+        "id": 13237,
+        "quantity": 1
+      },
+      {
+        "id": 13239,
+        "quantity": 1
+      },
+      {
+        "id": 31088,
+        "quantity": 1
+      }
+    ]
   },
   "31099": {
     "name": "Mokhaiotl waystone",
@@ -85666,7 +85749,12 @@
   "31113": {
     "name": "Eye of ayak",
     "highalch": 3600000,
-    "mapping": null
+    "mapping": [
+      {
+        "id": 31115,
+        "quantity": 1
+      }
+    ]
   },
   "31115": {
     "name": "Eye of ayak (uncharged)",
