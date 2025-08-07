@@ -1,4 +1,4 @@
-import { type ReactElement, Fragment, useContext, useEffect, useRef, useState } from "react";
+import { type ReactElement, Fragment, memo, useContext, useEffect, useRef, useState } from "react";
 import { SearchElement } from "../search-element/search-element";
 import type * as Member from "../../game/member";
 import { GameDataContext } from "../../context/game-data-context";
@@ -23,94 +23,105 @@ const ItemSortCategory = [
 ] as const;
 type ItemSortCategory = (typeof ItemSortCategory)[number];
 
-const ItemPanel = ({
-  itemName,
-  itemID,
-  highAlchPer,
-  gePricePer,
-  imageURL,
-  totalQuantity,
-  quantities,
-}: {
+interface ItemPanelProps {
   itemName: string;
   itemID: ItemID;
   highAlchPer: number;
   gePricePer: number;
   imageURL: string;
   totalQuantity: number;
+  memberFilter: ItemFilter;
   quantities: Map<Member.Name, number>;
-}): ReactElement => {
-  const { tooltipElement, hideTooltip, showTooltip } = useItemsPriceTooltip();
+}
 
-  const quantityBreakdown = [...quantities].map(([name, quantity]: [Member.Name, number]) => {
-    const quantityPercent = (quantity / totalQuantity) * 100;
+// Memo works well here since all the props are primitives, except for
+// `quantities` for which we guarantee referential stability in
+// group-context.ts.
+const ItemPanel = memo(
+  ({
+    itemName,
+    itemID,
+    highAlchPer,
+    gePricePer,
+    imageURL,
+    totalQuantity,
+    memberFilter,
+    quantities,
+  }: ItemPanelProps): ReactElement => {
+    const { tooltipElement, hideTooltip, showTooltip } = useItemsPriceTooltip();
+
+    const quantityBreakdown = [...quantities]
+      .filter(([name]) => memberFilter === "All" || name === memberFilter)
+      .map(([name, quantity]: [Member.Name, number]) => {
+        const quantityPercent = (quantity / totalQuantity) * 100;
+        return (
+          <Fragment key={name}>
+            <span>{name}</span>
+            <span>{quantity}</span>
+            <span
+              className="items-page-panel-quantity-contribution"
+              style={{ transform: `scaleX(${quantityPercent}%)`, background: `hsl(${quantityPercent}, 100%, 40%)` }}
+            />
+          </Fragment>
+        );
+      });
+
+    const highAlch = highAlchPer * totalQuantity;
+    const gePrice = gePricePer * totalQuantity;
+
+    const wikiLink = `https://oldschool.runescape.wiki/w/Special:Lookup?type=item&id=${itemID}`;
+
     return (
-      <Fragment key={name}>
-        <span>{name}</span>
-        <span>{quantity}</span>
-        <span
-          className="items-page-panel-quantity-contribution"
-          style={{ transform: `scaleX(${quantityPercent}%)`, background: `hsl(${quantityPercent}, 100%, 40%)` }}
-        />
-      </Fragment>
-    );
-  });
-
-  const highAlch = highAlchPer * totalQuantity;
-  const gePrice = gePricePer * totalQuantity;
-
-  const wikiLink = `https://oldschool.runescape.wiki/w/Special:Lookup?type=item&id=${itemID}`;
-
-  return (
-    <div className="items-page-panel rsborder rsbackground">
-      <div className="items-page-panel-top rsborder-tiny">
-        <div>
-          <Link className="items-page-panel-name rstext" to={wikiLink} target="_blank" rel="noopener noreferrer">
-            {itemName}
-          </Link>
-          <div className="items-page-panel-item-details">
-            <span>Quantity</span>
-            <span>{totalQuantity.toLocaleString()}</span>
-            <span>High Alch</span>
-            <span
-              onPointerEnter={() =>
-                showTooltip({
-                  perPiecePrice: highAlchPer,
-                  totalPrice: highAlch,
-                  quantity: totalQuantity,
-                })
-              }
-              onPointerLeave={hideTooltip}
-            >
-              {highAlch.toLocaleString()}gp
-            </span>
-            <span>GE Price</span>
-            <span
-              onPointerEnter={() =>
-                showTooltip({
-                  perPiecePrice: gePricePer,
-                  totalPrice: gePrice,
-                  quantity: totalQuantity,
-                })
-              }
-              onPointerLeave={hideTooltip}
-            >
-              {gePrice.toLocaleString()}gp
-            </span>
+      <div className="items-page-panel rsborder rsbackground">
+        <div className="items-page-panel-top rsborder-tiny">
+          <div>
+            <Link className="items-page-panel-name rstext" to={wikiLink} target="_blank" rel="noopener noreferrer">
+              {itemName}
+            </Link>
+            <div className="items-page-panel-item-details">
+              <span>Quantity</span>
+              <span>{totalQuantity.toLocaleString()}</span>
+              <span>High Alch</span>
+              <span
+                onPointerEnter={() =>
+                  showTooltip({
+                    perPiecePrice: highAlchPer,
+                    totalPrice: highAlch,
+                    quantity: totalQuantity,
+                  })
+                }
+                onPointerLeave={hideTooltip}
+              >
+                {highAlch.toLocaleString()}gp
+              </span>
+              <span>GE Price</span>
+              <span
+                onPointerEnter={() =>
+                  showTooltip({
+                    perPiecePrice: gePricePer,
+                    totalPrice: gePrice,
+                    quantity: totalQuantity,
+                  })
+                }
+                onPointerLeave={hideTooltip}
+              >
+                {gePrice.toLocaleString()}gp
+              </span>
+            </div>
           </div>
+          <CachedImage
+            loading="lazy"
+            className="items-page-panel-icon"
+            alt={itemName ?? "An unknown item"}
+            src={imageURL}
+          />
         </div>
-        <CachedImage
-          loading="lazy"
-          className="items-page-panel-icon"
-          alt={itemName ?? "An unknown item"}
-          src={imageURL}
-        />
+        <div className="items-page-panel-quantity-breakdown">{quantityBreakdown}</div>
+        {tooltipElement}
       </div>
-      <div className="items-page-panel-quantity-breakdown">{quantityBreakdown}</div>
-      {tooltipElement}
-    </div>
-  );
-};
+    );
+  },
+);
 
 interface FilteredItem {
   itemID: ItemID;
@@ -125,7 +136,13 @@ interface FilteredItem {
 // css width + gap
 const PANEL_WIDTH_PIXELS = 280 + 16;
 
-const ItemPanelsScrollArea = ({ sortedItems }: { sortedItems: FilteredItem[] }): ReactElement => {
+const ItemPanelsScrollArea = ({
+  sortedItems,
+  memberFilter,
+}: {
+  sortedItems: FilteredItem[];
+  memberFilter: ItemFilter;
+}): ReactElement => {
   const parentRef = useRef<HTMLDivElement>(null);
   const childRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(3);
@@ -183,12 +200,14 @@ const ItemPanelsScrollArea = ({ sortedItems }: { sortedItems: FilteredItem[] }):
             >
               {items.map((item) => (
                 <ItemPanel
+                  key={item.itemID}
                   itemID={item.itemID}
                   imageURL={item.imageURL}
                   totalQuantity={item.totalQuantity}
                   highAlchPer={item.highAlch}
                   gePricePer={item.gePrice}
                   itemName={item.itemName}
+                  memberFilter={memberFilter}
                   quantities={item.quantityByMemberName}
                 />
               ))}
@@ -221,11 +240,9 @@ export const ItemsPage = (): ReactElement => {
       if (!itemDatum?.name.toLocaleLowerCase().includes(searchString)) return previousValue;
 
       let filteredTotalQuantity = 0;
-      const filteredQuantities = new Map<Member.Name, number>();
       quantityByMemberName.forEach((quantity, name) => {
         if (filter !== "All" && filter !== name) return;
 
-        filteredQuantities.set(name, quantity);
         filteredTotalQuantity += quantity;
       });
 
@@ -239,7 +256,7 @@ export const ItemsPage = (): ReactElement => {
       previousValue.filteredItems.push({
         itemID,
         itemName: itemDatum?.name ?? "@UNKNOWN",
-        quantityByMemberName: filteredQuantities,
+        quantityByMemberName: quantityByMemberName,
         totalQuantity: filteredTotalQuantity,
         gePrice,
         highAlch,
@@ -336,7 +353,7 @@ export const ItemsPage = (): ReactElement => {
           <span>gp</span>
         </span>
       </div>
-      <ItemPanelsScrollArea sortedItems={sortedItems} />
+      <ItemPanelsScrollArea sortedItems={sortedItems} memberFilter={filter} />
     </>
   );
 };
