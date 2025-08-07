@@ -151,27 +151,32 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
 
     if (newItems.size !== oldState.items.size) {
       newAndOldItemsEqual = false;
-    } else {
-      for (const [itemID, oldQuantityPerMember] of oldState.items) {
-        const newQuantityPerMember = newItems.get(itemID);
-        if (!newQuantityPerMember) {
-          newAndOldItemsEqual = false;
-          break;
-        }
+    }
 
-        if (oldQuantityPerMember.size !== newQuantityPerMember.size) {
-          newAndOldItemsEqual = false;
-          break;
-        }
+    for (const [itemID, oldQuantityPerMember] of oldState.items) {
+      const newQuantityPerMember = newItems.get(itemID);
+      if (!newQuantityPerMember) {
+        newAndOldItemsEqual = false;
+        continue;
+      }
 
-        for (const [member, oldQuantity] of oldQuantityPerMember) {
-          const newQuantity = newQuantityPerMember.get(member);
-          if (newQuantity !== oldQuantity) {
-            newAndOldItemsEqual = false;
-            break;
-          }
+      if (oldQuantityPerMember.size !== newQuantityPerMember.size) {
+        newAndOldItemsEqual = false;
+        continue;
+      }
+
+      let quantitiesAllEqual = true;
+      for (const [member, oldQuantity] of oldQuantityPerMember) {
+        const newQuantity = newQuantityPerMember.get(member);
+        if (newQuantity !== oldQuantity) {
+          newAndOldItemsEqual = false;
+          quantitiesAllEqual = false;
+          break;
         }
       }
+      if (!quantitiesAllEqual) continue;
+
+      newItems.set(itemID, oldQuantityPerMember);
     }
 
     if (!newAndOldItemsEqual) {
