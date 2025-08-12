@@ -15,6 +15,7 @@ export const useCachedImages = (): CachedImagesAPI => {
     getImageUrl,
     getItemIconUrl: (itemStack: ItemStack, itemDatum?: Item): string => {
       const basePath = composeItemIconHref(itemStack, itemDatum);
+
       return getImageUrl(basePath);
     },
     getUIImageUrl: (filename: string): string => getImageUrl(`/ui/${filename}`),
