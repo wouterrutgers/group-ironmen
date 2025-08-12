@@ -109,12 +109,12 @@ const ItemPanel = memo(
               </span>
             </div>
           </div>
-        <CachedImage
-          loading="lazy"
-          className="items-page-panel-icon"
-          alt={itemName ?? "An unknown item"}
-          src={imageURL}
-        />
+          <CachedImage
+            loading="lazy"
+            className="items-page-panel-icon"
+            alt={itemName ?? "An unknown item"}
+            src={imageURL}
+          />
         </div>
         <div className="items-page-panel-quantity-breakdown">{quantityBreakdown}</div>
         {tooltipElement}
@@ -268,7 +268,7 @@ export const ItemsPage = (): ReactElement => {
     { totalHighAlch: 0, totalGEPrice: 0, filteredItems: [] },
   );
 
-  const sortedItems = filteredItems.sort((lhs, rhs) => {
+  const sortedItems = [...filteredItems].sort((lhs, rhs) => {
     switch (sortCategory) {
       case "Total Quantity":
         return rhs.totalQuantity - lhs.totalQuantity;
