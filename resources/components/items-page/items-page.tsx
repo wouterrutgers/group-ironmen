@@ -268,7 +268,7 @@ export const ItemsPage = (): ReactElement => {
     { totalHighAlch: 0, totalGEPrice: 0, filteredItems: [] },
   );
 
-  const sortedItems = filteredItems.sort((lhs, rhs) => {
+  const sortedItems = [...filteredItems].sort((lhs, rhs) => {
     switch (sortCategory) {
       case "Total Quantity":
         return rhs.totalQuantity - lhs.totalQuantity;

@@ -1,0 +1,45 @@
+name: Lint
+
+on: [push, workflow_dispatch]
+
+jobs:
+  js-lint:
+    name: Run JS linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run various JS linters
+        run: |
+          npm run lint
+          npm run format:check
+
+  php-lint:
+    name: Laravel Pint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: .pint.cache
+          key: cache-pint-${{ hashFiles('**') }}
+          restore-keys: cache-pint-
+
+      - name: Check coding styles
+        run: |
+          rm composer.{lock,json}
+          composer require laravel/pint ^1
+          ./vendor/bin/pint --test -v
