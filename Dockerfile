@@ -63,6 +63,8 @@ COPY --from=assets /app/public/app.js /var/www/public/app.js
 COPY --from=assets /app/public/data /var/www/public/data
 COPY --from=assets /app/resources/views/index.blade.php /var/www/resources/views/index.blade.php
 
+RUN composer dump-autoload --optimize --classmap-authoritative --no-dev --no-interaction
+
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
