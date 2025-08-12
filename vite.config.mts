@@ -48,4 +48,11 @@ export default defineConfig({
   define: {
     __API_URL__: "'/api'",
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: { "images-manifest": ["./resources/data/images.json"] },
+      },
+    },
+  },
 });
