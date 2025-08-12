@@ -32,3 +32,7 @@ jobs:
           push: true
           tags: wouterrutgers/group-ironmen:latest
           platforms: linux/amd64,linux/arm64
+          target: final
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false

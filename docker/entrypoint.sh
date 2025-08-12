@@ -8,8 +8,7 @@ function shutdown {
 }
 trap shutdown SIGTERM SIGINT
 
-echo "Installing dependencies..."
-composer install --no-interaction --optimize-autoloader --no-dev
+echo "Starting application entrypoint..."
 
 if [ ! -s ".env" ]; then
     echo "Creating .env file..."
