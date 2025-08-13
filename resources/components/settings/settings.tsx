@@ -244,6 +244,10 @@ export const SettingsPage = (): ReactElement => {
 
   const memberElements = [];
   for (const member of members) {
+    if (member === "@SHARED") {
+      continue;
+    }
+
     memberElements.push(<EditMemberInput member={member} key={`edit-member-${member}`} />);
   }
 
