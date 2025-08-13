@@ -61,7 +61,7 @@ COPY --chown=www-data:www-data . .
 
 COPY --from=deps /var/www/vendor ./vendor
 
-COPY --from=assets /app/public/app.js /var/www/public/app.js
+COPY --from=assets /app/public/build /var/www/public/build
 COPY --from=assets /app/public/data /var/www/public/data
 COPY --from=assets /app/resources/views/index.blade.php /var/www/resources/views/index.blade.php
 
