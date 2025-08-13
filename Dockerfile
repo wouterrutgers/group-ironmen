@@ -72,9 +72,6 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 
 RUN rm -rf .git*
 
-RUN npm install
-RUN npm run bundle
-
 EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \

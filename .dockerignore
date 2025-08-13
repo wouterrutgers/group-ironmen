@@ -17,6 +17,7 @@ storage/framework/views/*
 /public/app.js.map
 /public/hot
 /public/storage
+/public/build
 .DS_Store
 *.swp
 .idea
