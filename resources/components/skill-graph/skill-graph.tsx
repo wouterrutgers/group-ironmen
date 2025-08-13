@@ -32,7 +32,7 @@ ChartJS.register(CategoryScale, TimeScale, LinearScale, PointElement, LineElemen
 const SkillFilteringOption = ["Overall", ...Skill] as const;
 type SkillFilteringOption = (typeof SkillFilteringOption)[number];
 
-const LineChartYAxisOption = ["Total Experience", "Cumulative Experience Gained", "Experience per Hour"] as const;
+const LineChartYAxisOption = ["Cumulative experience gained", "Total experience", "Experience per hour"] as const;
 type LineChartYAxisOption = (typeof LineChartYAxisOption)[number];
 
 interface SkillGraphOptions {
@@ -258,12 +258,12 @@ const buildDatasetsFromMemberSkillData = (
        */
       if (DateFNS.compareAsc(firstSample.time, dateBin) > 0) {
         switch (options.yAxisUnit) {
-          case "Total Experience":
-          case "Cumulative Experience Gained":
+          case "Total experience":
+          case "Cumulative experience gained":
           default:
             interpolatedSamples.push(0 as Experience);
             break;
-          case "Experience per Hour":
+          case "Experience per hour":
             interpolatedSamples.push(sumFilteredExperience(firstSample.data));
             break;
         }
@@ -281,14 +281,14 @@ const buildDatasetsFromMemberSkillData = (
 
     const chartPoints: [Date, number][] = [];
     switch (options.yAxisUnit) {
-      case "Cumulative Experience Gained": {
+      case "Cumulative experience gained": {
         const start = interpolatedSamples[1] ?? 0;
         for (let i = 0; i < interpolatedSamples.length; i++) {
           chartPoints[i] = [dateBins[i], interpolatedSamples[i] - start];
         }
         break;
       }
-      case "Experience per Hour": {
+      case "Experience per hour": {
         for (let i = 0; i < interpolatedSamples.length; i++) {
           const hoursPerSample = DateFNS.differenceInHours(dateBins[i], dateBins[i - 1]);
           const experienceGained = interpolatedSamples[i] - interpolatedSamples[i - 1];
@@ -296,7 +296,7 @@ const buildDatasetsFromMemberSkillData = (
         }
         break;
       }
-      case "Total Experience":
+      case "Total experience":
         for (let i = 0; i < interpolatedSamples.length; i++) {
           chartPoints[i] = [dateBins[i], interpolatedSamples[i]];
         }
@@ -454,14 +454,14 @@ const SkillGraphDropdown = <TOption extends string>({
 export const SkillGraph = (): ReactElement => {
   const [options, setOptions] = useState<SkillGraphOptions>({
     period: "Day",
-    yAxisUnit: "Total Experience",
+    yAxisUnit: "Cumulative experience gained",
     skillFilter: "Overall",
   });
 
   const [tableRowData, setTableRowData] = useState<SkillGraphTableRow[]>([]);
   const [chart, setChart] = useState<SkillChart>({
     data: { datasets: [] },
-    options: buildLineChartOptions({ period: "Day", yAxisUnit: "Total Experience", skillFilter: "Overall" }),
+    options: buildLineChartOptions({ period: "Day", yAxisUnit: "Total experience", skillFilter: "Overall" }),
   });
 
   const [loading, setLoading] = useState<boolean>(true);

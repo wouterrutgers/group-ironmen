@@ -48,7 +48,6 @@
 .skill-box-current-level,
 .skill-box-baseline-level {
   position: absolute;
-  font-size: 16px;
   color: yellow;
   text-shadow: 1px 1px var(--black);
   min-width: 10px;

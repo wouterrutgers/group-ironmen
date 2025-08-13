@@ -58,7 +58,6 @@
 
 #skill-graph-xp-change-table {
   margin: 8px 24px;
-  font-size: 16px;
   border-collapse: collapse;
 }
 
@@ -71,6 +70,7 @@
 .skill-graph-xp-change-table-label {
   display: flex;
   align-items: center;
+  padding: 4px 0;
 }
 
 #skill-graph-no-data {

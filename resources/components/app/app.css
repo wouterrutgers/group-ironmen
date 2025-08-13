@@ -59,7 +59,7 @@ body {
   color: var(--primary-text);
   overflow: hidden;
   position: relative;
-  font-size: 16px;
+  font-size: 18px;
   font-family: rssmall, ui-sans-serif, Arial, sans-serif;
   text-shadow: 1.3px 1.3px var(--black);
   display: flex;
@@ -180,7 +180,6 @@ input.input-small {
 
 input {
   color: var(--orange);
-  font-size: 16px;
   padding: 5px;
   background: #372e22;
   border: none;
@@ -345,7 +344,7 @@ ul {
   pointer-events: none;
 }
 
-*:focus {
+input:focus {
   /*
    * Sorta hacky, but an easy way to get consistent focus behavior across all
    * input. Good outlines for specific elements should be implemented, and the
