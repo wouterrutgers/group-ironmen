@@ -26,7 +26,7 @@ export const SocialLinks = (): ReactElement => {
         </a>
       </li>
       <li>
-        <a href="https://github.com/BunniesRabbits/group-ironmen" title="Github" target="_blank">
+        <a href="https://github.com/wouterrutgers/group-ironmen" title="Github" target="_blank">
           <div>
             <CachedImage alt="github logo" loading="lazy" src="/images/github-light.webp" height="20" />
           </div>
