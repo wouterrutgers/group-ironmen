@@ -1,5 +1,8 @@
 name: Dump game data
 
+permissions:
+  contents: write
+
 # To run locally: act --env GROUP_IRONMEN_PATH=$PWD -W .github/workflows/update-cache.yml -s GITHUB_TOKEN="$(gh auth token)" -P macos-latest=-self-hosted workflow_dispatch
 
 on:
