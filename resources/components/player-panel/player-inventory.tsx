@@ -3,7 +3,13 @@ import { useItemTooltip, type ItemTooltipProps } from "../tooltip/item-tooltip";
 import { GameDataContext } from "../../context/game-data-context";
 import * as Member from "../../game/member";
 import { useMemberInventoryContext, useMemberRunePouchContext } from "../../context/group-context";
-import { composeItemIconHref, formatShortQuantity, formatVeryShortQuantity, isRunePouch } from "../../game/items";
+import {
+  composeItemIconHref,
+  formatShortQuantity,
+  formatVeryShortQuantity,
+  isRunePouch,
+  mappedGEPrice,
+} from "../../game/items";
 import { CachedImage } from "../cached-image/cached-image";
 
 import "./player-inventory.css";
@@ -79,7 +85,7 @@ export const PlayerInventory = ({ member }: { member: Member.Name }): ReactEleme
       name: itemDatum.name,
       quantity: quantity,
       highAlch: itemDatum.highalch,
-      gePrice: geData?.get(itemID) ?? 0,
+      gePrice: mappedGEPrice(itemID, geData, itemData),
     };
     if (isRunePouch(itemID) && runePouch) {
       const overlayItemIcons = [];
@@ -92,7 +98,7 @@ export const PlayerInventory = ({ member }: { member: Member.Name }): ReactEleme
 
         const runeKey = `${runeID} ${runeQuantity}`;
         key += runeKey;
-        totalGePrice += (geData?.get(runeID) ?? 0) * runeQuantity;
+        totalGePrice += mappedGEPrice(runeID, geData, itemData) * runeQuantity;
         totalHighAlch += runeDatum.highalch * runeQuantity;
         runes.push({ name: runeDatum.name, quantity: runeQuantity });
 

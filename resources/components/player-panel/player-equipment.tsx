@@ -7,7 +7,7 @@ import { useMemberEquipmentContext } from "../../context/group-context";
 import { CachedImage } from "../cached-image/cached-image";
 
 import "./player-equipment.css";
-import { composeItemIconHref, formatShortQuantity } from "../../game/items";
+import { composeItemIconHref, formatShortQuantity, mappedGEPrice } from "../../game/items";
 
 const VisibleEquipmentSlots: EquipmentSlot[] = [
   "Head",
@@ -75,7 +75,7 @@ export const PlayerEquipment = ({ member }: { member: Member.Name }): ReactEleme
         name: itemDatum.name,
         quantity: quantity,
         highAlch: itemDatum.highalch,
-        gePrice: geData?.get(item.itemID) ?? 0,
+        gePrice: mappedGEPrice(item.itemID, geData, itemData),
       });
     };
     slotElements.push(

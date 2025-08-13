@@ -2,7 +2,7 @@ import { type ReactElement, Fragment, memo, useContext, useEffect, useRef, useSt
 import { SearchElement } from "../search-element/search-element";
 import type * as Member from "../../game/member";
 import { GameDataContext } from "../../context/game-data-context";
-import { type ItemID } from "../../game/items";
+import { type ItemID, mappedGEPrice } from "../../game/items";
 import { GroupItemsContext, GroupMemberNamesContext } from "../../context/group-context";
 import { Link } from "react-router-dom";
 import { useItemsPriceTooltip } from "./items-page-tooltip";
@@ -249,7 +249,7 @@ export const ItemsPage = (): ReactElement => {
       if (filteredTotalQuantity <= 0) return previousValue;
 
       const highAlch = itemDatum?.highalch ?? 0;
-      const gePrice = geData?.get(itemID) ?? 0;
+      const gePrice = mappedGEPrice(itemID, geData, itemData);
       previousValue.totalHighAlch += filteredTotalQuantity * highAlch;
       previousValue.totalGEPrice += filteredTotalQuantity * gePrice;
 

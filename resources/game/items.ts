@@ -1,5 +1,6 @@
 import { z } from "zod/v4";
 import type { Distinct } from "../ts/util";
+import type { GEPrices } from "../api/requests/ge-prices";
 
 export type ItemID = Distinct<number, "ItemID">;
 export interface ItemStack {
@@ -64,6 +65,15 @@ const ItemsDataEntrySchema = z.object({
     .array(z.tuple([z.uint32(), z.uint32()]))
     .min(1)
     .optional(),
+  mapping: z
+    .array(
+      z.object({
+        id: z.uint32(),
+        quantity: z.uint32(),
+      }),
+    )
+    .optional()
+    .nullable(),
 });
 type ItemEntry = z.infer<typeof ItemsDataEntrySchema>;
 
@@ -83,3 +93,52 @@ const ItemsDataSchema = z
     }
     return result;
   });
+
+export const mappedGEPrice = (
+  itemID: ItemID,
+  gePrices: GEPrices | undefined,
+  items: ItemsDatabase | undefined,
+  memo: Map<ItemID, number> = new Map(),
+  visited: Set<ItemID> = new Set(),
+): number => {
+  if (!gePrices || !items) {
+    return 0;
+  }
+
+  if (memo.has(itemID)) {
+    return memo.get(itemID)!;
+  }
+
+  if (itemID === (995 as ItemID)) {
+    memo.set(itemID, 1);
+
+    return 1;
+  }
+
+  if (itemID === (13204 as ItemID)) {
+    memo.set(itemID, 1000);
+
+    return 1000;
+  }
+
+  const itemEntry = items.get(itemID);
+  if (!itemEntry) {
+    return 0;
+  }
+
+  if (itemEntry.mapping && itemEntry.mapping.length > 0) {
+    visited.add(itemID);
+    const total = itemEntry.mapping.reduce((sum, { id, quantity }) => {
+      return sum + mappedGEPrice(id as ItemID, gePrices, items, memo, visited) * quantity;
+    }, 0);
+    visited.delete(itemID);
+    memo.set(itemID, total);
+
+    return total;
+  }
+
+  const direct = gePrices.get(itemID) ?? 0;
+  memo.set(itemID, direct);
+
+  return direct;
+};
