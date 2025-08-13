@@ -1,0 +1,375 @@
+:root {
+  --primary-text: white;
+  --elevated: rgb(255 255 255 / 8%);
+  --light-border: rgb(255 255 255 / 12%);
+  --darken: rgb(0 0 0 / 20%);
+  --background: #000;
+  --black: #000;
+  --invalid: #ee0d0d;
+  --graph-grid-border: rgb(255 255 255 / 5%);
+  --orange: hsl(32deg 100% 56%);
+  --orange-light: hsl(32deg 100% 90%);
+  --yellow: #ff0;
+  --red: #f00;
+  --green: hsl(120deg 87% 40%);
+  --green-light: hsl(120deg 87% 90%);
+  --rsbackground: url("/ui/297-0.png");
+  --rsbackground-dark: url("/ui/297-0-dark.png");
+}
+
+/*
+ * This gets rid of default button styling which can be very helpful when you
+ * wish to make a random element a button instead but you aren't ready for all
+ * the default styling.
+ *
+ * This selection of properties is probably not exhaustive (I haven't checked),
+ * but it covers our usage.
+ */
+button {
+  cursor: pointer;
+  background-color: unset;
+  border: unset;
+  color: unset;
+  padding: unset;
+  text-align: unset;
+  text-decoration: unset;
+  display: unset;
+  font-size: unset;
+  font-family: rssmall, ui-sans-serif, Arial, sans-serif;
+}
+
+a {
+  color: unset;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  margin: 0;
+  gap: 8px;
+  background: var(--background);
+  color: var(--primary-text);
+  overflow: hidden;
+  position: relative;
+  font-size: 16px;
+  font-family: rssmall, ui-sans-serif, Arial, sans-serif;
+  text-shadow: 1.3px 1.3px var(--black);
+  display: flex;
+}
+
+h1,
+h2,
+h3 {
+  font-family: rsbold, ui-sans-serif, Arial, sans-serif;
+}
+
+@font-face {
+  font-family: rssmall;
+  font-display: block;
+  src: url("/fonts/RuneScape-Chat-07.ttf");
+}
+
+@font-face {
+  font-family: rsbold;
+  font-display: block;
+  src: url("/fonts/RuneScape-Chat-Bold-07.ttf");
+}
+
+@font-face {
+  font-family: rstiny;
+  font-display: block;
+  src: url("/fonts/runescape-tiny.ttf");
+}
+
+.men-button {
+  cursor: pointer;
+  border: none;
+  margin: 0;
+  font-size: 20px;
+  font-family: rssmall, sans-serif;
+  color: var(--orange);
+  text-shadow: 1px 1px var(--black);
+  padding: 4px 8px;
+  font-weight: 400;
+  box-sizing: border-box;
+  line-height: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  border-image: url("/ui/border-button.png") 9 9 / 9px stretch;
+  border-style: solid;
+  border-radius: 4px;
+  background: #4d4336;
+  text-decoration: none;
+}
+
+.dark-mode .men-button {
+  border-image: url("/ui/border-button-dark.png") 9 9 / 9px stretch;
+  background: #282828;
+}
+
+.men-button:disabled {
+  filter: grayscale();
+  cursor: not-allowed;
+}
+
+.men-button:not([disabled]):hover {
+  background: rgb(66 55 38);
+}
+
+.dark-mode .men-button:hover {
+  background: #383838;
+}
+
+.men-button.small {
+  padding: 0.2em 0.4em;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  display: none;
+}
+
+input[type="checkbox"] + label,
+input[type="radio"] + label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+input[type="checkbox"] + label::before,
+input[type="radio"] + label::before {
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+  padding: 0;
+  padding-right: 4px;
+  content: "";
+}
+
+input[type="checkbox"] + label::before {
+  background: url("/ui/checkbox.png") no-repeat;
+}
+
+input[type="radio"] + label::before {
+  background: url("/ui/radio.png") no-repeat;
+}
+
+input[type="checkbox"]:checked + label::before {
+  background: url("/ui/checkbox-checked.png") no-repeat;
+}
+
+input[type="radio"]:checked + label::before {
+  background: url("/ui/radio-checked.png") no-repeat;
+}
+
+input.input-small {
+  padding: 0 6px;
+}
+
+input {
+  color: var(--orange);
+  font-size: 16px;
+  padding: 5px;
+  background: #372e22;
+  border: none;
+  box-shadow: inset 3px 3px 3px #261d11;
+  border-radius: 4px;
+  line-height: 1em;
+}
+
+input,
+select {
+  font-family: rssmall, ui-sans-serif, Arial, sans-serif;
+  font-size: 18px;
+  text-shadow: 1px 1px var(--black);
+}
+
+.dark-mode input {
+  background: #282828;
+  box-shadow: inset 3px 3px 3px #161616;
+}
+
+input::placeholder {
+  color: var(--orange);
+  opacity: 0.9;
+}
+
+input:focus-visible {
+  outline: 1px solid rgb(200 200 200);
+  border: none;
+}
+
+input.invalid {
+  border: 1px solid var(--invalid);
+}
+
+input.valid {
+  border: 1px solid rgb(0 0 0 / 0%);
+}
+
+.rsborder-tiny.invalid {
+  outline: 1px solid var(--invalid);
+  outline-offset: -2px;
+  box-sizing: border-box;
+}
+
+.select-container {
+  display: inline-flex;
+  padding: 5px;
+  min-height: 1em;
+}
+
+select {
+  color: var(--orange);
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+select:focus,
+select:focus-visible {
+  border: none;
+  outline: none;
+}
+
+option {
+  color: initial;
+  text-shadow: none;
+}
+
+fieldset {
+  border: 1px solid var(--black);
+}
+
+h4 {
+  margin: 0;
+}
+
+h1,
+h3,
+h2,
+h4 {
+  margin: 0;
+  text-shadow: 2px 2px var(--black);
+}
+
+h3 {
+  margin: 0;
+  font-size: 2em;
+}
+
+p {
+  margin: 0;
+  margin-bottom: 1em;
+}
+
+.emphasize {
+  font-weight: bold;
+  text-decoration: underline;
+  font-family: rsbold, ui-sans-serif, Arial, sans-serif;
+}
+
+.validation-error {
+  color: var(--invalid);
+  font-weight: bold;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  padding-left: 1em;
+}
+
+.rstext {
+  color: yellow;
+}
+
+.rsborder {
+  border-image: url("/ui/border.png") 32 32 / 32px / 3px 4px 4px 3px round;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.metal-border {
+  border-image: url("/ui/metal-border.png") 18 18 / 18px / 2px round;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.dark-mode .rsborder {
+  border-image: url("/ui/border-dark.png") 32 32 / 32px / 4px round;
+}
+
+.rsborder-tiny {
+  border-image: url("/ui/border-tiny.png") 4 4 / 4px round;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.dark-mode .rsborder-tiny {
+  border-image: url("/ui/border-tiny-dark.png") 4 4 / 4px round;
+}
+
+.rsbackground {
+  background: var(--rsbackground);
+  background-repeat: repeat;
+}
+
+.dark-mode .rsbackground {
+  background: var(--rsbackground-dark);
+}
+
+.rsbackground-hover:hover {
+  background: linear-gradient(rgb(0 0 0 / 10%), rgb(0 0 0 / 10%)), var(--rsbackground);
+}
+
+.dark-mode .rsbackground-hover:hover {
+  background: linear-gradient(rgb(0 0 0 / 10%), rgb(0 0 0 / 10%)), var(--rsbackground-dark);
+}
+
+.no-pointer-events {
+  pointer-events: none;
+}
+
+*:focus {
+  /*
+   * Sorta hacky, but an easy way to get consistent focus behavior across all
+   * input. Good outlines for specific elements should be implemented, and the
+   * important tag dropped.
+   */
+  outline: auto !important;
+}
+
+.active {
+  outline: 1px solid rgb(200 200 200);
+}
+
+.pointer-passthrough > * {
+  pointer-events: auto;
+}
+
+.pointer-passthrough {
+  pointer-events: none;
+}
+
+.orange-link {
+  color: var(--orange);
+}
+
+.orange-link:hover {
+  color: var(--orange-light);
+}

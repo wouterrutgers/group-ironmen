@@ -1,41 +1,23 @@
-men-homepage {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  font-size: 16px;
-  position: relative;
-  height: 100%;
-  color: white;
-}
-
-men-homepage social-links {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 1em;
-  font-size: 1.2em;
-}
-
-.men-homepage__container {
+#men-homepage {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
+  font-size: 16px;
+  position: relative;
+  color: white;
   flex-direction: column;
 }
 
-.men-homepage__container h1 {
+#men-homepage h1 {
   text-shadow: 3px 3px var(--black);
   font-size: min(128px, 16vw);
   margin: 0;
 }
 
-.men-homepage__links {
+#men-homepage-links {
   margin-top: 1.5em;
   display: flex;
-}
-
-.men-homepage__links > men-link + men-link {
-  margin-left: 2em;
+  gap: 2em;
 }

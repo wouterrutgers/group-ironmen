@@ -1,9 +1,12 @@
 name: Push Docker Image
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   docker:

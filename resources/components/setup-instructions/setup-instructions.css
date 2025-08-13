@@ -1,4 +1,4 @@
-setup-instructions {
+#setup-instructions-container {
   display: flex;
   justify-content: center;
   padding: 64px 12px;
@@ -6,39 +6,37 @@ setup-instructions {
   box-sizing: border-box;
 }
 
-.setup__container {
+#setup-instructions {
   max-width: 500px;
-  padding: 8px 24px;
+  padding: 8px;
   width: 100%;
   box-sizing: border-box;
 }
 
-.setup__block {
+.setup-block {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-.setup__block {
   margin-bottom: 1em;
 }
 
-.setup__config img {
+#setup-config img {
   max-width: 250px;
 }
 
-.setup__go-to-group {
+#setup-go-to-group {
   display: flex;
   justify-content: center;
   margin-top: 2em;
 }
 
-.setup__credential {
+.setup-credential {
   padding: 0.25em 0.5em;
   position: relative;
+  width: 100%;
 }
 
-.setup__credential-hide {
+#setup-credential-hide {
   position: absolute;
   left: 0;
   top: 0;
@@ -53,6 +51,6 @@ setup-instructions {
   z-index: 10;
 }
 
-.setup__credential-hide:hover {
+#setup-credential-hide:hover {
   background: #444;
 }

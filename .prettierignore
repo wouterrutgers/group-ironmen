@@ -1,0 +1,20 @@
+*~
+\#*#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.#*
+*.html
+
+# Ignore auto-generated resources, such as JSON generated when updating from the game cache
+public/*
+dist/*
+storage/cache/*
+cache/cache
+cache/item-data
+cache/item-images
+cache/map-data
+cache/output_files
+cache/runelite

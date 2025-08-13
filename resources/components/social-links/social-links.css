@@ -1,13 +1,32 @@
-social-links {
+#social-links > li {
   display: flex;
+}
+
+#social-links > li > a > div {
+  display: flex;
+  width: 35px;
+  place-content: center center;
+}
+
+#social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1em;
+  list-style: none;
+  font-size: 1.2em;
+}
+
+#social-links a {
+  display: flex;
+  color: hsl(0deg 0% 80%);
+  text-decoration: none;
   align-items: center;
 }
 
-social-links a {
-  display: flex;
-  align-items: center;
-}
-
-social-links a + a {
-  margin-left: 0.5em;
+#social-links a:hover {
+  color: hsl(0deg 0% 100%);
 }

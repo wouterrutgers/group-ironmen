@@ -1,0 +1,108 @@
+.player-skills {
+  display: grid;
+  margin-bottom: 4px;
+  height: 256px;
+  grid-template-columns: 62px 62px 62px;
+  justify-content: center;
+}
+
+.skill-box {
+  display: flex;
+  font-family: rstiny, sans-serif;
+}
+
+.skill-box-left {
+  background-image: url("/ui/174-0.png");
+}
+
+.skill-box-right {
+  position: relative;
+  background-image: url("/ui/175-0.png");
+}
+
+.skill-box-left,
+.skill-box-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 31px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.skill-box-left,
+.skill-box-right,
+.skill-box-progress {
+  pointer-events: none;
+}
+
+.dark-mode .skill-box-left {
+  background-image: url("/ui/174-0-dark.png");
+}
+
+.dark-mode .skill-box-right {
+  background-image: url("/ui/175-0-dark.png");
+}
+
+.skill-box-current-level,
+.skill-box-baseline-level {
+  position: absolute;
+  font-size: 16px;
+  color: yellow;
+  text-shadow: 1px 1px var(--black);
+  min-width: 10px;
+}
+
+.skill-box-baseline-level {
+  transform: translate(calc(50% - 1px), 5px);
+  text-align: right;
+}
+
+.skill-box-current-level {
+  transform: translate(calc(-50% - 2px), -5px);
+  text-align: left;
+}
+
+.skill-box-progress {
+  width: 100%;
+  padding: 0 4px;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 1px;
+}
+
+.skill-box-progress-bar {
+  height: 2px;
+  width: 100%;
+  transform-origin: left;
+}
+
+.total-level-box {
+  display: flex;
+  font-size: 13px;
+  color: yellow;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+.total-level-box-content,
+.total-level-box-image {
+  pointer-events: none;
+}
+
+.total-level-box-content {
+  position: absolute;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1em;
+}
+
+.player-skills .skill-box:hover,
+.player-skills .total-level-box:hover {
+  filter: brightness(1.25);
+}

@@ -1,18 +1,17 @@
-app-navigation {
+#app-navigation {
   display: flex;
-  margin-bottom: 1em;
   align-items: center;
-  padding: 8px 16px;
-  pointer-events: auto;
-  overflow-x: auto;
-  overflow-y: hidden;
+  padding: 8px;
+  overflow: auto hidden;
+  flex-shrink: 0;
 }
 
 .mobile {
   display: none;
+  min-width: 64px;
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (width <= 800px) {
   .desktop {
     display: none;
   }
@@ -20,30 +19,47 @@ app-navigation {
   .mobile {
     display: initial;
   }
+
+  #app-navigation {
+    flex-direction: column;
+  }
 }
 
-app-navigation .men-button img {
+#app-navigation .men-button img {
   height: 24px;
 }
-.app-navigation__nav {
+
+#app-navigation-nav {
   display: flex;
   align-items: center;
-  column-gap: 6px;
   justify-content: flex-start;
   flex-grow: 1;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-.app-navigation__separator {
-  flex-grow: 1;
+.nav-main-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-.app-navigation__nav men-link {
-  margin: 0;
+.nav-right-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-.app-navigation__group-name {
+#app-navigation-spacer {
+  flex: 1 1 0;
+}
+
+#app-navigation-group-name {
   color: white;
+  white-space: nowrap;
+  margin-right: 8px;
   font-size: 1.5em;
-  margin-right: 1em;
   font-weight: 300;
 }

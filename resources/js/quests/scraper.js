@@ -1,7 +1,7 @@
-import { JSDOM } from 'jsdom';
-import axios from 'axios';
-import fs from 'fs';
-import questsMapping from './mapping.json' with { type: 'json' };
+import { JSDOM } from "jsdom";
+import axios from "axios";
+import fs from "fs";
+import questsMapping from "./mapping.json" with { type: "json" };
 
 const questNameToIdMap = new Map();
 for (const [questId, questName] of Object.entries(questsMapping)) {
@@ -9,16 +9,16 @@ for (const [questId, questName] of Object.entries(questsMapping)) {
 }
 
 function getQuestTableData(table) {
-  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  const rows = Array.from(table.querySelectorAll("tbody tr"));
   const result = [];
-  const ths = Array.from(table.querySelectorAll('th'));
+  const ths = Array.from(table.querySelectorAll("th"));
   const headers = ths.map((th) => th.textContent.trim());
   for (const row of rows) {
-    const tds = Array.from(row.querySelectorAll('td'));
+    const tds = Array.from(row.querySelectorAll("td"));
     if (tds.length === 0) continue;
-    const name = tds[headers.indexOf('Name')].textContent.trim();
-    const difficulty = tds[headers.indexOf('Difficulty')].textContent.trim();
-    const points = tds[headers.indexOf('')]?.textContent.trim() || 0;
+    const name = tds[headers.indexOf("Name")].textContent.trim();
+    const difficulty = tds[headers.indexOf("Difficulty")].textContent.trim();
+    const points = tds[headers.indexOf("")]?.textContent.trim() || 0;
     result.push({
       name,
       difficulty,
@@ -30,15 +30,15 @@ function getQuestTableData(table) {
 }
 
 async function run() {
-  const questsListHtml = await axios.get('https://oldschool.runescape.wiki/w/Quests/List');
+  const questsListHtml = await axios.get("https://oldschool.runescape.wiki/w/Quests/List");
   const dom = new JSDOM(questsListHtml.data);
 
-  const questTables = Array.from(dom.window.document.querySelectorAll('table')).filter((table) => {
-    const ths = Array.from(table.querySelectorAll('th'));
+  const questTables = Array.from(dom.window.document.querySelectorAll("table")).filter((table) => {
+    const ths = Array.from(table.querySelectorAll("th"));
     if (ths.length === 0) return false;
 
-    const headerText = ths.map((th) => th.textContent.trim()).join('');
-    if (headerText.includes('NameDifficultyLengthSeriesRelease date')) return true;
+    const headerText = ths.map((th) => th.textContent.trim()).join("");
+    if (headerText.includes("NameDifficultyLengthSeriesRelease date")) return true;
     return false;
   });
 
@@ -47,9 +47,9 @@ async function run() {
   const miniQuestTable = questTables[2];
 
   const freeToPlayQuests = getQuestTableData(freeToPlayQuestTable);
-  freeToPlayQuests.forEach((quest) => quest.member = false);
+  freeToPlayQuests.forEach((quest) => (quest.member = false));
   const memberQuests = getQuestTableData(memberQuestTable);
-  memberQuests.forEach((quest) => quest.member = true);
+  memberQuests.forEach((quest) => (quest.member = true));
   const miniQuests = getQuestTableData(miniQuestTable);
   miniQuests.forEach((quest) => {
     quest.member = true;
@@ -58,24 +58,24 @@ async function run() {
 
   const result = {};
   for (const quest of [...freeToPlayQuests, ...memberQuests, ...miniQuests]) {
-    if (quest.name.includes('Quick guide')) {
+    if (quest.name.includes("Quick guide")) {
       continue;
     }
 
-    if (! questNameToIdMap.has(quest.name)) {
+    if (!questNameToIdMap.has(quest.name)) {
       console.error(`quest mapping is missing quest ${quest.name} from the wiki`);
       continue;
     }
 
     // The points come from the subquests, setting this to 0 so we don't count the points twice
-    if (quest.name === 'Recipe for Disaster') {
+    if (quest.name === "Recipe for Disaster") {
       quest.points = 0;
     }
 
     result[questNameToIdMap.get(quest.name)] = quest;
   }
 
-  fs.writeFileSync('./public/data/quest_data.json', JSON.stringify(result, null, 2));
+  fs.writeFileSync("./public/data/quest_data.json", JSON.stringify(result, null, 2));
 }
 
 run();

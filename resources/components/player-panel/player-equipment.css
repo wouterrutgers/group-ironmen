@@ -1,0 +1,93 @@
+.player-equipment {
+  position: relative;
+  width: 175px;
+  height: 200px;
+}
+
+.player-equipment-item-quantity {
+  color: var(--yellow);
+  position: absolute;
+  left: 0;
+  top: -0.125em;
+  min-height: 0;
+}
+
+.equipment-slot-empty,
+.equipment-slot-filled {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/ui/170-0.png");
+  width: 36px;
+  height: 36px;
+}
+
+.dark-mode .equipment-slot-empty,
+.dark-mode .equipment-slot-filled {
+  background-image: url("/ui/170-0-dark.png");
+}
+
+.equipment-slot-filled:hover {
+  box-shadow: inset 0 0 0 1000px rgb(255 255 255 / 10%);
+}
+
+.equipment-slot-item {
+  height: 32px;
+  transform: translateX(2px);
+}
+
+.equipment-head {
+  left: 70px;
+  top: 0;
+}
+
+.equipment-cape {
+  left: 29px;
+  top: 39px;
+}
+
+.equipment-amulet {
+  left: 70px;
+  top: 39px;
+}
+
+.equipment-ammo {
+  left: 111px;
+  top: 39px;
+}
+
+.equipment-weapon {
+  left: 14px;
+  top: 78px;
+}
+
+.equipment-body {
+  left: 70px;
+  top: 78px;
+}
+
+.equipment-shield {
+  left: 126px;
+  top: 78px;
+}
+
+.equipment-legs {
+  left: 70px;
+  top: 118px;
+}
+
+.equipment-gloves {
+  left: 14px;
+  top: 158px;
+}
+
+.equipment-boots {
+  left: 70px;
+  top: 158px;
+}
+
+.equipment-ring {
+  left: 126px;
+  top: 158px;
+}

@@ -1,0 +1,67 @@
+#group-settings-container {
+  padding: 8px 12px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+#group-settings-container h2 {
+  font-size: 32px;
+  margin: 0;
+}
+
+#group-settings-container .validation-error {
+  min-height: 20px;
+}
+
+.group-settings-member-section {
+  padding: 4px;
+  position: relative;
+}
+
+.group-settings-member-section h3 {
+  font-size: 24px;
+}
+
+.group-settings-member-section h3 img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.group-settings-member-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.group-settings-member-remove {
+  color: red !important;
+}
+
+.group-settings-pending-overlay {
+  background-color: black;
+  opacity: 0.6;
+  position: absolute;
+  inset: 0;
+}
+
+#group-settings-remove-confirmation {
+  padding: 16px;
+}
+
+#group-settings-remove-confirmation h1 img {
+  margin-inline: 4px;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+#group-settings-remove-confirmation button {
+  margin-block: 4px;
+}

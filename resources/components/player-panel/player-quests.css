@@ -1,0 +1,68 @@
+.player-quests {
+  display: block;
+  padding: 0 8px;
+}
+
+.player-quests-top {
+  display: flex;
+  align-items: center;
+}
+
+.player-quests-list {
+  color: white;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.player-quests-quest {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.player-quests-quest:hover {
+  background: rgb(255 255 255 / 10%);
+}
+
+.player-quests-not-started {
+  color: #f00;
+}
+
+.player-quests-in-progress {
+  color: #ff0;
+}
+
+.player-quests-finished {
+  color: #0f0;
+}
+
+.player-quests-difficulty-icon {
+  margin-right: 8px;
+}
+
+.player-quests-section-header {
+  color: var(--orange);
+  margin: 4px 0;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.player-quests-filter {
+  flex-grow: 1;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.player-quests-filter input {
+  font-size: 18px;
+}
+
+.player-quests-hidden {
+  display: none;
+}
+
+.player-quests-points {
+  white-space: nowrap;
+  margin-left: 16px;
+}

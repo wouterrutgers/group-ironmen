@@ -1,0 +1,144 @@
+.diary-dialog-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 20px;
+  max-height: 90svh;
+  cursor: auto;
+}
+
+.diary-dialog-scroll-container {
+  overflow-y: scroll;
+}
+
+.diary-dialog-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
+}
+
+.diary-dialog-section > h2 {
+  font-size: 20px;
+}
+
+.diary-dialog-section:first-child > h2 {
+  border-block-start: none;
+}
+
+.diary-dialog-task-complete,
+.diary-dialog-requirement-met {
+  text-decoration: underline;
+  text-underline-offset: -40%;
+  text-decoration-skip-ink: none;
+  color: rgb(255 255 255 / 60%) !important;
+}
+
+.diary-dialog-task {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 6px;
+  justify-content: center;
+}
+
+.diary-dialog-task:hover {
+  background: rgb(0 0 0 / 15%);
+}
+
+.diary-dialog-header {
+  position: relative;
+  display: flex;
+  flex: 0;
+  text-align: center;
+  margin: 8px;
+}
+
+.diary-dialog-header h3 {
+  color: var(--orange);
+  margin: 0;
+}
+
+.diary-dialog-close {
+  position: absolute;
+  right: 0;
+  height: 21px;
+  width: 21px;
+}
+
+.diary-dialog-close:hover {
+  outline: solid var(--orange) 1px;
+}
+
+.diary-dialog-close > img {
+  width: 100%;
+  object-fit: contain;
+}
+
+.diary-dialog-title {
+  text-decoration: underline;
+  color: var(--orange);
+}
+
+.diary-dialog-header > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-close:hover {
+  filter: brightness(1.3);
+}
+
+.diary-dialog-tier-complete,
+.diary-dialog-diary-complete .diary-dialog-header {
+  background: rgb(0 200 0 / 10%);
+}
+
+.diary-dialog-section-title {
+  color: var(--orange);
+  text-decoration: underline;
+  background: #28251e;
+  margin: 0;
+  padding: 4px;
+  border-block: 1px solid hsl(40deg 15.79% 29.8%);
+}
+
+.diary-dialog-container a:hover {
+  color: var(--orange-light);
+}
+
+.diary-dialog-tier-complete .diary-dialog-section-title {
+  color: var(--green);
+}
+
+.diary-dialog-tier-complete .diary-dialog-section-title a:hover {
+  color: var(--green-light);
+}
+
+.diary-dialog-skill-icon {
+  padding-left: 5px;
+  display: flex;
+  height: 1em;
+}
+
+.diary-dialog-skill-icon > img {
+  height: 1em;
+  width: 1em;
+  object-fit: scale-down;
+}
+
+.diary-dialog-task-complete img {
+  opacity: 0.5;
+}
+
+.diary-dialog-skill-complete {
+  text-decoration: underline;
+  text-underline-offset: -40%;
+  text-decoration-skip-ink: none;
+  color: rgb(255 255 255 / 60%);
+}
+
+@media screen and (width <= 800px) {
+  .diary-dialog-container {
+    text-wrap: wrap;
+  }
+}
