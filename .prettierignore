@@ -18,3 +18,5 @@ cache/item-images
 cache/map-data
 cache/output_files
 cache/runelite
+resources/data/*
+resources/js/quests/mapping.json
