@@ -939,7 +939,7 @@ const GetGroupDataResponseSchema = z
     lastUpdated: last_updated,
     runePouch: rune_pouch,
     seedVault: seed_vault,
-    diaryVars: diary_vars,
+    diaries: diary_vars,
     ...rest,
   }))
   .transform((memberState) => {
