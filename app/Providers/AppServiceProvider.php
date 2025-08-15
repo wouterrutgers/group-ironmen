@@ -20,7 +20,15 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict();
 
         RateLimiter::for('global', function (Request $request) {
-            return Limit::perMinute(300)->by($request->user()?->id ?: $request->ip());
+            $isExcluded = collect(
+                ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'css', 'js']
+            )->contains(fn (string $extension) => str_ends_with(strtolower($request->path()), ".{$extension}"));
+
+            if ($isExcluded) {
+                return Limit::none();
+            }
+
+            return Limit::perMinute(180)->by($request->user()?->id ?: $request->ip());
         });
     }
 }

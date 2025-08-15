@@ -14,11 +14,11 @@ import "./items-page.css";
 
 type ItemFilter = "All" | Member.Name;
 const ItemSortCategory = [
-  "Total Quantity",
-  "HA Total Value",
-  "HA Unit Value",
-  "GE Total Price",
-  "GE Unit Price",
+  "Total quantity",
+  "HA total value",
+  "HA unit value",
+  "GE total price",
+  "GE unit price",
   "Alphabetical",
 ] as const;
 type ItemSortCategory = (typeof ItemSortCategory)[number];
@@ -222,7 +222,7 @@ const ItemPanelsScrollArea = ({
 export const ItemsPage = (): ReactElement => {
   const [filter, setFilter] = useState<ItemFilter>("All");
   const [searchString, setSearchString] = useState<string>("");
-  const [sortCategory, setSortCategory] = useState<ItemSortCategory>("GE Unit Price");
+  const [sortCategory, setSortCategory] = useState<ItemSortCategory>("GE unit price");
   const { gePrices: geData, items: itemData } = useContext(GameDataContext);
   const { getItemIconUrl } = useCachedImages();
 
@@ -270,15 +270,15 @@ export const ItemsPage = (): ReactElement => {
 
   const sortedItems = [...filteredItems].sort((lhs, rhs) => {
     switch (sortCategory) {
-      case "Total Quantity":
+      case "Total quantity":
         return rhs.totalQuantity - lhs.totalQuantity;
-      case "HA Total Value":
+      case "HA total value":
         return rhs.highAlch * rhs.totalQuantity - lhs.highAlch * lhs.totalQuantity;
-      case "HA Unit Value":
+      case "HA unit value":
         return rhs.highAlch - lhs.highAlch;
-      case "GE Total Price":
+      case "GE total price":
         return rhs.gePrice * rhs.totalQuantity - lhs.gePrice * lhs.totalQuantity;
-      case "GE Unit Price":
+      case "GE unit price":
         return rhs.gePrice - lhs.gePrice;
       case "Alphabetical":
         return lhs.itemName.localeCompare(rhs.itemName);
