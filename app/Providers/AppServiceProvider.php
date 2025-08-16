@@ -18,17 +18,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::shouldBeStrict();
-
-        RateLimiter::for('global', function (Request $request) {
-            $isExcluded = collect(
-                ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'css', 'js']
-            )->contains(fn (string $extension) => str_ends_with(strtolower($request->path()), ".{$extension}"));
-
-            if ($isExcluded) {
-                return Limit::none();
-            }
-
-            return Limit::perMinute(180)->by($request->user()?->id ?: $request->ip());
-        });
     }
 }

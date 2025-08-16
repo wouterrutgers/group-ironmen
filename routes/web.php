@@ -6,7 +6,7 @@ use App\Http\Controllers\UnauthedController;
 use App\Http\Middleware\AuthenticateGroup;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('throttle:global')->group(function () {
+Route::group(function () {
     Route::get('/api/ge-prices', [UnauthedController::class, 'getGEPrices']);
     Route::get('/api/collection-log-info', [UnauthedController::class, 'collectionLogInfo']);
 
