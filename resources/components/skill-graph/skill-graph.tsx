@@ -23,6 +23,7 @@ import { SkillsInBackendOrder } from "../../api/requests/group-data";
 import { utc } from "@date-fns/utc";
 import { Link } from "react-router-dom";
 import { CachedImage } from "../cached-image/cached-image";
+import { GroupMemberColorsContext } from "../../context/group-context";
 
 import "./skill-graph.css";
 
@@ -52,6 +53,20 @@ interface SkillGraphTableRow {
 interface SkillChart {
   data: ChartData<"line", [Date, number][], string>;
   options: ChartOptions<"line">;
+}
+
+/** CSS Style for both the bar graph and line chart */
+interface SkillGraphMemberStyle {
+  lineBorder: string;
+  lineBackground: string;
+  barBackground: string;
+}
+
+/** The input data that is used to construct all the graphs for a single member, such as style and skill experience samples. */
+interface SkillGraphMember {
+  member: Member.Name;
+  skillSamples: { time: Date; data: Experience[] }[];
+  style: SkillGraphMemberStyle;
 }
 
 /**
@@ -198,7 +213,7 @@ const interpolateSkillSamples = (
  * SkillData values should be sorted by date in ascending order already.
  */
 const buildDatasetsFromMemberSkillData = (
-  groupSkillSamplePoints: Map<Member.Name, { time: Date; data: Experience[] }[]>,
+  members: SkillGraphMember[],
   dateBins: Date[],
   options: {
     yAxisUnit: LineChartYAxisOption;
@@ -221,7 +236,7 @@ const buildDatasetsFromMemberSkillData = (
    * just where there are gaps.
    */
   const datasets = [];
-  for (const [member, memberSkillData] of groupSkillSamplePoints) {
+  for (const { member, skillSamples, style } of members) {
     const interpolatedSamples: Experience[] = [];
 
     let skillDataIndex = 0;
@@ -230,8 +245,8 @@ const buildDatasetsFromMemberSkillData = (
        * Assume these are in chronological order, because the input data was
        * sorted down in the react component.
        */
-      const firstSample = memberSkillData.at(skillDataIndex);
-      const secondSample = memberSkillData.at(skillDataIndex + 1);
+      const firstSample = skillSamples.at(skillDataIndex);
+      const secondSample = skillSamples.at(skillDataIndex + 1);
 
       /*
        * firstSample is undefined if we reached the end of all samples. At this
@@ -303,13 +318,11 @@ const buildDatasetsFromMemberSkillData = (
         break;
     }
 
-    const borderColor = `hsl(${Member.computeMemberHueDegrees(member)}deg 80% 40%)`;
-    const backgroundColor = `hsl(${Member.computeMemberHueDegrees(member)}deg 70% 30%)`;
     datasets.push({
       label: member,
       data: chartPoints,
-      borderColor,
-      backgroundColor,
+      borderColor: style.lineBorder,
+      backgroundColor: style.lineBackground,
     });
   }
 
@@ -317,7 +330,7 @@ const buildDatasetsFromMemberSkillData = (
 };
 
 const buildTableRowsFromMemberSkillData = (
-  skillData: Map<Member.Name, { time: Date; data: Experience[] }[]>,
+  members: SkillGraphMember[],
   options: {
     yAxisUnit: LineChartYAxisOption;
     skillFilter: SkillFilteringOption;
@@ -327,12 +340,17 @@ const buildTableRowsFromMemberSkillData = (
   let groupGainTotal = 0 as Experience;
 
   // Individual gains to display for the individual rows
-  const groupGains: { name: Member.Name; total: Experience; perSkill: Experience[] }[] = [];
+  const groupGains: { name: Member.Name; total: Experience; perSkill: Experience[]; colorCSS: string }[] = [];
 
-  for (const [member, samples] of skillData) {
-    const memberGain = { name: member, total: 0 as Experience, perSkill: [] as Experience[] };
+  for (const { member, skillSamples, style } of members) {
+    const memberGain = {
+      name: member,
+      total: 0 as Experience,
+      perSkill: [] as Experience[],
+      colorCSS: style.barBackground,
+    };
 
-    const samplesSortedOldestFirst = samples.sort(({ time: timeA }, { time: timeB }) =>
+    const samplesSortedOldestFirst = skillSamples.sort(({ time: timeA }, { time: timeB }) =>
       DateFNS.compareAsc(timeA, timeB),
     );
 
@@ -371,7 +389,7 @@ const buildTableRowsFromMemberSkillData = (
 
   groupGains.sort(({ total: a }, { total: b }) => b - a);
 
-  for (const { name, total, perSkill } of groupGains) {
+  for (const { name, total, perSkill, colorCSS } of groupGains) {
     if (options.skillFilter !== "Overall") {
       const skill: Skill = options.skillFilter;
 
@@ -385,7 +403,6 @@ const buildTableRowsFromMemberSkillData = (
       continue;
     }
 
-    const colorCSS = `hsl(${Member.computeMemberHueDegrees(name)}deg 80% 30%)`;
     const overallFraction = total / groupGainTotal;
     const header: SkillGraphTableRow = {
       name,
@@ -467,6 +484,8 @@ export const SkillGraph = (): ReactElement => {
   const [loading, setLoading] = useState<boolean>(true);
   const updateChartPromiseRef = useRef<Promise<void>>(undefined);
 
+  const memberColors = useContext(GroupMemberColorsContext);
+
   const { fetchSkillData } = useContext(APIContext);
 
   useEffect(() => {
@@ -480,19 +499,29 @@ export const SkillGraph = (): ReactElement => {
     ])
       .then(([result]) => {
         if (result.status !== "fulfilled") return;
-
-        const skillData = result.value;
-
         if (updateChartPromiseRef.current !== promise) return;
 
         const dates = enumerateDateBinsForPeriod(period);
 
+        const skillData = result.value;
+
+        const memberChartData: SkillGraphMember[] = [];
         // Filter and sort the data, so that calculations like xp/hr down the road are well formed.
-        for (const member of skillData.keys()) {
-          const sorted = skillData
-            .get(member)!
-            .sort(({ time: timeA }, { time: timeB }) => DateFNS.compareAsc(timeA, timeB));
-          if (sorted.length === 0) continue;
+        for (const [member, skillSamples] of skillData) {
+          const hueDegrees = memberColors.get(member)?.hueDegrees;
+          if (!hueDegrees || skillSamples.length === 0) continue;
+
+          memberChartData.push({
+            member,
+            style: {
+              lineBorder: `hsl(${hueDegrees}deg 60% 50%)`,
+              lineBackground: `hsl(${hueDegrees}deg 60% 40%)`,
+              barBackground: `hsl(${hueDegrees}deg 60% 40%)`,
+            },
+            skillSamples: [...skillSamples].sort(({ time: timeA }, { time: timeB }) =>
+              DateFNS.compareAsc(timeA, timeB),
+            ),
+          });
         }
 
         /*
@@ -507,7 +536,7 @@ export const SkillGraph = (): ReactElement => {
          * can't look backwards.
          */
         const data = {
-          datasets: buildDatasetsFromMemberSkillData(skillData, dates, {
+          datasets: buildDatasetsFromMemberSkillData(memberChartData, dates, {
             yAxisUnit,
             skillFilter,
           }).map(({ label, data, borderColor, backgroundColor }) => {
@@ -530,7 +559,7 @@ export const SkillGraph = (): ReactElement => {
         });
 
         setTableRowData(
-          buildTableRowsFromMemberSkillData(skillData, {
+          buildTableRowsFromMemberSkillData(memberChartData, {
             yAxisUnit: yAxisUnit,
             skillFilter: skillFilter,
           }),
@@ -543,7 +572,7 @@ export const SkillGraph = (): ReactElement => {
         setLoading(false);
       });
     updateChartPromiseRef.current = promise;
-  }, [options, fetchSkillData]);
+  }, [options, fetchSkillData, memberColors]);
 
   const { period, yAxisUnit, skillFilter } = options;
 

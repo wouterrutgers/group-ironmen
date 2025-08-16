@@ -5,10 +5,14 @@ import type { ItemID, ItemStack } from "../game/items";
 import type { GroupStateUpdate } from "../api/api";
 import { Skill, type Experience } from "../game/skill";
 
+interface MemberColor {
+  hueDegrees: number;
+}
 interface GroupState {
   items: Map<ItemID, Map<Member.Name, number>>;
   memberStates: Map<Member.Name, Member.State>;
   memberNames: Set<Member.Name>;
+  memberColors: Map<Member.Name, MemberColor>;
   xpDropCounter: number;
   xpDrops: Map<Member.Name, Member.ExperienceDrop[]>;
 }
@@ -36,6 +40,11 @@ export const GroupMemberNamesContext = createContext<GroupState["memberNames"]>(
  * Contains all the xp drops of the group.
  */
 export const GroupXPDropsContext = createContext<GroupState["xpDrops"]>(new Map());
+
+/**
+ * Contains the colors of the group. These colors are not stable if the group changes.
+ */
+export const GroupMemberColorsContext = createContext<GroupState["memberColors"]>(new Map());
 
 // TODO: many of these are candidates to be split off like the items, to reduce
 // excessive updates.
@@ -80,6 +89,10 @@ export const useMemberCollectionContext = (member: Member.Name): Member.Collecti
 
 /* eslint-enable react-refresh/only-export-components */
 
+// TODO: Use full HSL colors with varying saturation/lightness, since
+// perceptively just rotating the colors doesn't look very good.
+const memberColorHues: number[] = [330, 100, 230, 170, 40];
+
 /**
  * Taking in the new group state, perform some diff checking and update
  * sparingly. This method also aggregates the items for the group.
@@ -96,6 +109,23 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
     const newMemberNames = new Set<Member.Name>(stateUpdate.keys());
     if (newMemberNames.size !== oldState.memberNames.size || newMemberNames.difference(oldState.memberNames).size > 0) {
       newState.memberNames = newMemberNames;
+
+      newState.memberColors = new Map();
+      let colorIndex = 0;
+      for (const name of newMemberNames) {
+        const SHARED_NAME = "@SHARED" as Member.Name;
+        if (name === SHARED_NAME) {
+          newState.memberColors.set(SHARED_NAME, { hueDegrees: 0 });
+          continue;
+        }
+
+        // Groups should only have at most 5 members, but we fill in a placeholder so
+        // things look OK just in case.
+        const hueDegrees = memberColorHues.at(colorIndex) ?? 0;
+        newState.memberColors.set(name, { hueDegrees });
+        colorIndex += 1;
+      }
+
       updated = true;
     }
   }
@@ -253,6 +283,7 @@ export const GroupProvider = ({ children }: { children: ReactNode }): ReactNode 
     items: new Map(),
     memberStates: new Map(),
     memberNames: new Set<Member.Name>(),
+    memberColors: new Map(),
     xpDropCounter: 0,
     xpDrops: new Map(),
   });
@@ -264,15 +295,17 @@ export const GroupProvider = ({ children }: { children: ReactNode }): ReactNode 
     setUpdateCallbacks({ onGroupUpdate: updateContexts });
   }, [setUpdateCallbacks]);
 
-  const { items, memberStates, memberNames, xpDrops } = contexts;
+  const { items, memberStates, memberNames, xpDrops, memberColors } = contexts;
 
   return (
     <GroupMemberNamesContext value={memberNames}>
-      <GroupItemsContext value={items}>
-        <GroupMemberStatesContext value={memberStates}>
-          <GroupXPDropsContext value={xpDrops}>{children}</GroupXPDropsContext>
-        </GroupMemberStatesContext>
-      </GroupItemsContext>
+      <GroupMemberColorsContext value={memberColors}>
+        <GroupItemsContext value={items}>
+          <GroupMemberStatesContext value={memberStates}>
+            <GroupXPDropsContext value={xpDrops}>{children}</GroupXPDropsContext>
+          </GroupMemberStatesContext>
+        </GroupItemsContext>
+      </GroupMemberColorsContext>
     </GroupMemberNamesContext>
   );
 };
