@@ -30,9 +30,9 @@ interface UpdateCallbacks {
   onGameDataUpdate: (data: GameData) => void;
 }
 export default class Api {
-  private baseURL: string;
+  private readonly baseURL: string;
   private closed: boolean;
-  private credentials: GroupCredentials;
+  private readonly credentials: GroupCredentials;
 
   private getGroupDataPromise: Promise<void> | undefined;
   private getGroupCollectionLogsPromise: Promise<void> | undefined;
@@ -171,7 +171,8 @@ export default class Api {
 
         this.groupDataValidUpToDate = mostRecentLastUpdatedTimestamp;
       })
-      .then(() => {
+      .catch((reason) => console.error("Failed to get group data for API", reason))
+      .finally(() => {
         if (this.closed) return;
 
         window.setTimeout(() => {
@@ -191,7 +192,8 @@ export default class Api {
       .then((response) => {
         this.updateGroupCollectionLogs(response);
       })
-      .then(() => {
+      .catch((reason) => console.error("Failed to get collection logs for API", reason))
+      .finally(() => {
         if (this.closed) return;
 
         window.setTimeout(() => {
