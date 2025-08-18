@@ -7,7 +7,7 @@ import type { CollectionLogInfo } from "../game/collection-log";
 import type { GroupCredentials } from "./credentials";
 import { fetchGEPrices, type GEPrices } from "./requests/ge-prices";
 import { fetchGroupData, type Response as GetGroupDataResponse } from "./requests/group-data";
-import { fetchGroupCollectionLogs, type Response as GetGroupCollectionLogsResponse } from "./requests/collection-log";
+import { fetchGroupCollectionLogsSingle } from "./requests/collection-log";
 import { fetchCollectionLogInfo } from "./requests/collection-log-info";
 import * as RequestSkillData from "./requests/skill-data";
 import * as RequestCreateGroup from "./requests/create-group";
@@ -35,7 +35,6 @@ export default class Api {
   private readonly credentials: GroupCredentials;
 
   private getGroupDataPromise: Promise<void> | undefined;
-  private getGroupCollectionLogsPromise: Promise<void> | undefined;
 
   private groupDataValidUpToDate: Date | undefined;
 
@@ -72,20 +71,6 @@ export default class Api {
 
       updates.set(name, update);
     }
-
-    this.callbacks?.onGroupUpdate?.(updates);
-  }
-
-  private updateGroupCollectionLogs(response: GetGroupCollectionLogsResponse): void {
-    const updates: GroupStateUpdate = new Map();
-
-    for (const [member, collection] of Object.entries(response)) {
-      if (!collection) continue;
-
-      updates.set(member as Member.Name, { collection });
-    }
-
-    if (updates.size <= 0) return;
 
     this.callbacks?.onGroupUpdate?.(updates);
   }
@@ -182,33 +167,11 @@ export default class Api {
       });
   }
 
-  private queueFetchGroupCollectionLogs(): void {
-    const FETCH_INTERVAL_MS = 10000;
-
-    this.getGroupCollectionLogsPromise ??= fetchGroupCollectionLogs({
-      baseURL: this.baseURL,
-      credentials: this.credentials,
-    })
-      .then((response) => {
-        this.updateGroupCollectionLogs(response);
-      })
-      .catch((reason) => console.error("Failed to get collection logs for API", reason))
-      .finally(() => {
-        if (this.closed) return;
-
-        window.setTimeout(() => {
-          this.getGroupCollectionLogsPromise = undefined;
-          this.queueFetchGroupCollectionLogs();
-        }, FETCH_INTERVAL_MS);
-      });
-  }
-
   close(): void {
     this.callbacks = {};
     this.closed = true;
 
     this.getGroupDataPromise = undefined;
-    this.getGroupCollectionLogsPromise = undefined;
 
     this.groupDataValidUpToDate = new Date(0);
 
@@ -222,9 +185,6 @@ export default class Api {
 
     this.queueGetGameData();
     this.queueFetchGroupData();
-    if (this.getGroupDataPromise) {
-      void this.getGroupDataPromise.then(() => this.queueFetchGroupCollectionLogs());
-    }
   }
 
   static async fetchAmILoggedIn({ name, token }: GroupCredentials): Promise<Response> {
@@ -265,5 +225,15 @@ export default class Api {
   async deleteGroupMember(member: Member.Name): Promise<RequestDeleteGroupMember.Response> {
     if (this.credentials === undefined) return Promise.reject(new Error("No active API connection."));
     return RequestDeleteGroupMember.deleteGroupMember({ baseURL: this.baseURL, credentials: this.credentials, member });
+  }
+
+  async fetchGroupCollectionLogs(): Promise<void> {
+    if (this.credentials === undefined) return Promise.reject(new Error("No active API connection."));
+    const collections = await fetchGroupCollectionLogsSingle({ baseURL: this.baseURL, credentials: this.credentials });
+    const updates = new Map<Member.Name, Partial<Member.State>>();
+    for (const [name, collection] of Object.entries(collections)) {
+      updates.set(name as Member.Name, { collection });
+    }
+    this.callbacks?.onGroupUpdate?.(updates);
   }
 }

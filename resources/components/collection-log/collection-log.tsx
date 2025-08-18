@@ -1,11 +1,14 @@
-import { Fragment, useContext, useState, type ReactElement } from "react";
+import { Fragment, useContext, useEffect, useState, type ReactElement } from "react";
 import { GameDataContext } from "../../context/game-data-context";
 import * as CollectionLog from "../../game/collection-log";
 import type * as Member from "../../game/member";
+import { useGroupMemberContext } from "../../context/group-context";
 import { useCollectionLogItemTooltip } from "./collection-log-tooltip";
 import { PlayerIcon } from "../player-icon/player-icon";
 import type { ItemID } from "../../game/items";
 import { CachedImage } from "../cached-image/cached-image";
+import { Context as APIContext } from "../../context/api-context";
+import { fetchMemberHiscores } from "../../api/requests/hiscores";
 
 import "./collection-log.css";
 
@@ -16,7 +19,7 @@ const CollectionLogPageItems = ({ items }: CollectionLogPageItemProps): ReactEle
   const { tooltipElement, showTooltip, hideTooltip } = useCollectionLogItemTooltip();
   const { items: itemDatabase } = useContext(GameDataContext);
 
-  const itemElements = items.map(({ item: itemID, quantity, otherMembers }) => {
+  const itemElements = items.map(({ item: itemID, quantity, otherMembers }, i) => {
     const wikiLink = `https://oldschool.runescape.wiki/w/Special:Lookup?type=item&id=${itemID}`;
     const itemName = itemDatabase?.get(itemID)?.name;
 
@@ -42,7 +45,7 @@ const CollectionLogPageItems = ({ items }: CollectionLogPageItemProps): ReactEle
 
     return (
       <a
-        key={itemID}
+        key={`${itemID}-${i}`}
         onPointerEnter={() => {
           if (!itemName) {
             hideTooltip();
@@ -104,21 +107,19 @@ const CollectionLogPageHeader = ({
   else if (obtained > 0) classNameCompletion = "collection-log-page-obtained-some";
 
   return (
-    <>
-      <div className="collection-log-page-top">
-        <h2 className="collection-log-page-name-link">
-          <a href={wikiLink?.href ?? ""} target="_blank" rel="noopener noreferrer">
-            {name}
-          </a>
-        </h2>
-        Obtained:{" "}
-        <span className={classNameCompletion}>
-          {obtained}/{obtainedPossible}
-        </span>{" "}
-        <br />
-        {completionElements}
-      </div>
-    </>
+    <div className="collection-log-page-top">
+      <h2 className="collection-log-page-name-link">
+        <a href={wikiLink?.href ?? ""} target="_blank" rel="noopener noreferrer">
+          {name}
+        </a>
+      </h2>
+      Obtained:{" "}
+      <span className={classNameCompletion}>
+        {obtained}/{obtainedPossible}
+      </span>{" "}
+      <br />
+      {completionElements}
+    </div>
   );
 };
 
@@ -144,24 +145,146 @@ const ResolvePageWikiLink = ({
   return new URL(urlRaw);
 };
 
+const buildCompletionLines = (pageName: string): { label: string; lookupKey: string }[] => {
+  const kills = (boss: string, key?: string) => ({ label: `${boss} kills`, lookupKey: key ?? boss });
+
+  const map: Record<string, { label: string; lookupKey: string }[]> = {
+    "Callisto and Artio": [kills("Callisto"), kills("Artio")],
+    "Dagannoth Kings": [kills("Dagannoth Rex"), kills("Dagannoth Prime"), kills("Dagannoth Supreme")],
+    "Doom of Mokhaiotl": [{ label: "Deep delves", lookupKey: "Doom of Mokhaiotl" }],
+    "The Gauntlet": [
+      { label: "Gauntlet completion count", lookupKey: "The Gauntlet" },
+      { label: "Corrupted Gauntlet completion count", lookupKey: "The Corrupted Gauntlet" },
+    ],
+    "The Inferno": [kills("TzKal-Zuk")],
+    "The Nightmare": [kills("Phosani's Nightmare"), kills("Nightmare")],
+    "Venenatis and Spindel": [kills("Venenatis"), kills("Spindel")],
+    "Vet'ion and Calvar'ion": [kills("Vet'ion"), kills("Calvar'ion")],
+    "Moons of Peril": [{ label: "Lunar Chests opened", lookupKey: "Lunar Chests" }],
+    "The Fight Caves": [kills("TzTok-Jad")],
+    "Fortis Colosseum": [kills("Sol Heredit")],
+    "Royal Titans": [kills("Royal Titans", "The Royal Titans")],
+
+    "Chambers of Xeric": [
+      { label: "Chambers of Xeric completions", lookupKey: "Chambers of Xeric" },
+      { label: "Chambers of Xeric (CM) completions", lookupKey: "Chambers of Xeric: Challenge Mode" },
+    ],
+    "Theatre of Blood": [
+      { label: "Theatre of Blood completions", lookupKey: "Theatre of Blood" },
+      { label: "Theatre of Blood (Hard) completions", lookupKey: "Theatre of Blood: Hard Mode" },
+    ],
+    "Tombs of Amascut": [
+      { label: "Tombs of Amascut completions", lookupKey: "Tombs of Amascut" },
+      { label: "Tombs of Amascut (Expert) completions", lookupKey: "Tombs of Amascut: Expert Mode" },
+    ],
+
+    "Beginner Treasure Trails": [{ label: "Beginner clues completed", lookupKey: "Clue Scrolls (beginner)" }],
+    "Easy Treasure Trails": [{ label: "Easy clues completed", lookupKey: "Clue Scrolls (easy)" }],
+    "Medium Treasure Trails": [{ label: "Medium clues completed", lookupKey: "Clue Scrolls (medium)" }],
+    "Hard Treasure Trails": [{ label: "Hard clues completed", lookupKey: "Clue Scrolls (hard)" }],
+    "Elite Treasure Trails": [{ label: "Elite clues completed", lookupKey: "Clue Scrolls (elite)" }],
+    "Master Treasure Trails": [{ label: "Master clues completed", lookupKey: "Clue Scrolls (master)" }],
+    "Hard Treasure Trails (Rare)": [{ label: "Hard clues completed", lookupKey: "Clue Scrolls (hard)" }],
+    "Elite Treasure Trails (Rare)": [{ label: "Elite clues completed", lookupKey: "Clue Scrolls (elite)" }],
+    "Master Treasure Trails (Rare)": [{ label: "Master clues completed", lookupKey: "Clue Scrolls (master)" }],
+    "Shared Treasure Trail Rewards": [{ label: "Total clues completed", lookupKey: "Clue Scrolls (all)" }],
+    "Scroll Cases": [],
+
+    "Barbarian Assault": [],
+    "Brimhaven Agility Arena": [],
+    "Castle Wars": [],
+    "Fishing Trawler": [],
+    "Giants' Foundry": [],
+    "Gnome Restaurant": [],
+    "Guardians of the Rift": [],
+    "Hallowed Sepulchre": [],
+    "Last Man Standing": [],
+    "Magic Training Arena": [],
+    "Mahogany Homes": [],
+    "Mastering Mixology": [],
+    "Pest Control": [],
+    "Rogues' Den": [],
+    "Shades of Mort'ton": [],
+    "Soul Wars": [],
+    "Temple Trekking": [],
+    "Tithe Farm": [],
+    "Trouble Brewing": [],
+    "Vale Totems": [],
+    "Volcanic Mine": [],
+
+    "Aerial Fishing": [],
+    "All Pets": [],
+    Camdozaal: [],
+    "Champion's Challenge": [],
+    "Chompy Bird Hunting": [],
+    "Colossal Wyrm Agility": [],
+    "Creature Creation": [],
+    Cyclopes: [],
+    "Elder Chaos Druids": [],
+    Forestry: [],
+    "Fossil Island Notes": [],
+    "Glough's Experiments": [],
+    "Hunter Guild": [],
+    "Monkey Backpacks": [],
+    "Motherlode Mine": [],
+    "My Notes": [],
+    "Random Events": [],
+    Revenants: [],
+    "Rooftop Agility": [],
+    "Shayzien Armour": [],
+    "Shooting Stars": [],
+    "Skilling Pets": [],
+    Slayer: [],
+    "Tormented Demons": [],
+    TzHaar: [],
+    Miscellaneous: [],
+  };
+
+  return map[pageName] ?? [kills(pageName)];
+};
+
 /**
  * Display a single member's collection log.
  */
 export const CollectionLogWindow = ({
   player,
-  collections,
   onCloseModal,
 }: {
   player: Member.Name;
-  collections: Map<Member.Name, Member.Collection>;
   onCloseModal: () => void;
 }): ReactElement => {
-  // TODO: display entire group's collection, but only focused on one.
   const { collectionLogInfo } = useContext(GameDataContext);
+  const { credentials, fetchGroupCollectionLogs } = useContext(APIContext);
   const [currentTabName, setCurrentTabName] = useState<CollectionLog.TabName>("Bosses");
   const [pageIndex, setPageIndex] = useState<number>(0);
+  const [hiscores, setHiscores] = useState<Map<string, number>>();
 
-  const collection = collections.get(player);
+  const playerCollection = useGroupMemberContext((group) => group?.get(player)?.collection ?? new Map());
+  const otherMemberCollections = useGroupMemberContext((group) => {
+    const map = new Map<Member.Name, Member.Collection>();
+    if (!group) return map;
+    for (const [name, state] of group) {
+      if (name === player) continue;
+      if (state.collection) map.set(name, state.collection);
+    }
+    return map;
+  });
+
+  useEffect(() => {
+    if (!credentials) return;
+    fetchGroupCollectionLogs?.().catch((err) => console.error("Failed to fetch collection logs", err));
+  }, [credentials, fetchGroupCollectionLogs]);
+
+  useEffect(() => {
+    if (!credentials) return;
+    fetchMemberHiscores({ baseURL: __API_URL__, credentials, memberName: player })
+      .then((map) => {
+        setHiscores(map);
+      })
+      .catch((err) => console.error("Failed to get hiscores for collection log", err));
+  }, [credentials, player]);
+
+  const collection = playerCollection;
   const tabButtons = CollectionLog.TabName.map((tab) => (
     <button
       key={tab}
@@ -176,15 +299,15 @@ export const CollectionLogWindow = ({
     </button>
   ));
 
-  const totalCollected = collection?.obtainedItems.size ?? 0;
+  const totalCollected = collection.size;
 
-  const pageDirectory = [collectionLogInfo?.tabs.get(currentTabName) ?? []].map((pages) =>
-    pages.map(({ name: pageName, items: pageItems }, index) => {
+  const pageDirectory = (collectionLogInfo?.tabs.get(currentTabName) ?? []).map(
+    ({ name: pageName, items: pageItems }, index) => {
       const pageUniqueSlots = pageItems.length;
 
       let pageUnlockedSlots = 0;
       pageItems.forEach((itemID) => {
-        const obtainedCount = collection?.obtainedItems.get(CollectionLog.deduplicateItemID(itemID)) ?? 0;
+        const obtainedCount = collection?.get(itemID) ?? 0;
         const hasItem = obtainedCount > 0;
         if (hasItem) pageUnlockedSlots += 1;
       });
@@ -205,7 +328,7 @@ export const CollectionLogWindow = ({
           </span>
         </button>
       );
-    }),
+    },
   );
 
   let pageElement = undefined;
@@ -222,14 +345,15 @@ export const CollectionLogWindow = ({
       items: [],
     };
 
-    page.completionLabels.forEach((label, index) => {
-      const count = collection?.pageStats.get(page.name)?.completions.at(index) ?? 0;
-      headerProps.completions.push({ label, count });
-    });
+    const lookup = (key: string): number => hiscores?.get(key) ?? 0;
+
+    const lines = buildCompletionLines(page.name);
+    for (const { label, lookupKey } of lines) {
+      headerProps.completions.push({ label, count: lookup(lookupKey) });
+    }
 
     page.items.forEach((itemID) => {
-      const deduplicateItemID = CollectionLog.deduplicateItemID(itemID);
-      const quantity = collection?.obtainedItems.get(deduplicateItemID) ?? 0;
+      const quantity = collection.get(itemID) ?? 0;
 
       if (quantity > 0) headerProps.obtained += 1;
 
@@ -237,12 +361,11 @@ export const CollectionLogWindow = ({
         item: itemID,
         quantity: quantity,
         otherMembers: [
-          ...collections
+          ...otherMemberCollections
             .entries()
-            .filter(([member]) => member !== player)
-            .map(([name, collection]) => ({
+            .map(([name, memberCollection]) => ({
               name,
-              quantity: collection.obtainedItems.get(deduplicateItemID) ?? 0,
+              quantity: memberCollection.get(itemID) ?? 0,
             }))
             .filter(({ quantity }) => quantity > 0),
         ],

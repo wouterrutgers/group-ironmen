@@ -1,9 +1,9 @@
-import { createContext, useContext, useEffect, useReducer, type ReactNode } from "react";
+import { createContext, type ReactNode, useContext, useEffect, useReducer } from "react";
 import * as Member from "../game/member";
 import { Context as APIContext } from "./api-context";
 import type { ItemID, ItemStack } from "../game/items";
 import type { GroupStateUpdate } from "../api/api";
-import { Skill, type Experience } from "../game/skill";
+import { type Experience, Skill } from "../game/skill";
 
 interface MemberColor {
   hueDegrees: number;
@@ -105,27 +105,27 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
 
   let updated = false;
 
-  {
-    const newMemberNames = new Set<Member.Name>(stateUpdate.keys());
-    if (newMemberNames.size !== oldState.memberNames.size || newMemberNames.difference(oldState.memberNames).size > 0) {
-      newState.memberNames = newMemberNames;
+  if (stateUpdate.size > 0) {
+    const mergedMemberNames = new Set<Member.Name>(oldState.memberNames);
+    for (const name of stateUpdate.keys()) mergedMemberNames.add(name);
 
-      newState.memberColors = new Map();
-      let colorIndex = 0;
-      for (const name of newMemberNames) {
-        const SHARED_NAME = "@SHARED" as Member.Name;
+    if (mergedMemberNames.size !== oldState.memberNames.size) {
+      newState.memberNames = mergedMemberNames;
+
+      const newMemberColors = new Map<Member.Name, MemberColor>(oldState.memberColors);
+      const SHARED_NAME = "@SHARED" as Member.Name;
+      let colorIndex = Array.from(newMemberColors.keys()).filter((n) => n !== SHARED_NAME).length;
+      for (const name of mergedMemberNames) {
+        if (newMemberColors.has(name)) continue;
         if (name === SHARED_NAME) {
-          newState.memberColors.set(SHARED_NAME, { hueDegrees: 0 });
+          newMemberColors.set(SHARED_NAME, { hueDegrees: 0 });
           continue;
         }
-
-        // Groups should only have at most 5 members, but we fill in a placeholder so
-        // things look OK just in case.
         const hueDegrees = memberColorHues.at(colorIndex) ?? 0;
-        newState.memberColors.set(name, { hueDegrees });
+        newMemberColors.set(name, { hueDegrees });
         colorIndex += 1;
       }
-
+      newState.memberColors = newMemberColors;
       updated = true;
     }
   }
