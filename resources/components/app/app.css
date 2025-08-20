@@ -1,5 +1,4 @@
 :root {
-  --primary-text: white;
   --elevated: rgb(255 255 255 / 8%);
   --light-border: rgb(255 255 255 / 12%);
   --darken: rgb(0 0 0 / 20%);
@@ -7,12 +6,13 @@
   --black: #000;
   --invalid: #ee0d0d;
   --graph-grid-border: rgb(255 255 255 / 5%);
-  --orange: hsl(32deg 100% 56%);
-  --orange-light: hsl(32deg 100% 90%);
-  --yellow: #ff0;
-  --red: #f00;
-  --green: hsl(120deg 87% 40%);
-  --green-light: hsl(120deg 87% 90%);
+  --orange: oklch(77% 0.23 55deg);
+  --orange-light: oklch(87% 0.23 55deg);
+  --yellow: oklch(97% 0.18 100deg);
+  --red: oklch(57% 0.28 30deg);
+  --green: oklch(73% 0.24 145deg);
+  --green-light: oklch(87% 0.24 145deg);
+  --white: oklch(90% 0 0deg);
   --rsbackground: url("/ui/297-0.png");
   --rsbackground-dark: url("/ui/297-0-dark.png");
 }
@@ -56,7 +56,7 @@ body {
   margin: 0;
   gap: 8px;
   background: var(--background);
-  color: var(--primary-text);
+  color: var(--white);
   overflow: hidden;
   position: relative;
   font-size: 18px;

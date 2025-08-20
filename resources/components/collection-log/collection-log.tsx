@@ -86,7 +86,7 @@ interface CollectionLogPageHeaderProps {
   wikiLink: URL | undefined;
   obtained: number;
   obtainedPossible: number;
-  completions: { count: number; label: string }[];
+  completions: { count?: number; label: string }[];
 }
 const CollectionLogPageHeader = ({
   name,
@@ -97,7 +97,16 @@ const CollectionLogPageHeader = ({
 }: CollectionLogPageHeaderProps): ReactElement => {
   const completionElements = completions.map(({ count, label }) => (
     <Fragment key={label}>
-      {label}: <span className="collection-log-page-completion-quantity">{count}</span>
+      {label}:{" "}
+      <span
+        className={
+          count === undefined
+            ? "collection-log-page-completion-quantity-loading"
+            : "collection-log-page-completion-quantity"
+        }
+      >
+        {count ?? "-"}
+      </span>
       <br />
     </Fragment>
   ));
@@ -323,7 +332,7 @@ export const CollectionLogWindow = ({
 
       return (
         <button
-          className={`collection-log-page-directory-page ${classNameCompletion}`}
+          className={`collection-log-page-directory-page ${classNameCompletion} ${index === pageIndex ? "collection-log-page-active" : ""}`}
           onClick={() => setPageIndex(index)}
           key={pageName}
         >
@@ -353,8 +362,9 @@ export const CollectionLogWindow = ({
     const lookup = (key: string): number => hiscores?.get(key) ?? 0;
 
     const lines = buildCompletionLines(page.name);
+    const isLoadingHiscores = hiscores === undefined;
     for (const { label, lookupKey } of lines) {
-      headerProps.completions.push({ label, count: lookup(lookupKey) });
+      headerProps.completions.push({ label, count: isLoadingHiscores ? undefined : lookup(lookupKey) });
     }
 
     page.items.forEach((itemID) => {
