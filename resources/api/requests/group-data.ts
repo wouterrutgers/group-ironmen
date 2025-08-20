@@ -952,3 +952,5 @@ const GetGroupDataResponseSchema = z
     return memberState;
   })
   .array();
+
+export const Schema = GetGroupDataResponseSchema;

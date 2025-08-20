@@ -12,6 +12,7 @@ import { PanelsPage } from "../panels-page/panels-page";
 import { SkillGraph } from "../skill-graph/skill-graph";
 import { CreateGroupPage } from "../create-group-page/create-group-page";
 import { SettingsPage } from "../settings/settings";
+import { DemoPage } from "../demo-page/demo-page";
 
 import "./app.css";
 
@@ -30,6 +31,7 @@ export const App = (): ReactElement => {
             </UnauthedLayout>
           }
         />
+        <Route path="/demo" element={<DemoPage />} />
         <Route
           path="/create-group"
           element={

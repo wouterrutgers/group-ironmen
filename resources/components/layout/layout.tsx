@@ -45,7 +45,7 @@ export const AuthedLayout = ({ children, showPanels }: { children?: ReactNode; s
     document.documentElement.classList.remove("dark-mode");
   }
 
-  if (credentials === undefined) return <Navigate to="/" />;
+  if (!credentials) return <Navigate to="/" />;
 
   const mainContent = (
     <div id="main-content" className="pointer-passthrough">

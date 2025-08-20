@@ -4,6 +4,7 @@ import * as RequestSkillData from "../api/requests/skill-data";
 import { createContext } from "react";
 import Api from "../api/api";
 import { useLocalStorage } from "../hooks/local-storage";
+import DemoApi from "../api/demo-api";
 
 interface APIContext {
   /**
@@ -12,6 +13,9 @@ interface APIContext {
    */
   logOut?: () => void;
   logIn?: (credentials: GroupCredentials) => void;
+  logInDemo?: () => void;
+
+  active: boolean;
 
   credentials?: GroupCredentials;
 
@@ -29,7 +33,7 @@ interface APIContext {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const Context = createContext<APIContext>({});
+export const Context = createContext<APIContext>({ active: false });
 
 const LOCAL_STORAGE_KEY_GROUP_NAME = "groupName";
 const LOCAL_STORAGE_KEY_GROUP_TOKEN = "groupToken";
@@ -56,18 +60,25 @@ export const APIProvider = ({ children }: { children: ReactNode }): ReactElement
     return { name: groupName, token: groupToken };
   }, [groupName, groupToken]);
 
-  const [api, setApi] = useState<Api>();
+  const [demoIsOverriding, setDemoIsOverriding] = useState<boolean>(false);
+  const [api, setApi] = useState<Api | DemoApi>();
 
   useEffect(() => {
+    if (demoIsOverriding) {
+      const newApi = new DemoApi();
+      setApi(newApi);
+      return (): void => {
+        newApi.close();
+      };
+    }
+
     if (!credentials) return;
     const newApi = new Api(credentials);
-
     setApi(newApi);
-
     return (): void => {
       newApi.close();
     };
-  }, [credentials]);
+  }, [credentials, demoIsOverriding]);
 
   const apiContext: APIContext = {
     logOut: (): void => {
@@ -77,8 +88,13 @@ export const APIProvider = ({ children }: { children: ReactNode }): ReactElement
     logIn: ({ name, token }: GroupCredentials): void => {
       setGroupName(name);
       setGroupToken(token);
+      setDemoIsOverriding(false);
     },
-    credentials,
+    logInDemo: (): void => {
+      setDemoIsOverriding(true);
+    },
+    active: !!api,
+    credentials: demoIsOverriding ? { name: "Demo Group", token: "00000000-0000-0000-0000-000000000000" } : credentials,
   };
 
   if (api?.isOpen()) {
