@@ -7,7 +7,7 @@ import type { CollectionLogInfo } from "../game/collection-log";
 import type { GroupCredentials } from "./credentials";
 import { fetchGEPrices, type GEPrices } from "./requests/ge-prices";
 import { fetchGroupData, type Response as GetGroupDataResponse } from "./requests/group-data";
-import { fetchGroupCollectionLogsSingle } from "./requests/collection-log";
+import { fetchGroupCollectionLogs as fetchGroupCollectionLogsRequest } from "./requests/collection-log";
 import { fetchCollectionLogInfo } from "./requests/collection-log-info";
 import * as RequestSkillData from "./requests/skill-data";
 import * as RequestCreateGroup from "./requests/create-group";
@@ -229,7 +229,10 @@ export default class Api {
 
   async fetchGroupCollectionLogs(): Promise<void> {
     if (this.credentials === undefined) return Promise.reject(new Error("No active API connection."));
-    const collections = await fetchGroupCollectionLogsSingle({ baseURL: this.baseURL, credentials: this.credentials });
+    const collections = await fetchGroupCollectionLogsRequest({
+      baseURL: this.baseURL,
+      credentials: this.credentials,
+    });
     const updates = new Map<Member.Name, Partial<Member.State>>();
     for (const [name, collection] of Object.entries(collections)) {
       updates.set(name as Member.Name, { collection });

@@ -23,7 +23,7 @@ const GroupCollectionLogsSchema = z.record(
 );
 export type GroupResponse = z.infer<typeof GroupCollectionLogsSchema>;
 
-export const fetchGroupCollectionLogsSingle = ({
+export const fetchGroupCollectionLogs = ({
   baseURL,
   credentials,
 }: {

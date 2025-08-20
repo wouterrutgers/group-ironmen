@@ -19,7 +19,7 @@ const CollectionLogPageItems = ({ items }: CollectionLogPageItemProps): ReactEle
   const { tooltipElement, showTooltip, hideTooltip } = useCollectionLogItemTooltip();
   const { items: itemDatabase } = useContext(GameDataContext);
 
-  const itemElements = items.map(({ item: itemID, quantity, otherMembers }, i) => {
+  const itemElements = items.map(({ item: itemID, quantity, otherMembers }, i): ReactElement => {
     const wikiLink = `https://oldschool.runescape.wiki/w/Special:Lookup?type=item&id=${itemID}`;
     const itemName = itemDatabase?.get(itemID)?.name;
 
@@ -146,7 +146,10 @@ const ResolvePageWikiLink = ({
 };
 
 const buildCompletionLines = (pageName: string): { label: string; lookupKey: string }[] => {
-  const kills = (boss: string, key?: string) => ({ label: `${boss} kills`, lookupKey: key ?? boss });
+  const kills = (boss: string, key?: string): { label: string; lookupKey: string } => ({
+    label: `${boss} kills`,
+    lookupKey: key ?? boss,
+  });
 
   const map: Record<string, { label: string; lookupKey: string }[]> = {
     "Callisto and Artio": [kills("Callisto"), kills("Artio")],
@@ -259,7 +262,9 @@ export const CollectionLogWindow = ({
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [hiscores, setHiscores] = useState<Map<string, number>>();
 
-  const playerCollection = useGroupMemberContext((group) => group?.get(player)?.collection ?? new Map());
+  const playerCollection = useGroupMemberContext(
+    (group) => group?.get(player)?.collection ?? new Map<ItemID, number>(),
+  );
   const otherMemberCollections = useGroupMemberContext((group) => {
     const map = new Map<Member.Name, Member.Collection>();
     if (!group) return map;
@@ -301,8 +306,8 @@ export const CollectionLogWindow = ({
 
   const totalCollected = collection.size;
 
-  const pageDirectory = (collectionLogInfo?.tabs.get(currentTabName) ?? []).map(
-    ({ name: pageName, items: pageItems }, index) => {
+  const pageDirectory: ReactElement[] = (collectionLogInfo?.tabs.get(currentTabName) ?? []).map(
+    ({ name: pageName, items: pageItems }, index): ReactElement => {
       const pageUniqueSlots = pageItems.length;
 
       let pageUnlockedSlots = 0;
@@ -331,7 +336,7 @@ export const CollectionLogWindow = ({
     },
   );
 
-  let pageElement = undefined;
+  let pageElement: ReactElement | undefined = undefined;
   const page = collectionLogInfo?.tabs.get(currentTabName)?.at(pageIndex);
   if (page) {
     const headerProps: CollectionLogPageHeaderProps = {
@@ -353,20 +358,26 @@ export const CollectionLogWindow = ({
     }
 
     page.items.forEach((itemID) => {
-      const quantity = collection.get(itemID) ?? 0;
+      const quantity: number = collection.get(itemID) ?? 0;
 
-      if (quantity > 0) headerProps.obtained += 1;
+      if (quantity > 0) {
+        headerProps.obtained += 1;
+      }
 
       itemsProps.items.push({
         item: itemID,
         quantity: quantity,
         otherMembers: [
-          ...otherMemberCollections
-            .entries()
-            .map(([name, memberCollection]) => ({
-              name,
-              quantity: memberCollection.get(itemID) ?? 0,
-            }))
+          ...Array.from(otherMemberCollections.entries())
+            .map(
+              ([name, memberCollection]): {
+                name: Member.Name;
+                quantity: number;
+              } => ({
+                name,
+                quantity: memberCollection.get(itemID) ?? 0,
+              }),
+            )
             .filter(({ quantity }) => quantity > 0),
         ],
       });
