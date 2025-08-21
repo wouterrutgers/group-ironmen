@@ -11,7 +11,7 @@ import "./xp-dropper.css";
 export const XpDropper = ({ xpDrops }: { xpDrops: Member.ExperienceDrop[] | undefined }): ReactElement => {
   return (
     <div className="xp-dropper">
-      {xpDrops?.map(({ id, skill, amount, seed }) => {
+      {xpDrops?.map(({ id, skill, amount, seed, creationTimeMS }) => {
         // Spread out horizontally randomly
         const translateX = -Math.round(50 * seed);
         /*
@@ -22,7 +22,7 @@ export const XpDropper = ({ xpDrops }: { xpDrops: Member.ExperienceDrop[] | unde
         const translateY = Math.round(10 * (id % 5));
         return (
           <div
-            key={id}
+            key={`${id}-${creationTimeMS}`}
             style={{
               transform: `translate(${translateX}px, ${translateY}px)`,
             }}
