@@ -1,5 +1,5 @@
-import { useContext, type ReactElement, type ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { useContext, useEffect, type ReactElement, type ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppNavigation } from "../app-navigation/app-navigation.tsx";
 import { PlayerPanel } from "../player-panel/player-panel.tsx";
 import { Context as APIContext } from "../../context/api-context.tsx";
@@ -35,9 +35,18 @@ const SidePanels = (): ReactNode => {
   );
 };
 
-export const AuthedLayout = ({ children, showPanels }: { children?: ReactNode; showPanels: boolean }): ReactElement => {
-  const { loaded, api } = useContext(APIContext) ?? {};
+export const AuthedLayout = ({
+  children,
+  showPanels,
+  hideHeader,
+}: {
+  children?: ReactNode;
+  showPanels?: boolean;
+  hideHeader?: boolean;
+}): ReactElement => {
+  const { logInLive, api } = useContext(APIContext) ?? {};
   const { sidebarPosition, siteTheme } = useContext(SettingsContext);
+  const navigate = useNavigate();
 
   if (siteTheme === "dark") {
     document.documentElement.classList.add("dark-mode");
@@ -45,11 +54,17 @@ export const AuthedLayout = ({ children, showPanels }: { children?: ReactNode; s
     document.documentElement.classList.remove("dark-mode");
   }
 
-  if (loaded && !api) return <Navigate to="/" />;
+  useEffect(() => {
+    if (api) return;
+
+    logInLive!().catch(() => {
+      return navigate("/", { replace: true });
+    });
+  }, [logInLive, api, navigate]);
 
   const mainContent = (
     <div id="main-content" className="pointer-passthrough">
-      <AppNavigation groupName={api?.getCredentials().name ?? "Group Name"} />
+      {hideHeader ? undefined : <AppNavigation groupName={api?.getCredentials().name ?? "Group Name"} />}
       {children}
     </div>
   );

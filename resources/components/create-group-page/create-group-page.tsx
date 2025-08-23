@@ -168,7 +168,7 @@ export const CreateGroupPage = (): ReactElement => {
     const credentials = formState.credentials;
 
     logInLive?.(credentials)
-      .then(() => navigate("/setup-instructions"))
+      .then(() => navigate("/group/setup-instructions"))
       .catch((reason) => {
         console.error("CreateGroupPage: Failed to log in:", reason);
       });

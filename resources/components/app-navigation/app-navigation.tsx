@@ -17,7 +17,7 @@ export const AppNavigation = ({ groupName }: { groupName: string }): ReactElemen
   ];
 
   const rightAlignedLinks = [
-    { label: "Setup", href: "/setup-instructions", mobileIconSource: "/ui/1094-0.png" },
+    { label: "Setup", href: "/group/setup-instructions", mobileIconSource: "/ui/1094-0.png" },
     { label: "Logout", href: "/logout", mobileIconSource: "/ui/225-0.png" },
   ];
 

@@ -41,14 +41,6 @@ export const App = (): ReactElement => {
           }
         />
         <Route
-          path="/setup-instructions"
-          element={
-            <UnauthedLayout>
-              <SetupInstructions />
-            </UnauthedLayout>
-          }
-        />
-        <Route
           path="/login"
           element={
             <UnauthedLayout>
@@ -59,6 +51,14 @@ export const App = (): ReactElement => {
         <Route path="/logout" element={<LogoutPage />} />
         <Route path="/group">
           <Route index element={<Navigate to="items" replace />} />
+          <Route
+            path="setup-instructions"
+            element={
+              <AuthedLayout showPanels={false} hideHeader>
+                <SetupInstructions />
+              </AuthedLayout>
+            }
+          />
           <Route
             path="items"
             element={

@@ -62,7 +62,7 @@ export const SetupInstructions = (): ReactElement => {
         </div>
 
         <div id="setup-go-to-group">
-          <MenLink href="/group">Go to group</MenLink>
+          <MenLink href="/group/items">Go to group</MenLink>
         </div>
       </div>
     </div>

@@ -103,7 +103,6 @@ export const APIProvider = ({ children }: { children: ReactNode }): ReactElement
     return { name: groupName, token: groupToken };
   }, [groupName, groupToken]);
 
-  const [loaded, setLoaded] = useState<boolean>(false);
   const [api, setApi] = useState<Api | DemoApi>();
 
   useEffect(() => {
@@ -157,18 +156,6 @@ export const APIProvider = ({ children }: { children: ReactNode }): ReactElement
     },
     [storageCredentials],
   );
-
-  useEffect(() => {
-    if (loaded) return;
-
-    void logInLive().finally(() => {
-      setLoaded(true);
-    });
-  }, [logInLive, loaded]);
-
-  if (!loaded) {
-    return <Context value={undefined}>{children}</Context>;
-  }
 
   const apiContext: APIContext = {
     loaded: true,
