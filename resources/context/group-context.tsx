@@ -214,34 +214,36 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
   }
 
   {
-    const newXPDrops = new Map(oldState.xpDrops);
+    const newXPDropsByMember = new Map<Member.Name, Member.ExperienceDrop[]>();
     for (const [member, { skills: newSkills }] of stateUpdate) {
       const oldSkills = oldState.memberStates.get(member)?.skills;
       if (!oldSkills || !newSkills) {
         continue;
       }
 
-      if (!newXPDrops.has(member)) {
-        newXPDrops.set(member, []);
-      }
-      const drops = newXPDrops.get(member)!;
-
+      const amounts: { skill: Skill; amount: Experience }[] = [];
       for (const skill of Skill) {
         const delta = newSkills[skill] - oldSkills[skill];
         if (delta <= 0) continue;
 
-        const counter = newState.xpDropCounter ?? oldState.xpDropCounter;
-        drops.push({
-          id: counter,
-          skill: skill,
-          amount: delta as Experience,
-          creationTimeMS: performance.now(),
-          seed: Math.random(),
-        });
-        newState.xpDropCounter = counter + 1;
-        newState.xpDrops = newXPDrops;
-        updated = true;
+        amounts.push({ skill, amount: delta as Experience });
       }
+      if (amounts.length <= 0) {
+        continue;
+      }
+
+      const counter = newState.xpDropCounter ?? oldState.xpDropCounter;
+
+      newState.xpDropCounter = counter + 1;
+      const oldDrops = oldState.xpDrops.get(member) ?? [];
+      const newDrop = {
+        id: counter,
+        amounts: amounts,
+        creationTimeMS: performance.now(),
+      };
+      newXPDropsByMember.set(member, [...oldDrops, newDrop]);
+      newState.xpDrops = newXPDropsByMember;
+      updated = true;
     }
   }
 
@@ -254,7 +256,7 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
 
     const nowMS = performance.now();
     // Should match animation-duration in xpdropper CSS
-    const ANIMATION_TIME_MS = 8000;
+    const ANIMATION_TIME_MS = 9600;
 
     if (newState.xpDrops) {
       for (const [member, drops] of newState.xpDrops) {
