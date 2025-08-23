@@ -92,6 +92,7 @@ const EquipmentSlotInBackendOrder: EquipmentSlot[] = [
   "Jaw",
   "Ring",
   "Ammo",
+  "Quiver",
 ] as const;
 const EquipmentSchema = z
   .array(z.uint32())
