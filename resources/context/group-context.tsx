@@ -93,6 +93,8 @@ export const useMemberCollectionContext = (member: Member.Name): Member.Collecti
 // perceptively just rotating the colors doesn't look very good.
 const memberColorHues: number[] = [330, 100, 230, 170, 40];
 
+type GroupStateActions = { type: "Wipe" } | { type: "Update"; stateUpdate: GroupStateUpdate };
+
 /**
  * Taking in the new group state, perform some diff checking and update
  * sparingly. This method also aggregates the items for the group.
@@ -100,7 +102,7 @@ const memberColorHues: number[] = [330, 100, 230, 170, 40];
  * A lot of these checks should probably be done by the backend and diffs
  * performed in the API class, but for now we can just do the checks here.
  */
-const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupState => {
+const actionUpdate = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupState => {
   const newState: Partial<GroupState> = {};
 
   let updated = false;
@@ -274,6 +276,24 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
   return { ...oldState, ...newState };
 };
 
+const reducer = (oldState: GroupState, action: GroupStateActions): GroupState => {
+  switch (action.type) {
+    case "Wipe": {
+      return {
+        items: new Map(),
+        memberStates: new Map(),
+        memberNames: new Set<Member.Name>(),
+        memberColors: new Map(),
+        xpDropCounter: 0,
+        xpDrops: new Map(),
+      };
+    }
+    case "Update": {
+      return actionUpdate(oldState, action.stateUpdate);
+    }
+  }
+};
+
 /**
  * The provider for {@link GroupItemsContext}, {@link GroupMemberStatesContext},
  * {@link GroupMemberStatesContext}, and {@link GroupXPDropsContext}.
@@ -290,9 +310,10 @@ export const GroupProvider = ({ children }: { children: ReactNode }): ReactNode 
   const { setUpdateCallbacks } = useContext(APIContext)?.api ?? {};
 
   useEffect(() => {
+    updateContexts({ type: "Wipe" });
     if (!setUpdateCallbacks) return;
 
-    setUpdateCallbacks({ onGroupUpdate: updateContexts });
+    setUpdateCallbacks({ onGroupUpdate: (stateUpdate) => updateContexts({ type: "Update", stateUpdate }) });
   }, [setUpdateCallbacks]);
 
   const { items, memberStates, memberNames, xpDrops, memberColors } = contexts;
