@@ -214,7 +214,7 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
   }
 
   {
-    const newXPDropsByMember = new Map<Member.Name, Member.ExperienceDrop[]>();
+    const xpDropsByMember = new Map<Member.Name, Member.ExperienceDrop[]>(oldState.xpDrops);
     for (const [member, { skills: newSkills }] of stateUpdate) {
       const oldSkills = oldState.memberStates.get(member)?.skills;
       if (!oldSkills || !newSkills) {
@@ -235,14 +235,14 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
       const counter = newState.xpDropCounter ?? oldState.xpDropCounter;
 
       newState.xpDropCounter = counter + 1;
-      const oldDrops = oldState.xpDrops.get(member) ?? [];
+      const oldDrops = xpDropsByMember.get(member) ?? [];
       const newDrop = {
         id: counter,
         amounts: amounts,
         creationTimeMS: performance.now(),
       };
-      newXPDropsByMember.set(member, [...oldDrops, newDrop]);
-      newState.xpDrops = newXPDropsByMember;
+      xpDropsByMember.set(member, [...oldDrops, newDrop]);
+      newState.xpDrops = xpDropsByMember;
       updated = true;
     }
   }

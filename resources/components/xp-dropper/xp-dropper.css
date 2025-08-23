@@ -33,6 +33,7 @@
   height: 16px;
   image-rendering: auto;
   object-fit: contain;
+  margin-right: 4px;
 }
 
 .xp-dropper-drop-cluster {
