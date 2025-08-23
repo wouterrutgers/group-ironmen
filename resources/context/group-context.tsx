@@ -256,7 +256,7 @@ const reducer = (oldState: GroupState, stateUpdate: GroupStateUpdate): GroupStat
 
     const nowMS = performance.now();
     // Should match animation-duration in xpdropper CSS
-    const ANIMATION_TIME_MS = 8000;
+    const ANIMATION_TIME_MS = 9600;
 
     if (newState.xpDrops) {
       for (const [member, drops] of newState.xpDrops) {

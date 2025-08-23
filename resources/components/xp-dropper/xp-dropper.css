@@ -38,8 +38,9 @@
 .xp-dropper-drop-cluster {
   position: absolute;
   right: 4px;
+  height: 80px;
   animation-name: rising;
-  animation-duration: 6s;
+  animation-duration: 9.6s;
   animation-fill-mode: forwards;
   animation-timing-function: linear;
 }
