@@ -92,6 +92,10 @@ export default class Api {
 
   private callbacks: Partial<UpdateCallbacks> = {};
 
+  public getCredentials(): GroupCredentials {
+    return this.credentials;
+  }
+
   public overwriteSomeUpdateCallbacks(callbacks: Partial<UpdateCallbacks>): void {
     Object.assign(this.callbacks, callbacks);
 

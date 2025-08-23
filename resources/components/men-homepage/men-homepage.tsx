@@ -1,16 +1,32 @@
 import { MenLink } from "../men-link/men-link.tsx";
 import { SocialLinks } from "../social-links/social-links.tsx";
-import { useContext, type ReactElement } from "react";
+import { useContext, useEffect, useState, type ReactElement } from "react";
 import { Context as APIContext } from "../../context/api-context.tsx";
 
 import "./men-homepage.css";
 
 export const MenHomepage = (): ReactElement => {
-  const { credentials } = useContext(APIContext);
-  const hasLogin = !!credentials;
+  const { logInLive } = useContext(APIContext) ?? {};
+  const [hasLogin, setHasLogin] = useState<boolean>();
 
-  const groupLink = <MenLink href="/group">Go to group</MenLink>;
+  useEffect(() => {
+    if (!logInLive) return;
+
+    logInLive()
+      .then(() => {
+        setHasLogin(true);
+      })
+      .catch(() => {
+        setHasLogin(false);
+      });
+  }, [logInLive]);
+
+  const groupLink = <MenLink href="/group">Go to Group</MenLink>;
   const loginLink = <MenLink href="/login">Login</MenLink>;
+
+  if (hasLogin === undefined) {
+    return <></>;
+  }
 
   return (
     <div id="men-homepage">

@@ -287,7 +287,7 @@ export const GroupProvider = ({ children }: { children: ReactNode }): ReactNode 
     xpDropCounter: 0,
     xpDrops: new Map(),
   });
-  const { setUpdateCallbacks } = useContext(APIContext);
+  const { setUpdateCallbacks } = useContext(APIContext)?.api ?? {};
 
   useEffect(() => {
     if (!setUpdateCallbacks) return;

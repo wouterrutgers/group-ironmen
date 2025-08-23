@@ -36,7 +36,7 @@ const SidePanels = (): ReactNode => {
 };
 
 export const AuthedLayout = ({ children, showPanels }: { children?: ReactNode; showPanels: boolean }): ReactElement => {
-  const { credentials } = useContext(APIContext);
+  const { loaded, api } = useContext(APIContext) ?? {};
   const { sidebarPosition, siteTheme } = useContext(SettingsContext);
 
   if (siteTheme === "dark") {
@@ -45,11 +45,11 @@ export const AuthedLayout = ({ children, showPanels }: { children?: ReactNode; s
     document.documentElement.classList.remove("dark-mode");
   }
 
-  if (!credentials) return <Navigate to="/" />;
+  if (loaded && !api) return <Navigate to="/" />;
 
   const mainContent = (
     <div id="main-content" className="pointer-passthrough">
-      <AppNavigation groupName={credentials?.name} />
+      <AppNavigation groupName={api?.getCredentials().name ?? "Group Name"} />
       {children}
     </div>
   );

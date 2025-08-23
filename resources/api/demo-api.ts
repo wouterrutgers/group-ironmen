@@ -12,6 +12,7 @@ import * as RequestAddGroupMember from "./requests/add-group-member";
 import * as RequestDeleteGroupMember from "./requests/delete-group-member";
 import * as RequestRenameGroupMember from "./requests/rename-group-member";
 import MockData from "./demo-api-data.json" with { type: "json" };
+import type { GroupCredentials } from "./credentials";
 
 export type GroupStateUpdate = Map<Member.Name, Partial<Member.State>>;
 
@@ -73,6 +74,10 @@ export default class DemoApi {
     }
 
     this.callbacks?.onGroupUpdate?.(updates);
+  }
+
+  public getCredentials(): GroupCredentials {
+    return { name: "Demo Group", token: "00000000-0000-0000-0000-000000000000" };
   }
 
   public overwriteSomeUpdateCallbacks(callbacks: Partial<UpdateCallbacks>): void {
