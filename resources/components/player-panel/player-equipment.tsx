@@ -3,7 +3,11 @@ import { useItemTooltip } from "../tooltip/item-tooltip";
 import { GameDataContext } from "../../context/game-data-context";
 import { EquipmentSlot } from "../../game/equipment";
 import type * as Member from "../../game/member";
-import { useMemberEquipmentContext, useMemberInventoryContext } from "../../context/group-context";
+import {
+  useMemberEquipmentContext,
+  useMemberInventoryContext,
+  useMemberQuiverContext,
+} from "../../context/group-context";
 import { CachedImage } from "../cached-image/cached-image";
 
 import "./player-equipment.css";
@@ -59,6 +63,7 @@ export const PlayerEquipment = ({ member }: { member: Member.Name }): ReactEleme
   const { items: itemData, gePrices: geData } = useContext(GameDataContext);
   const equipment = useMemberEquipmentContext(member);
   const inventory = useMemberInventoryContext(member);
+  const quiver = useMemberQuiverContext(member);
 
   const slotElements = [];
 
@@ -66,13 +71,19 @@ export const PlayerEquipment = ({ member }: { member: Member.Name }): ReactEleme
   const hasInventoryQuiver = (inventory ?? []).some((item) => item !== undefined && DIZANAS_IDS.has(item.itemID));
 
   for (const slot of VisibleEquipmentSlots) {
-    const item = equipment?.get(slot);
+    let item = equipment?.get(slot);
     let present = true;
     let isGrayed = false;
 
     if (slot === "Quiver") {
       present = hasEquippedQuiver || hasInventoryQuiver;
       isGrayed = !hasEquippedQuiver;
+
+      const firstEntry = quiver?.entries().next().value;
+      if (firstEntry) {
+        const [itemID, quantity] = firstEntry;
+        item = { itemID, quantity };
+      }
     }
 
     if (!present) {
